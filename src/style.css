@@ -1,0 +1,108 @@
+@import 'tailwindcss';
+
+/* Global demo styles for sg-grid row & cell coloring.
+ * These classes must be global (not in a scoped <style>) so that rows/cells
+ * rendered inside the child SgGrid component can be styled. The previous
+ * definitions inside App.vue were scoped and therefore did not match the
+ * internal <tr>/<td> elements of SgGrid, which is why colors were not visible. */
+.demo-row-low .sg-cell {
+  background: #fecaca !important;
+}
+.demo-row-mid .sg-cell {
+  background: #fde68a !important;
+}
+.demo-row-high .sg-cell {
+  background: #bbf7d0 !important;
+}
+
+/* rowClass examples */
+.row-high-salary .sg-cell:not(.sg-action-cell) {
+  box-shadow: inset 0 0 0 1px #bef264;
+}
+.row-senior .sg-cell {
+  font-style: italic;
+}
+
+/* cellClass examples */
+.age-senior {
+  font-weight: 700;
+  color: #b45309;
+}
+.age-junior {
+  color: #0369a1;
+}
+
+/* New dimension-based row coloring classes */
+.row-salary-low .sg-cell {
+  background: #fecaca !important;
+}
+.row-salary-mid .sg-cell {
+  background: #fde68a !important;
+}
+.row-salary-high .sg-cell {
+  background: #bbf7d0 !important;
+}
+.row-age-junior .sg-cell {
+  background: #e0f2fe !important;
+}
+.row-age-prime .sg-cell {
+  background: #f1f5f9 !important;
+}
+.row-age-senior .sg-cell {
+  background: #fef3c7 !important;
+}
+
+/* Cell-level highlighting when opposite dimension is row-colored */
+.cell-age-senior {
+  font-weight: 600;
+  color: #b45309;
+}
+.cell-age-junior {
+  color: #0369a1;
+}
+.cell-salary-low {
+  color: #b91c1c;
+  font-weight: 600;
+}
+.cell-salary-mid {
+  color: #92400e;
+}
+.cell-salary-high {
+  color: #166534;
+  font-weight: 600;
+}
+
+/* Legend sample chips (if needed outside scoped styles) */
+.row-salary-low-example {
+  background: #fecaca;
+}
+.row-salary-mid-example {
+  background: #fde68a;
+}
+.row-salary-high-example {
+  background: #bbf7d0;
+}
+.row-age-junior-example {
+  background: #e0f2fe;
+}
+.row-age-prime-example {
+  background: #f1f5f9;
+}
+.row-age-senior-example {
+  background: #fef3c7;
+}
+.cell-age-senior-example {
+  background: #fef3c7;
+}
+.cell-age-junior-example {
+  background: #e0f2fe;
+}
+.cell-salary-low-example {
+  background: #fee2e2;
+}
+.cell-salary-mid-example {
+  background: #ffedd5;
+}
+.cell-salary-high-example {
+  background: #dcfce7;
+}
