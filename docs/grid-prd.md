@@ -27,58 +27,58 @@ User stories below are grouped and reprioritized into MUST, SHOULD, and COULD ca
 
 These are baseline features required for a first usable release.
 
-0. As a developer, I want a minimal, declarative grid (like an HTML table) that accepts `columns` and `rows` and renders headers and rows only — no editing, sorting, or paging. The grid must accept a row key prop; each column should declare its data field and metadata (label, width). This is for quick visual verification, integration, and theming.
+1. As a developer, I want a minimal, declarative grid (like an HTML table) that accepts `columns` and `rows` and renders headers and rows only — no editing, sorting, or paging. The grid must accept a row key prop; each column should declare its data field and metadata (label, width). This is for quick visual verification, integration, and theming.
 
-1. As a user, I want filter and sort so I can find information quickly.
-2. As a user, I want pagination with configurable page size and client/server paging so I can navigate large datasets.
-3. As a user, I want selection modes (none, single, multi) and persistence across paging so I can operate on rows.
-4. As a user, I want editing modes (none, inline, popup) with validation so I can correct data safely.
-5. As a developer, I want easy installation (npm/yarn/pnpm) and simple initialization so I can add the grid quickly.
-6. As a developer, I want first-class TypeScript typings and clear public APIs for discoverability.
-7. As a user, I want support for common column data types (string, number, date/time timezone-aware, boolean, link, image) and custom cell templates.
-8. As a user, I want accessibility basics: keyboard navigation and screen-reader labels.
-9. As a developer, I want a minimal example app demonstrating components, editing modes, paging, and integration patterns so I can prototype rapidly.
+2. As a user, I want filter and sort so I can find information quickly.
+3. As a user, I want pagination with configurable page size and client/server paging so I can navigate large datasets.
+4. As a user, I want selection modes (none, single, multi) and persistence across paging so I can operate on rows.
+5. As a user, I want editing modes (none, inline, popup) with validation so I can correct data safely.
+6. As a developer, I want easy installation (npm/yarn/pnpm) and simple initialization so I can add the grid quickly.
+7. As a developer, I want first-class TypeScript typings and clear public APIs for discoverability.
+8. As a user, I want support for common column data types (string, number, date/time timezone-aware, boolean, link, image) and custom cell templates.
+9. As a user, I want accessibility basics: keyboard navigation and screen-reader labels.
+10. As a developer, I want a minimal example app demonstrating components, editing modes, paging, and integration patterns so I can prototype rapidly.
 
 ### SHOULD (important, next-phase)
 
 These improve developer experience and advanced user workflows.
 
-10. As a user, I want grouping and aggregations (count, sum, avg, min, max) and a summary row.
-11. As a user, I want bulk-edit and batch actions for multiple selected rows.
-12. As a user, I want conditional formatting and custom renderers.
-13. As a developer, I want theming hooks (CSS variables / token-based), style isolation options, and clear style hooks so the grid matches app design systems.
-14. As a developer, I want plugin/extension API and lifecycle hooks/events for extensibility.
-15. As a developer, I want test fixtures, unit/integration tests, and CI configuration.
+11. As a user, I want grouping and aggregations (count, sum, avg, min, max) and a summary row.
+12. As a user, I want bulk-edit and batch actions for multiple selected rows.
+13. As a user, I want conditional formatting and custom renderers.
+14. As a developer, I want theming hooks (CSS variables / token-based), style isolation options, and clear style hooks so the grid matches app design systems.
+15. As a developer, I want plugin/extension API and lifecycle hooks/events for extensibility.
+16. As a developer, I want test fixtures, unit/integration tests, and CI configuration.
 
 ### COULD (nice to have, later)
 
 Lower-priority features and large-surface items to consider for future releases.
 
-16. As a user, I want streaming/push-updated rows and conflict-resolution strategies for concurrent edits.
-17. As a user, I want offline/cached access and sync with merge rules.
-18. As a user, I want real-time collaboration features and notifications.
-19. As a user, I want advanced import/export (Excel/PDF) and print-friendly reports.
-20. As a developer, I want debug/logging hooks and runtime warnings for misconfiguration.
-21. As a developer, I want stable semantic versioning, a deprecation policy, and automated release tooling.
+17. As a user, I want streaming/push-updated rows and conflict-resolution strategies for concurrent edits.
+18. As a user, I want offline/cached access and sync with merge rules.
+19. As a user, I want real-time collaboration features and notifications.
+20. As a user, I want advanced import/export (Excel/PDF) and print-friendly reports.
+21. As a developer, I want debug/logging hooks and runtime warnings for misconfiguration.
+22. As a developer, I want stable semantic versioning, a deprecation policy, and automated release tooling.
 
 ### UI, panels & small control stories (scoped)
 
 These are component-level behaviors; include them across phases depending on priority.
 
-22. As a user, I want panels (filter/search/column chooser/grid panel) to be positionable and collapsible.
-23. As a user, I want a configurable search panel with placeholder, debounce, and scope (global/local).
-24. As a user, I want visual/display options exposed (row numbers, alignment, ellipsis, wrap text, border toggles, fonts, CSS hooks).
-25. As a user, I want the column chooser to optionally preserve original column order when toggling visibility.
-26. As a user, I want filter controls to support inline row or panel modes with clearable inputs and debounce.
-27. As a user, I want paging controls to be individually configurable (showGotoPage, showJumpToStart/End, showNext/Prev).
-28. As a developer, I want columns to accept local data-sources and mapping props (data-source on column, data-id, data-value, text-field, key-field).
-29. As a user, I want contextual tooltips and per-column or per-grid loading indicators.
+23. As a user, I want panels (filter/search/column chooser/grid panel) to be positionable and collapsible.
+24. As a user, I want a configurable search panel with placeholder, debounce, and scope (global/local).
+25. As a user, I want visual/display options exposed (row numbers, alignment, ellipsis, wrap text, border toggles, fonts, CSS hooks).
+26. As a user, I want the column chooser to optionally preserve original column order when toggling visibility.
+27. As a user, I want filter controls to support inline row or panel modes with clearable inputs and debounce.
+28. As a user, I want paging controls to be individually configurable (showGotoPage, showJumpToStart/End, showNext/Prev).
+29. As a developer, I want columns to accept local data-sources and mapping props (data-source on column, data-id, data-value, text-field, key-field).
+30. As a user, I want contextual tooltips and per-column or per-grid loading indicators.
 
 ### Code quality, CI & documentation
 
-30. As a developer, I want automated CI pipelines that run lint, type-checks, unit tests, and security scans on every PR.
-31. As a developer, I want pre-commit hooks (format, lint), a code-style config, and contributor onboarding docs.
-32. As a developer, I want generated API documentation published and versioned per release.
+31. As a developer, I want automated CI pipelines that run lint, type-checks, unit tests, and security scans on every PR.
+32. As a developer, I want pre-commit hooks (format, lint), a code-style config, and contributor onboarding docs.
+33. As a developer, I want generated API documentation published and versioned per release.
 
 ## Implementation guidance (suggested)
 
