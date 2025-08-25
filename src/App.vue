@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import MinimalExample from './examples/MinimalExample.vue';
 </script>
 
 <template>
-  <HelloWorld />
+  <MinimalExample />
 </template>
 
 <style scoped>
