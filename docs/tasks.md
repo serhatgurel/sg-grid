@@ -2,7 +2,6 @@
 
 Below is a structured task list created from the PRD. Each user story is a high-level task followed by bite-sized subtasks (design, implementation, tests, docs, reviews). Each line starts on a new line, uses numbered numbering and a checkbox as requested. Save this file as `docs/tasks.md`.
 
-```markdown
 - [ ] 1. As a user, I want filter and sort so I can find information quickly.
   - [ ] 1.1 Design: define filter & sort API (props/events/edge-cases)
   - [ ] 1.2 Implementation: composable and header UI
@@ -329,8 +328,3 @@ Below is a structured task list created from the PRD. Each user story is a high-
   - [ ] 32.5 Code review
   - [ ] 32.6 Doc review
   - [ ] 32.7 Unit test review
-```
-
----
-
-Generated from `docs/grid-prd.md`. Each top-level item maps to a numbered PRD user story and includes design, implementation, testing and review tasks per your instructions.
