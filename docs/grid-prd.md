@@ -27,7 +27,7 @@ User stories below are grouped and reprioritized into MUST, SHOULD, and COULD ca
 
 These are baseline features required for a first usable release.
 
-1. As a developer, I want a minimal, declarative grid (like an HTML table) that accepts `columns` and `rows` and renders headers and rows only — no editing, sorting, or paging. The grid must accept a row key prop; each column should declare its data field and metadata (label, width). This is for quick visual verification, integration, and theming.
+1. As a developer, I want a minimal, well-typed, declarative grid component that renders headers and rows only so I can quickly verify integration and apply theming — see `docs/user-stories/user-story-1.md` for the full developer-ready specification.
 
 2. As a user, I want filter and sort so I can find information quickly.
 3. As a user, I want pagination with configurable page size and client/server paging so I can navigate large datasets.
