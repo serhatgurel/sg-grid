@@ -1,6 +1,6 @@
 # sg-grid
 
-A small Vue 3 grid project scaffolded with Vite. This repository contains the source for a grid component and supporting example app used during development.
+A small React grid project scaffolded with Vite. This repository contains the source for a grid component and supporting example app used during development.
 
 ## Quick start
 
@@ -35,7 +35,7 @@ npm run preview
 ## Available scripts
 
 - `npm run dev` — start the Vite dev server
-- `npm run build` — type-check then build (uses `vue-tsc` + `vite build`)
+- `npm run build` — type-check then build (uses `tsc` + `vite build`)
 - `npm run preview` — preview a production build locally
 - `npm run test:unit` — run unit tests with Vitest
 - `npm run lint` — run ESLint and auto-fix
@@ -44,7 +44,7 @@ npm run preview
 ## Project layout
 
 - `index.html` — app entry HTML
-- `src/` — source code (components, `main.ts`, styles)
+- `src/` — source code (components, `main.tsx`, styles)
 - `docs/` — product requirements, tasks, and design notes
 
 See `package.json` for the exact scripts and `vite.config.ts` / `tsconfig.*.json` for build and type-check settings.
@@ -52,7 +52,7 @@ See `package.json` for the exact scripts and `vite.config.ts` / `tsconfig.*.json
 ## Testing, linting and types
 
 - Unit tests use Vitest. Run `npm run test:unit`.
-- Type checking is done by `vue-tsc` and is part of the `build` pipeline (`npm run build`).
+- Type checking is done by `tsc` and is part of the `build` pipeline (`npm run build`).
 - ESLint + Prettier are configured; run `npm run lint` and `npm run format` to keep code consistent.
 
 ## Contributing
@@ -63,6 +63,6 @@ Please read the notes in `docs/` before working on features. Keep changes small 
 
 - `docs/grid-prd.md` — product requirements
 - `docs/tasks.md` — derived task list and roadmap
-- `src/main.ts` — app bootstrap
+- `src/main.tsx` — app bootstrap
 
 If you'd like, I can add a short development checklist, PR template, or CI workflow next.
