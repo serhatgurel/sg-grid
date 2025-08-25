@@ -2,18 +2,25 @@
 
 Below is a structured task list created from the PRD. Each user story is a high-level task followed by bite-sized subtasks (design, implementation, tests, docs, reviews). Each line starts on a new line, uses numbered numbering and a checkbox as requested. Save this file as `docs/tasks.md`.
 
-- [ ] 1. As a user, I want filter and sort so I can find information quickly.
-  - [ ] 1.1 Design: define filter & sort API (props/events/edge-cases)
-  - [ ] 1.2 Implementation: composable and header UI
-    - [ ] 1.2.1 Implement sorting logic (multi-column, direction)
-    - [ ] 1.2.2 Implement per-column filter controls (string/number/date)
-    - [ ] 1.2.3 Wire sort/filter to data-source adapters (client/server)
-  - [ ] 1.3 Tests: unit tests for composables
-  - [ ] 1.4 Tests: component tests (header + interaction)
-  - [ ] 1.5 Docs: usage examples + API docs
-  - [ ] 1.6 Code review
-  - [ ] 1.7 Doc review
-  - [ ] 1.8 Unit test review
+- [ ] 0.  As a developer, implement a minimal, declarative `sg-grid` and a minimal example that accept `columns` and `rows` and render headers and rows only (no editing/sorting/paging). Ensure row key and column field metadata (label, width) are supported.
+  - [ ] 0.1 Design: define minimal public API and example data shape
+  - [ ] 0.2 Implementation: small `sg-grid` component that accepts `columns` and `rows` props and renders header + rows
+  - [ ] 0.3 Example: add `examples/minimal` or `src/examples/MinimalExample.vue` to show usage
+  - [ ] 0.4 Tests: smoke render test for the component
+  - [ ] 0.5 Docs: update README and examples index with minimal example
+
+- [ ] 1.  As a user, I want filter and sort so I can find information quickly.
+- [ ] 1.1 Design: define filter & sort API (props/events/edge-cases)
+- [ ] 1.2 Implementation: composable and header UI
+  - [ ] 1.2.1 Implement sorting logic (multi-column, direction)
+  - [ ] 1.2.2 Implement per-column filter controls (string/number/date)
+  - [ ] 1.2.3 Wire sort/filter to data-source adapters (client/server)
+- [ ] 1.3 Tests: unit tests for composables
+- [ ] 1.4 Tests: component tests (header + interaction)
+- [ ] 1.5 Docs: usage examples + API docs
+- [ ] 1.6 Code review
+- [ ] 1.7 Doc review
+- [ ] 1.8 Unit test review
 
 - [ ] 2. As a user, I want pagination with configurable page size and client/server paging so I can navigate large datasets.
   - [ ] 2.1 Design: paging adapter interface (client/server)

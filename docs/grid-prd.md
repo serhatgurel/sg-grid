@@ -27,6 +27,8 @@ User stories below are grouped and reprioritized into MUST, SHOULD, and COULD ca
 
 These are baseline features required for a first usable release.
 
+0. As a developer, I want a minimal, declarative grid (like an HTML table) that accepts `columns` and `rows` and renders headers and rows only — no editing, sorting, or paging. The grid must accept a row key prop; each column should declare its data field and metadata (label, width). This is for quick visual verification, integration, and theming.
+
 1. As a user, I want filter and sort so I can find information quickly.
 2. As a user, I want pagination with configurable page size and client/server paging so I can navigate large datasets.
 3. As a user, I want selection modes (none, single, multi) and persistence across paging so I can operate on rows.
@@ -151,4 +153,7 @@ MVP non-goals (explicit)
 ## What we're not doing (explicit)
 
 - Large-scale real-time collaboration, offline sync, and advanced export formats are out of MVP scope.
+
+```
+
 ```
