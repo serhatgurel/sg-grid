@@ -1,0 +1,67 @@
+[
+  {
+    "id": "r1",
+    "name": "Alice",
+    "lastname": "Johnson",
+    "title": "Ms.",
+    "gender": "F",
+    "phone": "+1-415-555-0101",
+    "email": "alice.johnson@example.com",
+    "job": "Product Manager",
+    "salary": 95000,
+    "age": 30,
+    "birthdate": "1992-04-12"
+  },
+  {
+    "id": "r2",
+    "name": "Bob",
+    "lastname": "Smith",
+    "title": "Mr.",
+    "gender": "M",
+    "phone": "+1-415-555-0102",
+    "email": "bob.smith@example.com",
+    "job": "Frontend Engineer",
+    "salary": 88000,
+    "age": 25,
+    "birthdate": "1997-11-03"
+  },
+  {
+    "id": "r3",
+    "name": "Charlie",
+    "lastname": "Nguyen",
+    "title": "Mr.",
+    "gender": "M",
+    "phone": "+1-415-555-0103",
+    "email": "charlie.nguyen@example.com",
+    "job": "UX Designer",
+    "salary": 82000,
+    "age": 35,
+    "birthdate": "1989-07-21"
+  },
+  {
+    "id": "r4",
+    "name": "David",
+    "lastname": "Lopez",
+    "title": "Mr.",
+    "gender": "M",
+    "phone": "+1-415-555-0104",
+    "email": "david.lopez@example.com",
+    "job": "Data Scientist",
+    "salary": 110000,
+    "age": 40,
+    "birthdate": "1985-02-14"
+  },
+  {
+    "id": "r5",
+    "name": "Eve",
+    "lastname": "Khan",
+    "title": "Ms.",
+    "gender": "F",
+    "phone": "+1-415-555-0105",
+    "email": "eve.khan@example.com",
+    "job": "QA Engineer",
+    "salary": 76000,
+    "age": 28,
+    "birthdate": "1994-09-30"
+  }
+]

@@ -1,1 +1,3 @@
-<template>TODO SG-GRID</template>
+<template>
+  <slot>TODO SG-GRID</slot>
+</template>

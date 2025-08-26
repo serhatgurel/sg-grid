@@ -1,13 +1,24 @@
 <script setup lang="ts">
 import SgGrid from '../components/SgGrid.vue'
 import SgColumn from '../components/SgColumn.vue'
+import { computed, ref } from 'vue'
+import rowsJson from './rows.json'
 
-const rows = [
-  { id: 'r1', name: 'Alice', age: 30, birthdate: '1993-01-01' },
-  { id: 'r2', name: 'Bob', age: 25, birthdate: '1998-01-01' },
-  { id: 'r3', name: 'Charlie', age: 35, birthdate: '1988-01-01' },
-  { id: 'r4', name: 'David', age: 40, birthdate: '1983-01-01' },
-]
+interface RowDef {
+  id?: string
+  name?: string
+  age?: number
+  birthdate?: string
+  lastname?: string
+  title?: string
+  gender?: string
+  phone?: string
+  email?: string
+  job?: string
+  salary?: number
+}
+
+const rows = computed(() => rowsJson as Array<Partial<RowDef>>)
 
 const columns = [
   { key: 'name', field: 'name', label: 'Name', width: '200px' },
@@ -21,13 +32,27 @@ function onRowClick() {
 </script>
 
 <template>
+  <SgColumn :id="33" :name="'Serhat Gurel'" :value="102" v-slot="colProps"
+    >{{ colProps.data.name }} - {{ colProps.data.value }}</SgColumn
+  >
+  <hr />
+
   <h3>Declarative example</h3>
   <SgGrid :data="rows" rowKey="id" @row-click="onRowClick">
-    <SgColumn data-row="row" data-field="name" label="Name" />
-    <SgColumn data-field="age" label="Age" />
-    <SgColumn data-field="birthdate" label="Birthdate" />
+    <SgColumn v-bind="rows[1]" />
+    <SgColumn v-bind="rows[2]" />
+    <SgColumn v-bind="rows[3]" />
+    <SgColumn>{{ rows[2].name }}</SgColumn>
+
+    <SgColumn :data-row="rows[3]" data-field="id" label="Id" />
+    <SgColumn :data-row="rows[3]" data-field="title" label="Title" />
+    <SgColumn :data-row="rows[3]" data-field="name" label="Name" />
+    <SgColumn :data-row="rows[3]" data-field="lastname" label="Lastname" />
+    <SgColumn :data-row="rows[3]" data-field="age" label="Age" />
+    <SgColumn :data-row="rows[3]" data-field="birthdate" label="Birthdate" />
+    <SgColumn :data-row="rows[3]" data-field="email" label="Email" />
   </SgGrid>
-  
+
   <h3>Props-based example</h3>
   <SgGrid :columns="columns" :rows="rows" rowKey="id" @row-click="onRowClick" />
 </template>
