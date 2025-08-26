@@ -14,7 +14,7 @@ Component contract
 - Render model: presentational only — semantic table (`<table>`, `<thead>`, `<tbody>`).
 - Public usage: two supported forms (both required):
   1. Declarative (compile-time) — nested child components:
-     - `<sg-grid :data="rows" rowKey="id">` with child `<sg-column>` and `<sg-header>` elements. This style is the MUST-HAVE declarative API for design-time column configuration.
+     - `<sg-grid :data="rows" rowKey="id">` with child `<sg-column>` elements. This style is the MUST-HAVE declarative API for design-time column configuration.
   2. Props-based (runtime) — pass `:columns` and `:rows` objects:
      - `<sg-grid :columns="columns" :rows="rows" rowKey="id" />` where `columns` is an array of `ColumnDef`.
 
@@ -44,7 +44,7 @@ export type { ColumnDef }
 
 Note: concrete TypeScript types are provided in `src/components/types.ts` and exported for implementers:
 
-- `ColumnDef`, `HeaderDef`, `SgColumnProps`, `SgHeaderProps`, and the runtime `SgGridProps` constant.
+- `ColumnDef`, `SgColumnProps`, and the runtime `SgGridProps` constant.
 
 Acceptance criteria (clear, testable)
 
@@ -80,15 +80,9 @@ function onRowClick(row: any) {
 
 <template>
   <sg-grid :data="rows" rowKey="id" @row-click="onRowClick">
-    <sg-column data-field="name" width="200">
-      <sg-header data-field="name" label="Name" />
-    </sg-column>
-    <sg-column data-field="age" width="60">
-      <sg-header data-field="age" label="Age" />
-    </sg-column>
-    <sg-column data-field="birthdate" width="120">
-      <sg-header data-field="birthdate" label="Birthdate" />
-    </sg-column>
+    <sg-column data-field="name" label="Name" width="200" />
+    <sg-column data-field="age" label="Age" width="60" />
+    <sg-column data-field="birthdate" label="Birthdate" width="120" />
   </sg-grid>
 </template>
 ```

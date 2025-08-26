@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SgGrid from '../components/SgGrid.vue'
 import SgColumn from '../components/SgColumn.vue'
-import SgHeader from '../components/SgHeader.vue'
 
 const rows = [
   { id: 'r1', name: 'Alice', age: 30, birthdate: '1993-01-01' },
@@ -24,17 +23,11 @@ function onRowClick() {
 <template>
   <h3>Declarative example</h3>
   <SgGrid :data="rows" rowKey="id" @row-click="onRowClick">
-    <SgColumn data-field="name">
-      <SgHeader data-field="name" label="Name" />
-    </SgColumn>
-    <SgColumn data-field="age">
-      <SgHeader data-field="age" label="Age" />
-    </SgColumn>
-    <SgColumn data-field="birthdate">
-      <SgHeader data-field="birthdate" label="Birthdate" />
-    </SgColumn>
+    <SgColumn data-row="row" data-field="name" label="Name" />
+    <SgColumn data-field="age" label="Age" />
+    <SgColumn data-field="birthdate" label="Birthdate" />
   </SgGrid>
-
+  
   <h3>Props-based example</h3>
   <SgGrid :columns="columns" :rows="rows" rowKey="id" @row-click="onRowClick" />
 </template>

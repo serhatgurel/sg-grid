@@ -9,13 +9,6 @@ export interface ColumnDef {
   align?: 'left' | 'center' | 'right'
 }
 
-export interface HeaderDef {
-  key: string
-  label?: string
-  width?: string | number
-  align?: 'left' | 'center' | 'right'
-}
-
 // Props for declarative <sg-column>
 export interface SgColumnProps {
   dataField: string
@@ -23,12 +16,6 @@ export interface SgColumnProps {
   label?: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
-}
-
-// Props for declarative <sg-header>
-export interface SgHeaderProps {
-  dataField?: string
-  label?: string
 }
 
 // Minimal SgGrid props shape for runtime usage
