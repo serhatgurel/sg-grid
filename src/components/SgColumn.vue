@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <slot :data="columnData">{{ columnData.value ?? '****' }}</slot>
-  </div>
+  <td style="padding: 8px; border: 1px solid #eee;">
+    <slot :data="columnData">{{ columnData.value ?? 'No Value' }}</slot>
+  </td>
 </template>
 
 <script setup lang="ts">
@@ -10,21 +10,15 @@ import { computed } from 'vue'
 const props = defineProps({
   dataField: { type: String },
   dataRow: { type: Object },
-  id: { type: [String, Number] },
-  name: { type: String },
-  value: { type: [Number, String] },
-  age: { type: Number },
+  id: { type: String },
+  caption: { type: String },
+  value: { type: String },
 })
 
-// Expose a plain object to slots. If `value` isn't provided but `age` is,
-// derive value from age so `v-bind="row"` (which has `age`) still works.
 const columnData = computed(() => ({
   id: props.id,
-  name: props.name,
-  // prefer explicit value prop, fallback to age
-  value: props.value ?? props.age,
-  // keep age for consumers who need it
-  age: props.age,
+  name: props.caption,
+  value: props.value,
   dataRow: props.dataRow,
   dataField: props.dataField,
 }))
