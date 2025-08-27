@@ -1,6 +1,6 @@
 <template>
   <td style="padding: 8px; border: 1px solid #eee;">
-    <slot :data="columnData">{{ columnData.value ?? 'No Value' }}</slot>
+    <slot :data="columnData" :name="props.dataField" >{{ columnData.value ?? 'No Value' }}</slot>
   </td>
 </template>
 
@@ -8,7 +8,7 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  dataField: { type: String },
+  dataField: { type: String, required: true },
   dataRow: { type: Object },
   id: { type: String },
   caption: { type: String },
