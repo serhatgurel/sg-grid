@@ -1,3 +1,6 @@
+<!--
+from blog: https://dev.to/ajscommunications/the-awesome-dynamic-slot-name-in-vue-3-574k
+-->
 <template>
   <table>
     <caption v-if="!!$slots.caption || caption">
