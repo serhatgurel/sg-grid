@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SgGrid from '../components/SgGrid.vue'
 import SgColumn from '../components/SgColumn.vue'
+import SgTable from '../components/SgTable.vue'
 import { computed } from 'vue'
 import rowsJson from './rows.json'
 
@@ -19,6 +20,7 @@ interface RowDef {
 }
 
 const rows = computed(() => rowsJson as Array<Partial<RowDef>>)
+const fiveRows = computed(() => rows.value.slice(0, 5));
 
 const columns = [
   { key: 'title', field: 'title', label: 'Title', width: '200px' },
@@ -32,18 +34,16 @@ const columns = [
   { key: 'salary', field: 'salary', label: 'Salary', width: '120px' },
   { key: 'job', field: 'job', label: 'Job', width: '200px' },
 ]
-
-function onRowClick() {
-  // noop
-}
 </script>
 
 <template>
-  <h3>Just a column</h3>
-  <SgColumn>{{ rows[2].title }} {{ rows[2].firstName }} {{ rows[2].lastName }}</SgColumn>
+  <!-- 
+   <h3>Just a column</h3>
+  <SgColumn>{{ rows[2].title }} {{ rows[2].firstName }} {{ rows[2].lastName }}</SgColumn> 
+  -->
   <hr />
   <h3>Declarative example</h3>
-  <SgGrid :rows="rows" rowKey="id" @row-click="onRowClick">
+  <SgGrid :rows="rows.slice(0, 5)" rowKey="id" @row-click="() => {}">
     <SgColumn data-field="id" label="Id" />
     <SgColumn data-field="title" label="Title" />
     <SgColumn data-field="firstName" label="First Name" />
@@ -55,5 +55,8 @@ function onRowClick() {
   <hr />
 
   <h3>Props-based example</h3>
-  <SgGrid :columns="columns" :rows="rows" rowKey="id" @row-click="onRowClick" />
+  <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" @row-click="() => {}" />
+
+  <hr />
+  <SgTable :fields="columns" :items="rows.slice(20, 25)" :caption=" 'User Information' "></SgTable>
 </template>
