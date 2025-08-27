@@ -27,3 +27,12 @@ export const SgGridProps = {
     required: true,
   },
 } as const
+
+// Strongly-typed interfaces for static typing with defineProps<...>()
+export type RowData = Record<string, unknown>
+
+export interface SgGridPropTypes {
+  columns?: ColumnDef[]
+  rows?: RowData[]
+  rowKey: string | ((row: unknown) => string)
+}
