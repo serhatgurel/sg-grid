@@ -35,4 +35,5 @@ export interface SgGridPropTypes {
   columns?: ColumnDef[]
   rows?: RowData[]
   rowKey: string | ((row: unknown) => string)
+  caption?: string
 }

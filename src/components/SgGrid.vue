@@ -1,25 +1,6 @@
 <template>
-  Row Count: {{ props.rows?.length ?? 0 }}
-  <table v-if="$slots.default">
-    <thead>
-      <tr>
-        <th v-for="column in props.columns" :key="column.key">{{ column.label }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in props.rows" :key="row[props.rowKey]">
-        <sg-column
-          v-for="column in props.columns"
-          :key="column.key"
-          :data-row="row"
-          :data-field="column.field"
-          :label="column.label"
-        ></sg-column>
-      </tr>
-    </tbody>
-  </table>
-  <span v-else>
     <table>
+      <caption v-if="props.caption"> {{ props.caption }} </caption>
       <thead>
         <tr>
           <th v-for="column in props.columns" :key="column.key">{{ column.label }}</th>
@@ -37,7 +18,6 @@
         </tr>
       </tbody>
     </table>
-  </span>
 </template>
 
 <script setup lang="ts">

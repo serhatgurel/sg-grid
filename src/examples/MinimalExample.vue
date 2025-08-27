@@ -20,7 +20,6 @@ interface RowDef {
 }
 
 const rows = computed(() => rowsJson as Array<Partial<RowDef>>)
-const fiveRows = computed(() => rows.value.slice(0, 5));
 
 const columns = [
   { key: 'title', field: 'title', label: 'Title', width: '200px' },
@@ -42,21 +41,21 @@ const columns = [
   <SgColumn>{{ rows[2].title }} {{ rows[2].firstName }} {{ rows[2].lastName }}</SgColumn> 
   -->
   <hr />
-  <h3>Declarative example</h3>
-  <SgGrid :rows="rows.slice(0, 5)" rowKey="id" @row-click="() => {}">
+
+  <SgGrid :columns="columns" :rows="rows.slice(0, 3)" rowKey="id" caption="DECLARATIVE EXAMPLE">
     <SgColumn data-field="id" label="Id" />
-    <SgColumn data-field="title" label="Title" />
     <SgColumn data-field="firstName" label="First Name" />
     <SgColumn data-field="lastName" label="Last Name" />
-    <SgColumn data-field="age" label="Age" />
-    <SgColumn data-field="birthdate" label="Birthdate" />
     <SgColumn data-field="email" label="Email" />
   </SgGrid>
-  <hr />
-
-  <h3>Props-based example</h3>
-  <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" @row-click="() => {}" />
 
   <hr />
-  <SgTable :fields="columns" :items="rows.slice(20, 25)" :caption=" 'User Information' "></SgTable>
+
+  <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id"  caption="PROPS BASED EXAMPLE" />
+
+  <hr />
+
+  <SgTable :fields="columns" :items="rows.slice(20, 25)" caption="TABLE SLOTS EXAMPLE"></SgTable>
+
+  <hr />
 </template>
