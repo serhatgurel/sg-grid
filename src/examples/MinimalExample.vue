@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import SgGrid from '../components/SgGrid.vue'
-import SgColumn from '../components/SgColumn.vue'
 import { computed } from 'vue'
 import rowsJson from './rows.json'
-import SgDeclarativeGrid from '@/components/SgDeclarativeGrid.vue'
-import SgDeclarativeColumn from '@/components/SgDeclarativeColumn.vue'
+import SgGrid from '@/components/SgGrid.vue'
+import SgColumn from '@/components/SgColumn.vue'
 
 interface RowDef {
   id?: string
@@ -42,20 +40,21 @@ const columns = [
     <SgColumn>{{ rows[2].title }} {{ rows[2].firstName }} {{ rows[2].lastName }}</SgColumn>
   -->
 
-  <SgDeclarativeGrid :rows="rows.slice(0, 5)" rowKey="id" caption="DECLARATIVE EXAMPLE">
-    <SgDeclarativeColumn data-field="id" label="Id" />
-    <SgDeclarativeColumn data-field="title" label="Title" />
-    <SgDeclarativeColumn data-field="firstName" label="First Name" />
-    <SgDeclarativeColumn data-field="lastName" label="Last Name" />
-    <SgDeclarativeColumn data-field="email" label="Email" />
-    <SgDeclarativeColumn data-field="phone" label="Phone" />
-  </SgDeclarativeGrid>
+  <SgGrid :rows="rows.slice(0, 5)" rowKey="id" caption="DECLARATIVE EXAMPLE">
+    <SgColumn data-field="id" label="Id" />
+    <SgColumn data-field="title" label="Title" />
+    <SgColumn data-field="firstName" label="First Name" />
+    <SgColumn data-field="lastName" label="Last Name" />
+    <SgColumn data-field="email" label="Email" />
+    <SgColumn data-field="phone" label="Phone" />
+  </SgGrid>
 
   <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE NO LABEL *">
     <SgColumn data-field="id" />
     <SgColumn data-field="firstName"  />
     <SgColumn data-field="lastName"  />
     <SgColumn data-field="email"  />
+    <SgColumn data-field="job"  />
   </SgGrid>
 
   <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE WITH LABEL *">
@@ -63,6 +62,8 @@ const columns = [
     <SgColumn data-field="firstName" label="First Name" />
     <SgColumn data-field="lastName" label="Last Name" />
     <SgColumn data-field="email" label="Email" />
+    <SgColumn data-field="job" label="Job" />
+    <SgColumn data-field="salary" label="Salary" />
   </SgGrid>
 
   <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" caption="PROPS BASED EXAMPLE" />
