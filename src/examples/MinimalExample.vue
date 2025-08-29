@@ -51,10 +51,10 @@ const columns = [
 
   <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE NO LABEL *">
     <SgColumn data-field="id" />
-    <SgColumn data-field="firstName"  />
-    <SgColumn data-field="lastName"  />
-    <SgColumn data-field="email"  />
-    <SgColumn data-field="job"  />
+    <SgColumn data-field="firstName" />
+    <SgColumn data-field="lastName" />
+    <SgColumn data-field="email" />
+    <SgColumn data-field="job" />
   </SgGrid>
 
   <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE WITH LABEL *">

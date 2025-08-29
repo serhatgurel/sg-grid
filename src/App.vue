@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MinimalExample from './examples/MinimalExample.vue';
+import MinimalExample from './examples/MinimalExample.vue'
 </script>
 
 <template>
