@@ -12,9 +12,9 @@
 
 6. As a developer, I want `getRowKey` fallback behaviour when `rowKey` is missing, such that the fallback is a stable `JSON.stringify` of the row.
 
-7. As a developer, I want each cell to render an `SgCol` and receive correct props (`dataRow`, `dataField`, `label`), such that cell renderers have the data they need.
+7. As a developer, I want each cell to render an `SgCol` and receive correct props (`dataRow`, `dataField`, `caption`), such that cell renderers have the data they need.
 
-8. As a developer, I want a `<caption>` to render when `props.caption` is set, such that table-level labeling is present for accessibility.
+8. As a developer, I want a `<caption>` to render when `props.caption` is set, such that a table-level accessible name is present for screen readers.
 
 9. As a developer, I want slot children without a `field`/`data-field` to be ignored when building declared columns, such that only valid column definitions are used.
 

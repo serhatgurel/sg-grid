@@ -16,7 +16,7 @@
 
 8. As a developer, I want replacing the `dataRow` object via `setProps` to update the cell, such that parent-level replacements re-render correctly.
 
-9. As a developer, I want `columnData.name` to prefer `caption` then `label`, such that display names follow the defined priority.
+9. As a developer, I want `columnData.name` to use `caption`, such that display names come from the `caption` prop.
 
 10. As a consumer, I want the `slotProps.data` shape to include `{ id, name, value, dataRow, dataField }`, such that consumers receive a predictable API.
 

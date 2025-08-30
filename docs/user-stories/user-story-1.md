@@ -24,7 +24,7 @@ Types & props (TypeScript)
 export interface ColumnDef {
   key: string // unique column id
   field: string // property name on row objects
-  label?: string // header text (defaults to key)
+  caption?: string // header text (defaults to key)
   width?: string | number // CSS width (e.g., '120px' or 120)
   align?: 'left' | 'center' | 'right'
 }
@@ -49,7 +49,7 @@ Note: concrete TypeScript types are provided in `src/components/types.ts` and ex
 Acceptance criteria (clear, testable)
 
 - Given either the declarative child configuration or the `columns`/`rows` props and `rowKey`, the component renders a semantic table:
-  - A `<thead>` with header cells in column order. For props-based usage the order is `columns` order; for declarative usage the order is the DOM order of `<sg-column>` children. Header text uses `label || key`.
+  - A `<thead>` with header cells in column order. For props-based usage the order is `columns` order; for declarative usage the order is the DOM order of `<sg-column>` children. Header text uses `caption || key`.
   - A `<tbody>` with one `<tr>` per row and one `<td>` per column showing the safe stringified `row[field]` value.
 - Both APIs must coexist: a consumer may choose either form and receive identical rendered output and events.
 - No editing, sorting, filtering, selection, or paging behaviour is present in this story.
@@ -80,9 +80,9 @@ function onRowClick(row: any) {
 
 <template>
   <sg-grid :data="rows" rowKey="id" @row-click="onRowClick">
-    <sg-column data-field="name" label="Name" width="200" />
-    <sg-column data-field="age" label="Age" width="60" />
-    <sg-column data-field="birthdate" label="Birthdate" width="120" />
+    <sg-column data-field="name" caption="Name" width="200" />
+    <sg-column data-field="age" caption="Age" width="60" />
+    <sg-column data-field="birthdate" caption="Birthdate" width="120" />
   </sg-grid>
 </template>
 ```
@@ -101,9 +101,9 @@ const rows = [
 ]
 
 const columns = [
-  { key: 'name', field: 'name', label: 'Name', width: '200px' },
-  { key: 'age', field: 'age', label: 'Age', width: '60px', align: 'right' },
-  { key: 'birthdate', field: 'birthdate', label: 'Birthdate', width: '120px' },
+  { key: 'name', field: 'name', caption: 'Name', width: '200px' },
+  { key: 'age', field: 'age', caption: 'Age', width: '60px', align: 'right' },
+  { key: 'birthdate', field: 'birthdate', caption: 'Birthdate', width: '120px' },
 ]
 
 function onRowClick(row: any) {
@@ -118,7 +118,7 @@ function onRowClick(row: any) {
 
 Suggested tests
 
-- unit: header labels render in order for both APIs (declarative and props-based).
+- unit: header captions render in order for both APIs (declarative and props-based).
 - unit: cell values render correctly for each row/column in both APIs.
 - unit: `data-row-key` attribute set correctly and `row-click` is emitted when clicking a row.
 - snapshot: stable markup for regression detection (ensure both APIs produce the same snapshot when using equivalent inputs).
@@ -128,7 +128,7 @@ Implementation notes
 - Keep rendering synchronous and purely presentational. No async logic or side-effects.
 - TypeScript-first: export `ColumnDef` and `SgGridProps` so other modules can import types.
 - The component should normalize declarative children and props-based `columns` into a single internal column descriptor list so rendering and tests are identical.
-- Declarative child components should be lightweight descriptors (no heavy logic) and only provide metadata (field, label, width, align).
+- Declarative child components should be lightweight descriptors (no heavy logic) and only provide metadata (field, caption, width, align).
 - Provide small internal utility to safely stringify cell values (null/undefined handling).
 
 Non-goals (in this story)

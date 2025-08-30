@@ -23,16 +23,16 @@ interface RowDef {
 const rows = computed(() => rowsJson as unknown as Array<Partial<RowDef>>)
 
 const columns = [
-  { key: 'title', field: 'title', label: 'Title', width: '200px' },
-  { key: 'firstName', field: 'firstName', label: 'First Name', width: '200px' },
-  { key: 'lastName', field: 'lastName', label: 'Last Name', width: '200px' },
-  { key: 'age', field: 'age', label: 'Age', width: '60px' },
-  { key: 'birthdate', field: 'birthdate', label: 'Birthdate', width: '120px' },
-  { key: 'gender', field: 'gender', label: 'Gender', width: '120px' },
-  { key: 'phone', field: 'phone', label: 'Phone', width: '120px' },
-  { key: 'email', field: 'email', label: 'Email', width: '200px' },
-  { key: 'salary', field: 'salary', label: 'Salary', width: '120px' },
-  { key: 'job', field: 'job', label: 'Job', width: '200px' },
+  { key: 'title', field: 'title', caption: 'Title', width: '200px' },
+  { key: 'firstName', field: 'firstName', caption: 'First Name', width: '200px' },
+  { key: 'lastName', field: 'lastName', caption: 'Last Name', width: '200px' },
+  { key: 'age', field: 'age', caption: 'Age', width: '60px' },
+  { key: 'birthdate', field: 'birthdate', caption: 'Birthdate', width: '120px' },
+  { key: 'gender', field: 'gender', caption: 'Gender', width: '120px' },
+  { key: 'phone', field: 'phone', caption: 'Phone', width: '120px' },
+  { key: 'email', field: 'email', caption: 'Email', width: '200px' },
+  { key: 'salary', field: 'salary', caption: 'Salary', width: '120px' },
+  { key: 'job', field: 'job', caption: 'Job', width: '200px' },
 ]
 </script>
 
@@ -43,15 +43,15 @@ const columns = [
   -->
 
   <SgGrid :rows="rows.slice(0, 5)" rowKey="id" caption="DECLARATIVE EXAMPLE">
-    <SgColumn data-field="id" label="Id" />
-    <SgColumn data-field="title" label="Title" />
-    <SgColumn data-field="firstName" label="First Name" />
-    <SgColumn data-field="lastName" label="Last Name" />
-    <SgColumn data-field="email" label="Email" />
-    <SgColumn data-field="phone" label="Phone" />
+    <SgColumn data-field="id" caption="Id" />
+    <SgColumn data-field="title" caption="Title" />
+    <SgColumn data-field="firstName" caption="First Name" />
+    <SgColumn data-field="lastName" caption="Last Name" />
+    <SgColumn data-field="email" caption="Email" />
+    <SgColumn data-field="phone" caption="Phone" />
   </SgGrid>
 
-  <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE NO LABEL *">
+  <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE NO CAPTION *">
     <SgColumn data-field="id" />
     <SgColumn data-field="firstName" />
     <SgColumn data-field="lastName" />
@@ -59,13 +59,13 @@ const columns = [
     <SgColumn data-field="job" />
   </SgGrid>
 
-  <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE WITH LABEL *">
-    <SgColumn data-field="id" label="Id" />
-    <SgColumn data-field="firstName" label="First Name" />
-    <SgColumn data-field="lastName" label="Last Name" />
-    <SgColumn data-field="email" label="Email" />
-    <SgColumn data-field="job" label="Job" />
-    <SgColumn data-field="salary" label="Salary" />
+  <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE WITH CAPTION *">
+    <SgColumn data-field="id" caption="Id" />
+    <SgColumn data-field="firstName" caption="First Name" />
+    <SgColumn data-field="lastName" caption="Last Name" />
+    <SgColumn data-field="email" caption="Email" />
+    <SgColumn data-field="job" caption="Job" />
+    <SgColumn data-field="salary" caption="Salary" />
   </SgGrid>
 
   <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" caption="PROPS BASED EXAMPLE" />

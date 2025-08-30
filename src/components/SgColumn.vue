@@ -1,6 +1,5 @@
 <template>
   <td style="padding: 8px; border: 1px solid #eee">
-    <!-- expose both old APIs: `data/name` and `row/field/value` -->
     <slot v-bind="slotProps">{{ defaultDisplay }}</slot>
   </td>
 </template>
@@ -14,19 +13,18 @@ const props = defineProps({
   id: { type: String },
   caption: { type: String },
   value: { type: null as unknown as PropType<unknown> },
-  label: { type: String },
 })
 
 // columnData mirrors the structure from SgColumn and prefers values from dataRow when present
 const columnData = computed(() => ({
   id: props.id,
-  name: props.caption ?? props.label,
+  // prefer `caption` for the human readable column name
+  name: props.caption,
   value: props.dataRow ? props.dataRow[props.dataField as string] : props.value,
   dataRow: props.dataRow,
   dataField: props.dataField,
 }))
 
-// cellValue mirrors the lightweight lookup from SgDeclarativeColumn
 const cellValue = computed(() => {
   if (!props.dataRow) return props.value
   const row = props.dataRow as Record<string, unknown>
@@ -34,7 +32,6 @@ const cellValue = computed(() => {
   return row[key]
 })
 
-// slotProps provides both APIs so existing consumers keep working
 const slotProps = computed(() => ({
   data: columnData.value,
   name: props.dataField,
@@ -43,7 +40,6 @@ const slotProps = computed(() => ({
   value: cellValue.value,
 }))
 
-// default display keeps a sensible fallback (empty string when no value)
 const defaultDisplay = computed(() => {
   const v = columnData.value?.value ?? cellValue.value
   if (v === undefined || v === null) return ''

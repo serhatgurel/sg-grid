@@ -36,7 +36,7 @@ These are baseline features required for a first usable release.
 6. As a developer, I want easy installation (npm/yarn/pnpm) and simple initialization so I can add the grid quickly.
 7. As a developer, I want first-class TypeScript typings and clear public APIs for discoverability.
 8. As a user, I want support for common column data types (string, number, date/time timezone-aware, boolean, link, image) and custom cell templates.
-9. As a user, I want accessibility basics: keyboard navigation and screen-reader labels.
+9. As a user, I want accessibility basics: keyboard navigation and meaningful names for screen readers.
 10. As a developer, I want a minimal example app demonstrating components, editing modes, paging, and integration patterns so I can prototype rapidly.
 
 ### SHOULD (important, next-phase)
@@ -121,7 +121,7 @@ MVP feature set (target initial release):
 - Selection modes (none, single, multi) with persistence across pages
 - Editing: inline and popup editors with basic validation
 - Column types: string, number, date (timezone-aware), boolean, link, image, and custom cell template support
-- Accessibility: keyboard navigation and ARIA labels for screen readers
+- Accessibility: keyboard navigation and ARIA-accessible names for screen readers
 - TypeScript typings and a minimal example app (examples/minimal)
 - Basic theming via CSS variables, and stable class-name style hooks
 - Tests: unit tests for composables + a smoke test for the example app

@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export interface ColumnDef {
   key: string
   field: string
-  label?: string
+  caption?: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
 }
@@ -13,7 +13,7 @@ export interface ColumnDef {
 export interface SgColumnProps {
   dataField: string
   key?: string
-  label?: string
+  caption?: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
 }

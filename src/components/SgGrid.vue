@@ -7,7 +7,9 @@
     </caption>
     <thead>
       <tr>
-        <th v-for="column in columns" :key="column.key">{{ column.label }}</th>
+        <th v-for="column in columns" :key="column.key">
+          {{ column.caption ?? column.field }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +19,7 @@
           :key="`${getRowKey(row)}-${column.key}`"
           :data-row="row"
           :data-field="column.field"
-          :label="column.label"
+          :caption="column.caption"
         />
       </tr>
     </tbody>
@@ -41,8 +43,8 @@ const declaredColumns = computed<ColumnDef[]>(() => {
     const field = p.dataField ?? p['data-field'] ?? p.field
     if (!field) continue
     const key = p.key ?? field
-    const label = p.label ?? String(field)
-    cols.push({ key, field, label })
+    const caption = p.caption ?? String(field)
+    cols.push({ key, field, caption })
   }
   return cols
 })
@@ -52,12 +54,27 @@ const inferredColumns = computed<ColumnDef[]>(() => {
   if (!rows.length) return []
   const keys = new Set<string>()
   for (const r of rows) Object.keys(r || {}).forEach((k) => keys.add(k))
-  return Array.from(keys).map((k) => ({ key: k, field: k, label: k }))
+  return Array.from(keys).map((k) => ({ key: k, field: k, caption: k }))
 })
 
 // Priority: explicit props.columns -> declared slot columns -> inferred columns
+// Use caption only; do not reference legacy keys.
 const columns = computed<ColumnDef[]>(() => {
-  if (props.columns && props.columns.length > 0) return props.columns
+  if (props.columns && props.columns.length > 0) {
+    // Ensure every supplied column has a caption (derived from caption, field, or key)
+    return props.columns.map((c) => {
+      const maybe = c as unknown as Record<string, unknown>
+      const captionFromC = typeof maybe.caption === 'string' ? (maybe.caption as string) : undefined
+      const fieldOrKey =
+        typeof maybe.field === 'string'
+          ? maybe.field
+          : typeof maybe.key === 'string'
+            ? maybe.key
+            : ''
+      const caption = captionFromC ?? String(fieldOrKey)
+      return { ...c, caption }
+    })
+  }
   const declared = declaredColumns.value
   if (declared.length > 0) return declared
   return inferredColumns.value
