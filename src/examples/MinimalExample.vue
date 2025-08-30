@@ -18,7 +18,9 @@ interface RowDef {
   salary?: number
 }
 
-const rows = computed(() => rowsJson as Array<Partial<RowDef>>)
+// rowsJson is declared as a generic Record in the project's JSON shim.
+// Cast via `unknown` first to safely assert the correct array shape for this example.
+const rows = computed(() => rowsJson as unknown as Array<Partial<RowDef>>)
 
 const columns = [
   { key: 'title', field: 'title', label: 'Title', width: '200px' },
