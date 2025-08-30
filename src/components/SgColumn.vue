@@ -1,5 +1,5 @@
 <template>
-  <td style="padding: 8px; border: 1px solid #eee">
+  <td class="sg-cell">
     <slot v-bind="slotProps">{{ defaultDisplay }}</slot>
   </td>
 </template>

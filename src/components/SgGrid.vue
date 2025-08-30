@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="sg-grid-table">
     <caption v-if="props.caption">
       {{
         props.caption
@@ -86,21 +86,3 @@ function getRowKey(row: RowData) {
   return String(row[props.rowKey as string])
 }
 </script>
-
-<style scoped>
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
-  text-align: left;
-}
-</style>

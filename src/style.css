@@ -1,10 +1,64 @@
 @import 'tailwindcss';
 
-/* Global demo styles for sg-grid row & cell coloring.
- * These classes must be global (not in a scoped <style>) so that rows/cells
- * rendered inside the child SgGrid component can be styled. The previous
- * definitions inside App.vue were scoped and therefore did not match the
- * internal <tr>/<td> elements of SgGrid, which is why colors were not visible. */
+/* CSS variables to control global grid styling. Consumers can override these
+   variables (for example on a container) to theme the grid globally. */
+:root {
+  --sg-cell-bg: #ffffff;
+  --sg-cell-color: #111827; /* default body text */
+  --sg-font-family:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --sg-font-size: 14px;
+  --sg-font-weight: 400;
+  --sg-font-style: normal;
+
+  --sg-border-width: 1px;
+  --sg-border-style: solid;
+  --sg-border-color: #ddd;
+
+  --sg-cell-padding: 8px;
+
+  /* Header-specific variables */
+  --sg-header-bg: #f2f2f2;
+  --sg-header-color: #111827;
+  --sg-header-font-size: 14px;
+  --sg-header-font-weight: 600;
+  --sg-header-font-style: ita;
+  --sg-header-padding: 8px;
+}
+
+/* Table base styles for the grid. Use explicit class so other tables remain unaffected. */
+.sg-grid-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--sg-font-family);
+  font-size: var(--sg-font-size);
+  color: var(--sg-cell-color);
+}
+
+.sg-grid-table th,
+.sg-grid-table td {
+  border: var(--sg-border-width) var(--sg-border-style) var(--sg-border-color);
+  padding: var(--sg-cell-padding);
+}
+
+.sg-grid-table td.sg-cell {
+  background: var(--sg-cell-bg);
+  font-weight: var(--sg-font-weight);
+  font-style: var(--sg-font-style);
+}
+
+.sg-grid-table th {
+  background-color: var(--sg-header-bg);
+  color: var(--sg-header-color);
+  text-align: left;
+  padding: var(--sg-header-padding);
+  font-size: var(--sg-header-font-size);
+  font-weight: var(--sg-header-font-weight);
+  font-style: var(--sg-header-font-style);
+}
+
+/* Global demo styles for sg-grid row & cell coloring. These remain global so
+   classes applied to rows/cells by consumers continue to work. */
 .demo-row-low .sg-cell {
   background: #fecaca !important;
 }
