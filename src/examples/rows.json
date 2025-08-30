@@ -10,7 +10,14 @@
     "job": "Product Manager",
     "salary": 95000,
     "age": 30,
-    "birthdate": "1992-04-12"
+    "birthdate": "1992-04-12",
+    "address": {
+      "street": "100 Market St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "country": "USA"
+    }
   },
   {
     "id": "r2",
@@ -23,7 +30,14 @@
     "job": "Frontend Engineer",
     "salary": 88000,
     "age": 25,
-    "birthdate": "1997-11-03"
+    "birthdate": "1997-11-03",
+    "address": {
+      "street": "210 Pine St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94111",
+      "country": "USA"
+    }
   },
   {
     "id": "r3",
@@ -36,7 +50,14 @@
     "job": "UX Designer",
     "salary": 82000,
     "age": 35,
-    "birthdate": "1989-07-21"
+    "birthdate": "1989-07-21",
+    "address": {
+      "street": "55 Mission St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94103",
+      "country": "USA"
+    }
   },
   {
     "id": "r4",
@@ -49,7 +70,14 @@
     "job": "Data Scientist",
     "salary": 110000,
     "age": 40,
-    "birthdate": "1985-02-14"
+    "birthdate": "1985-02-14",
+    "address": {
+      "street": "400 Howard St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "country": "USA"
+    }
   },
   {
     "id": "r5",
@@ -62,7 +90,14 @@
     "job": "QA Engineer",
     "salary": 76000,
     "age": 28,
-    "birthdate": "1994-09-30"
+    "birthdate": "1994-09-30",
+    "address": {
+      "street": "12 Hayes St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94102",
+      "country": "USA"
+    }
   },
   {
     "id": "r6",
@@ -75,7 +110,14 @@
     "job": "Backend Engineer",
     "salary": 90000,
     "age": 32,
-    "birthdate": "1993-06-15"
+    "birthdate": "1993-06-15",
+    "address": {
+      "street": "88 3rd St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94103",
+      "country": "USA"
+    }
   },
   {
     "id": "r7",
@@ -88,7 +130,14 @@
     "job": "DevOps Engineer",
     "salary": 98000,
     "age": 38,
-    "birthdate": "1987-03-09"
+    "birthdate": "1987-03-09",
+    "address": {
+      "street": "1300 Clay St",
+      "city": "Oakland",
+      "state": "CA",
+      "zip": "94612",
+      "country": "USA"
+    }
   },
   {
     "id": "r8",
@@ -101,7 +150,14 @@
     "job": "Technical Writer",
     "salary": 70000,
     "age": 29,
-    "birthdate": "1996-01-22"
+    "birthdate": "1996-01-22",
+    "address": {
+      "street": "7 Elm St",
+      "city": "Berkeley",
+      "state": "CA",
+      "zip": "94704",
+      "country": "USA"
+    }
   },
   {
     "id": "r9",
@@ -114,7 +170,14 @@
     "job": "Mobile Developer",
     "salary": 84000,
     "age": 27,
-    "birthdate": "1998-08-04"
+    "birthdate": "1998-08-04",
+    "address": {
+      "street": "22 Castro St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94114",
+      "country": "USA"
+    }
   },
   {
     "id": "r10",
@@ -127,7 +190,14 @@
     "job": "HR Manager",
     "salary": 87000,
     "age": 36,
-    "birthdate": "1989-12-02"
+    "birthdate": "1989-12-02",
+    "address": {
+      "street": "300 Franklin St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94102",
+      "country": "USA"
+    }
   },
   {
     "id": "r11",
@@ -140,7 +210,14 @@
     "job": "Support Engineer",
     "salary": 65000,
     "age": 31,
-    "birthdate": "1994-05-04"
+    "birthdate": "1994-05-04",
+    "address": {
+      "street": "45 Castro St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94114",
+      "country": "USA"
+    }
   },
   {
     "id": "r12",
@@ -153,7 +230,14 @@
     "job": "Product Designer",
     "salary": 92000,
     "age": 33,
-    "birthdate": "1992-10-18"
+    "birthdate": "1992-10-18",
+    "address": {
+      "street": "2100 K St",
+      "city": "Sacramento",
+      "state": "CA",
+      "zip": "95816",
+      "country": "USA"
+    }
   },
   {
     "id": "r13",
@@ -166,7 +250,14 @@
     "job": "Fullstack Engineer",
     "salary": 105000,
     "age": 34,
-    "birthdate": "1991-09-11"
+    "birthdate": "1991-09-11",
+    "address": {
+      "street": "1 Infinite Loop",
+      "city": "Cupertino",
+      "state": "CA",
+      "zip": "95014",
+      "country": "USA"
+    }
   },
   {
     "id": "r14",
@@ -179,7 +270,14 @@
     "job": "Data Analyst",
     "salary": 78000,
     "age": 26,
-    "birthdate": "1999-04-27"
+    "birthdate": "1999-04-27",
+    "address": {
+      "street": "500 Terry A Francois Blvd",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94158",
+      "country": "USA"
+    }
   },
   {
     "id": "r15",
@@ -192,7 +290,14 @@
     "job": "Marketing Specialist",
     "salary": 68000,
     "age": 29,
-    "birthdate": "1996-02-05"
+    "birthdate": "1996-02-05",
+    "address": {
+      "street": "1234 Market St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94103",
+      "country": "USA"
+    }
   },
   {
     "id": "r16",
@@ -205,7 +310,14 @@
     "job": "Customer Success",
     "salary": 72000,
     "age": 35,
-    "birthdate": "1990-07-08"
+    "birthdate": "1990-07-08",
+    "address": {
+      "street": "77 Massachusetts Ave",
+      "city": "Cambridge",
+      "state": "MA",
+      "zip": "02139",
+      "country": "USA"
+    }
   },
   {
     "id": "r17",
@@ -218,7 +330,14 @@
     "job": "Solutions Architect",
     "salary": 130000,
     "age": 42,
-    "birthdate": "1983-11-19"
+    "birthdate": "1983-11-19",
+    "address": {
+      "street": "1500 Pennsylvania Ave",
+      "city": "Washington",
+      "state": "DC",
+      "zip": "20004",
+      "country": "USA"
+    }
   },
   {
     "id": "r18",
@@ -231,7 +350,14 @@
     "job": "Accountant",
     "salary": 74000,
     "age": 37,
-    "birthdate": "1988-06-30"
+    "birthdate": "1988-06-30",
+    "address": {
+      "street": "200 Pine St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94111",
+      "country": "USA"
+    }
   },
   {
     "id": "r19",
@@ -244,7 +370,14 @@
     "job": "Security Engineer",
     "salary": 99000,
     "age": 39,
-    "birthdate": "1986-01-12"
+    "birthdate": "1986-01-12",
+    "address": {
+      "street": "350 5th Ave",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10118",
+      "country": "USA"
+    }
   },
   {
     "id": "r20",
@@ -257,7 +390,14 @@
     "job": "Operations Manager",
     "salary": 99000,
     "age": 41,
-    "birthdate": "1984-10-10"
+    "birthdate": "1984-10-10",
+    "address": {
+      "street": "400 Atlantic Ave",
+      "city": "Boston",
+      "state": "MA",
+      "zip": "02110",
+      "country": "USA"
+    }
   },
   {
     "id": "r21",
@@ -270,7 +410,14 @@
     "job": "Cloud Engineer",
     "salary": 115000,
     "age": 36,
-    "birthdate": "1989-05-25"
+    "birthdate": "1989-05-25",
+    "address": {
+      "street": "600 Church St",
+      "city": "Nashville",
+      "state": "TN",
+      "zip": "37203",
+      "country": "USA"
+    }
   },
   {
     "id": "r22",
@@ -283,7 +430,14 @@
     "job": "Graphic Designer",
     "salary": 70000,
     "age": 28,
-    "birthdate": "1997-09-14"
+    "birthdate": "1997-09-14",
+    "address": {
+      "street": "89 College Ave",
+      "city": "Ithaca",
+      "state": "NY",
+      "zip": "14850",
+      "country": "USA"
+    }
   },
   {
     "id": "r23",
@@ -296,7 +450,14 @@
     "job": "Site Reliability Engineer",
     "salary": 120000,
     "age": 37,
-    "birthdate": "1988-03-03"
+    "birthdate": "1988-03-03",
+    "address": {
+      "street": "900 Hansen Ave",
+      "city": "Palo Alto",
+      "state": "CA",
+      "zip": "94301",
+      "country": "USA"
+    }
   },
   {
     "id": "r24",
@@ -309,7 +470,14 @@
     "job": "Business Analyst",
     "salary": 80000,
     "age": 31,
-    "birthdate": "1994-02-20"
+    "birthdate": "1994-02-20",
+    "address": {
+      "street": "14 Commerce St",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98101",
+      "country": "USA"
+    }
   },
   {
     "id": "r25",
@@ -322,7 +490,14 @@
     "job": "Machine Learning Engineer",
     "salary": 140000,
     "age": 30,
-    "birthdate": "1995-07-07"
+    "birthdate": "1995-07-07",
+    "address": {
+      "street": "1600 Amphitheatre Pkwy",
+      "city": "Mountain View",
+      "state": "CA",
+      "zip": "94043",
+      "country": "USA"
+    }
   },
   {
     "id": "r26",
@@ -335,7 +510,14 @@
     "job": "Researcher",
     "salary": 115000,
     "age": 34,
-    "birthdate": "1991-11-29"
+    "birthdate": "1991-11-29",
+    "address": {
+      "street": "2 Oxford St",
+      "city": "Cambridge",
+      "state": "MA",
+      "zip": "02138",
+      "country": "USA"
+    }
   },
   {
     "id": "r27",
@@ -348,7 +530,14 @@
     "job": "Sales Engineer",
     "salary": 93000,
     "age": 33,
-    "birthdate": "1992-08-01"
+    "birthdate": "1992-08-01",
+    "address": {
+      "street": "33 King St",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5H 1A1",
+      "country": "Canada"
+    }
   },
   {
     "id": "r28",
@@ -361,7 +550,14 @@
     "job": "Recruiter",
     "salary": 68000,
     "age": 27,
-    "birthdate": "1998-05-16"
+    "birthdate": "1998-05-16",
+    "address": {
+      "street": "9 Rue de Rivoli",
+      "city": "Paris",
+      "state": "",
+      "zip": "75001",
+      "country": "France"
+    }
   },
   {
     "id": "r29",
@@ -374,7 +570,14 @@
     "job": "QA Lead",
     "salary": 86000,
     "age": 36,
-    "birthdate": "1989-04-02"
+    "birthdate": "1989-04-02",
+    "address": {
+      "street": "500 W 2nd St",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90012",
+      "country": "USA"
+    }
   },
   {
     "id": "r30",
@@ -387,7 +590,14 @@
     "job": "Content Strategist",
     "salary": 73000,
     "age": 32,
-    "birthdate": "1993-10-09"
+    "birthdate": "1993-10-09",
+    "address": {
+      "street": "250 Queen St",
+      "city": "Auckland",
+      "state": "",
+      "zip": "1010",
+      "country": "New Zealand"
+    }
   },
   {
     "id": "r31",
@@ -400,7 +610,14 @@
     "job": "Infrastructure Engineer",
     "salary": 110000,
     "age": 39,
-    "birthdate": "1986-06-06"
+    "birthdate": "1986-06-06",
+    "address": {
+      "street": "1200 17th St",
+      "city": "Denver",
+      "state": "CO",
+      "zip": "80202",
+      "country": "USA"
+    }
   },
   {
     "id": "r32",
@@ -413,7 +630,14 @@
     "job": "Legal Counsel",
     "salary": 125000,
     "age": 43,
-    "birthdate": "1982-12-12"
+    "birthdate": "1982-12-12",
+    "address": {
+      "street": "10 Fleet St",
+      "city": "London",
+      "state": "",
+      "zip": "EC4Y 1AA",
+      "country": "UK"
+    }
   },
   {
     "id": "r33",
@@ -426,7 +650,14 @@
     "job": "Finance Manager",
     "salary": 98000,
     "age": 40,
-    "birthdate": "1985-03-17"
+    "birthdate": "1985-03-17",
+    "address": {
+      "street": "700 14th St NW",
+      "city": "Washington",
+      "state": "DC",
+      "zip": "20005",
+      "country": "USA"
+    }
   },
   {
     "id": "r34",
@@ -439,7 +670,14 @@
     "job": "E-commerce Manager",
     "salary": 88000,
     "age": 35,
-    "birthdate": "1990-09-06"
+    "birthdate": "1990-09-06",
+    "address": {
+      "street": "45 King St",
+      "city": "Sydney",
+      "state": "NSW",
+      "zip": "2000",
+      "country": "Australia"
+    }
   },
   {
     "id": "r35",
@@ -452,7 +690,14 @@
     "job": "Data Engineer",
     "salary": 112000,
     "age": 31,
-    "birthdate": "1994-01-28"
+    "birthdate": "1994-01-28",
+    "address": {
+      "street": "400 Broad St",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98109",
+      "country": "USA"
+    }
   },
   {
     "id": "r36",
@@ -465,7 +710,14 @@
     "job": "PR Specialist",
     "salary": 69000,
     "age": 28,
-    "birthdate": "1997-07-02"
+    "birthdate": "1997-07-02",
+    "address": {
+      "street": "88 Lombard St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94133",
+      "country": "USA"
+    }
   },
   {
     "id": "r37",
@@ -478,7 +730,14 @@
     "job": "Contract Manager",
     "salary": 75000,
     "age": 38,
-    "birthdate": "1987-04-21"
+    "birthdate": "1987-04-21",
+    "address": {
+      "street": "2500 University Ave",
+      "city": "Berkeley",
+      "state": "CA",
+      "zip": "94704",
+      "country": "USA"
+    }
   },
   {
     "id": "r38",
@@ -491,7 +750,14 @@
     "job": "Office Manager",
     "salary": 64000,
     "age": 45,
-    "birthdate": "1980-02-02"
+    "birthdate": "1980-02-02",
+    "address": {
+      "street": "77 Queen St",
+      "city": "Auckland",
+      "state": "",
+      "zip": "1010",
+      "country": "New Zealand"
+    }
   },
   {
     "id": "r39",
@@ -504,7 +770,14 @@
     "job": "Chief of Staff",
     "salary": 150000,
     "age": 44,
-    "birthdate": "1981-11-11"
+    "birthdate": "1981-11-11",
+    "address": {
+      "street": "1 Market St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "country": "USA"
+    }
   },
   {
     "id": "r40",
@@ -517,7 +790,14 @@
     "job": "Facilities Coordinator",
     "salary": 60000,
     "age": 34,
-    "birthdate": "1991-08-24"
+    "birthdate": "1991-08-24",
+    "address": {
+      "street": "2121 Webster St",
+      "city": "Oakland",
+      "state": "CA",
+      "zip": "94612",
+      "country": "USA"
+    }
   },
   {
     "id": "r41",
@@ -530,7 +810,14 @@
     "job": "Mobile QA",
     "salary": 72000,
     "age": 29,
-    "birthdate": "1996-03-12"
+    "birthdate": "1996-03-12",
+    "address": {
+      "street": "101 Mission St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "country": "USA"
+    }
   },
   {
     "id": "r42",
@@ -543,7 +830,14 @@
     "job": "Design Researcher",
     "salary": 91000,
     "age": 33,
-    "birthdate": "1992-05-05"
+    "birthdate": "1992-05-05",
+    "address": {
+      "street": "2500 University Ave",
+      "city": "Palo Alto",
+      "state": "CA",
+      "zip": "94303",
+      "country": "USA"
+    }
   },
   {
     "id": "r43",
@@ -556,7 +850,14 @@
     "job": "Logistics Coordinator",
     "salary": 61000,
     "age": 28,
-    "birthdate": "1997-01-30"
+    "birthdate": "1997-01-30",
+    "address": {
+      "street": "88 Logistics Way",
+      "city": "Oakland",
+      "state": "CA",
+      "zip": "94607",
+      "country": "USA"
+    }
   },
   {
     "id": "r44",
@@ -569,7 +870,14 @@
     "job": "Customer Insights",
     "salary": 82000,
     "age": 31,
-    "birthdate": "1994-06-18"
+    "birthdate": "1994-06-18",
+    "address": {
+      "street": "420 Market St",
+      "city": "San Jose",
+      "state": "CA",
+      "zip": "95113",
+      "country": "USA"
+    }
   },
   {
     "id": "r45",
@@ -582,7 +890,14 @@
     "job": "BI Analyst",
     "salary": 88000,
     "age": 37,
-    "birthdate": "1988-09-09"
+    "birthdate": "1988-09-09",
+    "address": {
+      "street": "55 Analytics Rd",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60601",
+      "country": "USA"
+    }
   },
   {
     "id": "r46",
@@ -595,7 +910,14 @@
     "job": "Policy Analyst",
     "salary": 78000,
     "age": 36,
-    "birthdate": "1989-02-26"
+    "birthdate": "1989-02-26",
+    "address": {
+      "street": "300 Policy Ln",
+      "city": "Washington",
+      "state": "DC",
+      "zip": "20001",
+      "country": "USA"
+    }
   },
   {
     "id": "r47",
@@ -608,7 +930,14 @@
     "job": "Research Engineer",
     "salary": 118000,
     "age": 35,
-    "birthdate": "1990-12-01"
+    "birthdate": "1990-12-01",
+    "address": {
+      "street": "7 Research Dr",
+      "city": "Palo Alto",
+      "state": "CA",
+      "zip": "94304",
+      "country": "USA"
+    }
   },
   {
     "id": "r48",
@@ -621,7 +950,14 @@
     "job": "Event Manager",
     "salary": 67000,
     "age": 34,
-    "birthdate": "1991-07-19"
+    "birthdate": "1991-07-19",
+    "address": {
+      "street": "240 Event Blvd",
+      "city": "Las Vegas",
+      "state": "NV",
+      "zip": "89109",
+      "country": "USA"
+    }
   },
   {
     "id": "r49",
@@ -634,7 +970,14 @@
     "job": "Performance Engineer",
     "salary": 102000,
     "age": 38,
-    "birthdate": "1987-03-25"
+    "birthdate": "1987-03-25",
+    "address": {
+      "street": "101 Performance Way",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94107",
+      "country": "USA"
+    }
   },
   {
     "id": "r50",
@@ -647,7 +990,14 @@
     "job": "Growth Marketer",
     "salary": 86000,
     "age": 30,
-    "birthdate": "1995-05-21"
+    "birthdate": "1995-05-21",
+    "address": {
+      "street": "88 Growth St",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "73301",
+      "country": "USA"
+    }
   },
   {
     "id": "r51",
@@ -660,7 +1010,14 @@
     "job": "CRM Specialist",
     "salary": 72000,
     "age": 28,
-    "birthdate": "1997-09-03"
+    "birthdate": "1997-09-03",
+    "address": {
+      "street": "121 King St",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5H 3T9",
+      "country": "Canada"
+    }
   },
   {
     "id": "r52",
@@ -673,7 +1030,14 @@
     "job": "UX Researcher",
     "salary": 90000,
     "age": 29,
-    "birthdate": "1996-11-02"
+    "birthdate": "1996-11-02",
+    "address": {
+      "street": "77 Giralda Ave",
+      "city": "Coral Gables",
+      "state": "FL",
+      "zip": "33134",
+      "country": "USA"
+    }
   },
   {
     "id": "r53",
@@ -686,7 +1050,14 @@
     "job": "Partner Engineer",
     "salary": 99000,
     "age": 37,
-    "birthdate": "1988-08-08"
+    "birthdate": "1988-08-08",
+    "address": {
+      "street": "10 Partner Ln",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94107",
+      "country": "USA"
+    }
   },
   {
     "id": "r54",
@@ -699,7 +1070,14 @@
     "job": "Instructional Designer",
     "salary": 71000,
     "age": 32,
-    "birthdate": "1993-01-16"
+    "birthdate": "1993-01-16",
+    "address": {
+      "street": "88 Learning Blvd",
+      "city": "Minneapolis",
+      "state": "MN",
+      "zip": "55402",
+      "country": "USA"
+    }
   },
   {
     "id": "r55",
@@ -712,7 +1090,14 @@
     "job": "Systems Analyst",
     "salary": 88000,
     "age": 36,
-    "birthdate": "1989-10-28"
+    "birthdate": "1989-10-28",
+    "address": {
+      "street": "300 Systems Ave",
+      "city": "Atlanta",
+      "state": "GA",
+      "zip": "30303",
+      "country": "USA"
+    }
   },
   {
     "id": "r56",
@@ -725,7 +1110,14 @@
     "job": "Procurement Specialist",
     "salary": 73000,
     "age": 41,
-    "birthdate": "1984-04-04"
+    "birthdate": "1984-04-04",
+    "address": {
+      "street": "20 Procurement Rd",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33130",
+      "country": "USA"
+    }
   },
   {
     "id": "r57",
@@ -738,7 +1130,14 @@
     "job": "Hardware Engineer",
     "salary": 98000,
     "age": 38,
-    "birthdate": "1987-05-14"
+    "birthdate": "1987-05-14",
+    "address": {
+      "street": "400 Component St",
+      "city": "San Jose",
+      "state": "CA",
+      "zip": "95112",
+      "country": "USA"
+    }
   },
   {
     "id": "r58",
@@ -751,7 +1150,14 @@
     "job": "Localization Lead",
     "salary": 82000,
     "age": 36,
-    "birthdate": "1989-06-20"
+    "birthdate": "1989-06-20",
+    "address": {
+      "street": "12 Rue Lafayette",
+      "city": "Lyon",
+      "state": "",
+      "zip": "69001",
+      "country": "France"
+    }
   },
   {
     "id": "r59",
@@ -764,7 +1170,14 @@
     "job": "Subscription Manager",
     "salary": 77000,
     "age": 35,
-    "birthdate": "1990-09-29"
+    "birthdate": "1990-09-29",
+    "address": {
+      "street": "50 Subscription Way",
+      "city": "Madrid",
+      "state": "",
+      "zip": "28013",
+      "country": "Spain"
+    }
   },
   {
     "id": "r60",
@@ -777,7 +1190,14 @@
     "job": "Analyst Intern",
     "salary": 42000,
     "age": 22,
-    "birthdate": "2003-04-18"
+    "birthdate": "2003-04-18",
+    "address": {
+      "street": "10 College St",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5S 1A1",
+      "country": "Canada"
+    }
   },
   {
     "id": "r61",
@@ -790,7 +1210,14 @@
     "job": "Technical Program Manager",
     "salary": 125000,
     "age": 39,
-    "birthdate": "1986-12-07"
+    "birthdate": "1986-12-07",
+    "address": {
+      "street": "100 Program Ave",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94107",
+      "country": "USA"
+    }
   },
   {
     "id": "r62",
@@ -803,7 +1230,14 @@
     "job": "Executive Assistant",
     "salary": 68000,
     "age": 34,
-    "birthdate": "1991-11-08"
+    "birthdate": "1991-11-08",
+    "address": {
+      "street": "20 Executive Dr",
+      "city": "Dallas",
+      "state": "TX",
+      "zip": "75201",
+      "country": "USA"
+    }
   },
   {
     "id": "r63",
@@ -816,7 +1250,14 @@
     "job": "Account Executive",
     "salary": 94000,
     "age": 31,
-    "birthdate": "1994-03-23"
+    "birthdate": "1994-03-23",
+    "address": {
+      "street": "300 Commerce St",
+      "city": "Dallas",
+      "state": "TX",
+      "zip": "75201",
+      "country": "USA"
+    }
   },
   {
     "id": "r64",
@@ -829,7 +1270,14 @@
     "job": "Partnerships",
     "salary": 88000,
     "age": 30,
-    "birthdate": "1995-06-02"
+    "birthdate": "1995-06-02",
+    "address": {
+      "street": "400 Partnership Rd",
+      "city": "London",
+      "state": "",
+      "zip": "SW1A 1AA",
+      "country": "UK"
+    }
   },
   {
     "id": "r65",
@@ -842,7 +1290,14 @@
     "job": "Analytics Engineer",
     "salary": 98000,
     "age": 32,
-    "birthdate": "1993-02-11"
+    "birthdate": "1993-02-11",
+    "address": {
+      "street": "18 Analytics Ave",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "country": "USA"
+    }
   },
   {
     "id": "r66",
@@ -855,7 +1310,14 @@
     "job": "Engineering Manager",
     "salary": 150000,
     "age": 40,
-    "birthdate": "1985-05-29"
+    "birthdate": "1985-05-29",
+    "address": {
+      "street": "1 Manager Way",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94107",
+      "country": "USA"
+    }
   },
   {
     "id": "r67",
@@ -868,7 +1330,14 @@
     "job": "Chief Technology Officer",
     "salary": 220000,
     "age": 48,
-    "birthdate": "1977-09-10"
+    "birthdate": "1977-09-10",
+    "address": {
+      "street": "10 Executive Pkwy",
+      "city": "San Jose",
+      "state": "CA",
+      "zip": "95134",
+      "country": "USA"
+    }
   },
   {
     "id": "r68",
@@ -881,7 +1350,14 @@
     "job": "Community Manager",
     "salary": 64000,
     "age": 29,
-    "birthdate": "1996-12-20"
+    "birthdate": "1996-12-20",
+    "address": {
+      "street": "5 Community Ln",
+      "city": "Singapore",
+      "state": "",
+      "zip": "048582",
+      "country": "Singapore"
+    }
   },
   {
     "id": "r69",
@@ -894,7 +1370,14 @@
     "job": "Field Engineer",
     "salary": 79000,
     "age": 33,
-    "birthdate": "1992-07-01"
+    "birthdate": "1992-07-01",
+    "address": {
+      "street": "88 Field Rd",
+      "city": "Denver",
+      "state": "CO",
+      "zip": "80202",
+      "country": "USA"
+    }
   },
   {
     "id": "r70",
@@ -907,7 +1390,14 @@
     "job": "Localization Engineer",
     "salary": 81000,
     "age": 35,
-    "birthdate": "1990-10-05"
+    "birthdate": "1990-10-05",
+    "address": {
+      "street": "12 International Rd",
+      "city": "Moscow",
+      "state": "",
+      "zip": "101000",
+      "country": "Russia"
+    }
   },
   {
     "id": "r71",
@@ -920,7 +1410,14 @@
     "job": "Installer",
     "salary": 58000,
     "age": 27,
-    "birthdate": "1998-11-27"
+    "birthdate": "1998-11-27",
+    "address": {
+      "street": "14 Industrial Rd",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209",
+      "country": "USA"
+    }
   },
   {
     "id": "r72",
@@ -933,7 +1430,14 @@
     "job": "Community Ops",
     "salary": 67000,
     "age": 31,
-    "birthdate": "1994-03-04"
+    "birthdate": "1994-03-04",
+    "address": {
+      "street": "88 Community Row",
+      "city": "Bangalore",
+      "state": "KA",
+      "zip": "560001",
+      "country": "India"
+    }
   },
   {
     "id": "r73",
@@ -946,7 +1450,14 @@
     "job": "Hardware Technician",
     "salary": 61000,
     "age": 34,
-    "birthdate": "1991-06-16"
+    "birthdate": "1991-06-16",
+    "address": {
+      "street": "22 Tech Park",
+      "city": "Tel Aviv",
+      "state": "",
+      "zip": "61500",
+      "country": "Israel"
+    }
   },
   {
     "id": "r74",
@@ -959,7 +1470,14 @@
     "job": "Talent Lead",
     "salary": 98000,
     "age": 38,
-    "birthdate": "1987-04-29"
+    "birthdate": "1987-04-29",
+    "address": {
+      "street": "310 Talent Ave",
+      "city": "Dublin",
+      "state": "",
+      "zip": "D02",
+      "country": "Ireland"
+    }
   },
   {
     "id": "r75",
@@ -972,7 +1490,14 @@
     "job": "Business Development",
     "salary": 92000,
     "age": 39,
-    "birthdate": "1986-02-18"
+    "birthdate": "1986-02-18",
+    "address": {
+      "street": "77 Growth Blvd",
+      "city": "Melbourne",
+      "state": "VIC",
+      "zip": "3000",
+      "country": "Australia"
+    }
   },
   {
     "id": "r76",
@@ -985,7 +1510,14 @@
     "job": "Office Coordinator",
     "salary": 59000,
     "age": 26,
-    "birthdate": "1999-08-12"
+    "birthdate": "1999-08-12",
+    "address": {
+      "street": "9 Office Park",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6B 1A1",
+      "country": "Canada"
+    }
   },
   {
     "id": "r77",
@@ -998,7 +1530,14 @@
     "job": "Controls Engineer",
     "salary": 87000,
     "age": 33,
-    "birthdate": "1992-01-05"
+    "birthdate": "1992-01-05",
+    "address": {
+      "street": "50 Controls Way",
+      "city": "Berlin",
+      "state": "",
+      "zip": "10115",
+      "country": "Germany"
+    }
   },
   {
     "id": "r78",
@@ -1011,7 +1550,14 @@
     "job": "Learning & Development",
     "salary": 71000,
     "age": 35,
-    "birthdate": "1990-10-30"
+    "birthdate": "1990-10-30",
+    "address": {
+      "street": "22 Learning Ln",
+      "city": "Auckland",
+      "state": "",
+      "zip": "1010",
+      "country": "New Zealand"
+    }
   },
   {
     "id": "r79",
@@ -1024,7 +1570,14 @@
     "job": "Solutions Consultant",
     "salary": 99000,
     "age": 36,
-    "birthdate": "1989-03-02"
+    "birthdate": "1989-03-02",
+    "address": {
+      "street": "101 Consultant Ave",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94107",
+      "country": "USA"
+    }
   },
   {
     "id": "r80",
@@ -1037,7 +1590,14 @@
     "job": "Creative Director",
     "salary": 135000,
     "age": 42,
-    "birthdate": "1983-06-25"
+    "birthdate": "1983-06-25",
+    "address": {
+      "street": "9 Creative St",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90015",
+      "country": "USA"
+    }
   },
   {
     "id": "r81",
@@ -1050,7 +1610,14 @@
     "job": "Database Administrator",
     "salary": 98000,
     "age": 41,
-    "birthdate": "1984-11-11"
+    "birthdate": "1984-11-11",
+    "address": {
+      "street": "100 DB St",
+      "city": "Raleigh",
+      "state": "NC",
+      "zip": "27601",
+      "country": "USA"
+    }
   },
   {
     "id": "r82",
@@ -1063,7 +1630,14 @@
     "job": "Research Assistant",
     "salary": 54000,
     "age": 24,
-    "birthdate": "2001-02-14"
+    "birthdate": "2001-02-14",
+    "address": {
+      "street": "12 Research Ct",
+      "city": "Cambridge",
+      "state": "MA",
+      "zip": "02138",
+      "country": "USA"
+    }
   },
   {
     "id": "r83",
@@ -1076,7 +1650,14 @@
     "job": "Quality Analyst",
     "salary": 76000,
     "age": 30,
-    "birthdate": "1995-09-13"
+    "birthdate": "1995-09-13",
+    "address": {
+      "street": "300 Quality St",
+      "city": "Columbus",
+      "state": "OH",
+      "zip": "43215",
+      "country": "USA"
+    }
   },
   {
     "id": "r84",
@@ -1089,7 +1670,14 @@
     "job": "Content Editor",
     "salary": 67000,
     "age": 29,
-    "birthdate": "1996-04-11"
+    "birthdate": "1996-04-11",
+    "address": {
+      "street": "22 Editorial Ln",
+      "city": "Boston",
+      "state": "MA",
+      "zip": "02116",
+      "country": "USA"
+    }
   },
   {
     "id": "r85",
@@ -1102,7 +1690,14 @@
     "job": "Estimator",
     "salary": 76000,
     "age": 45,
-    "birthdate": "1980-05-06"
+    "birthdate": "1980-05-06",
+    "address": {
+      "street": "88 Estimate Dr",
+      "city": "Houston",
+      "state": "TX",
+      "zip": "77002",
+      "country": "USA"
+    }
   },
   {
     "id": "r86",
@@ -1115,7 +1710,14 @@
     "job": "AI Ethicist",
     "salary": 125000,
     "age": 38,
-    "birthdate": "1987-12-01"
+    "birthdate": "1987-12-01",
+    "address": {
+      "street": "7 Ethics Way",
+      "city": "Kyoto",
+      "state": "",
+      "zip": "600-8001",
+      "country": "Japan"
+    }
   },
   {
     "id": "r87",
@@ -1128,7 +1730,14 @@
     "job": "Technical Lead",
     "salary": 140000,
     "age": 37,
-    "birthdate": "1988-08-18"
+    "birthdate": "1988-08-18",
+    "address": {
+      "street": "42 Lead St",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98101",
+      "country": "USA"
+    }
   },
   {
     "id": "r88",
@@ -1141,7 +1750,14 @@
     "job": "Brand Strategist",
     "salary": 94000,
     "age": 34,
-    "birthdate": "1991-09-27"
+    "birthdate": "1991-09-27",
+    "address": {
+      "street": "88 Brand Rd",
+      "city": "Seoul",
+      "state": "",
+      "zip": "04524",
+      "country": "South Korea"
+    }
   },
   {
     "id": "r89",
@@ -1154,7 +1770,14 @@
     "job": "Field Sales",
     "salary": 65000,
     "age": 29,
-    "birthdate": "1996-06-06"
+    "birthdate": "1996-06-06",
+    "address": {
+      "street": "101 Sales Blvd",
+      "city": "San Diego",
+      "state": "CA",
+      "zip": "92101",
+      "country": "USA"
+    }
   },
   {
     "id": "r90",
@@ -1167,7 +1790,14 @@
     "job": "Program Manager",
     "salary": 118000,
     "age": 36,
-    "birthdate": "1989-05-17"
+    "birthdate": "1989-05-17",
+    "address": {
+      "street": "200 Program Rd",
+      "city": "Raleigh",
+      "state": "NC",
+      "zip": "27601",
+      "country": "USA"
+    }
   },
   {
     "id": "r91",
@@ -1180,7 +1810,14 @@
     "job": "Release Manager",
     "salary": 95000,
     "age": 37,
-    "birthdate": "1988-02-02"
+    "birthdate": "1988-02-02",
+    "address": {
+      "street": "17 Release Ln",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "73301",
+      "country": "USA"
+    }
   },
   {
     "id": "r92",
@@ -1193,7 +1830,14 @@
     "job": "Compliance Officer",
     "salary": 99000,
     "age": 39,
-    "birthdate": "1986-07-14"
+    "birthdate": "1986-07-14",
+    "address": {
+      "street": "10 Compliance St",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60601",
+      "country": "USA"
+    }
   },
   {
     "id": "r93",
@@ -1206,7 +1850,14 @@
     "job": "Estimator",
     "salary": 77000,
     "age": 34,
-    "birthdate": "1991-10-10"
+    "birthdate": "1991-10-10",
+    "address": {
+      "street": "88 Estimate Ave",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zip": "85004",
+      "country": "USA"
+    }
   },
   {
     "id": "r94",
@@ -1219,7 +1870,14 @@
     "job": "Onboarding Specialist",
     "salary": 69000,
     "age": 28,
-    "birthdate": "1997-12-21"
+    "birthdate": "1997-12-21",
+    "address": {
+      "street": "12 Onboard Rd",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94103",
+      "country": "USA"
+    }
   },
   {
     "id": "r95",
@@ -1232,7 +1890,14 @@
     "job": "Estimator",
     "salary": 74000,
     "age": 35,
-    "birthdate": "1990-08-08"
+    "birthdate": "1990-08-08",
+    "address": {
+      "street": "44 Estimate Blvd",
+      "city": "Orlando",
+      "state": "FL",
+      "zip": "32801",
+      "country": "USA"
+    }
   },
   {
     "id": "r96",
@@ -1245,7 +1910,14 @@
     "job": "Customer Research",
     "salary": 76000,
     "age": 31,
-    "birthdate": "1994-01-02"
+    "birthdate": "1994-01-02",
+    "address": {
+      "street": "10 Research Park",
+      "city": "Mumbai",
+      "state": "MH",
+      "zip": "400001",
+      "country": "India"
+    }
   },
   {
     "id": "r97",
@@ -1258,7 +1930,14 @@
     "job": "Field Operations",
     "salary": 71000,
     "age": 33,
-    "birthdate": "1992-04-04"
+    "birthdate": "1992-04-04",
+    "address": {
+      "street": "22 Operations Dr",
+      "city": "Karachi",
+      "state": "",
+      "zip": "74000",
+      "country": "Pakistan"
+    }
   },
   {
     "id": "r98",
@@ -1271,7 +1950,14 @@
     "job": "Editor",
     "salary": 66000,
     "age": 29,
-    "birthdate": "1996-02-02"
+    "birthdate": "1996-02-02",
+    "address": {
+      "street": "10 Editor St",
+      "city": "Hong Kong",
+      "state": "",
+      "zip": "999077",
+      "country": "China"
+    }
   },
   {
     "id": "r99",
@@ -1284,7 +1970,14 @@
     "job": "Chief Operating Officer",
     "salary": 210000,
     "age": 51,
-    "birthdate": "1974-09-09"
+    "birthdate": "1974-09-09",
+    "address": {
+      "street": "1 Executive Plaza",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001",
+      "country": "USA"
+    }
   },
   {
     "id": "r100",
@@ -1297,6 +1990,13 @@
     "job": "Founder",
     "salary": 0,
     "age": 47,
-    "birthdate": "1978-01-01"
+    "birthdate": "1978-01-01",
+    "address": {
+      "street": "500 Founder Ln",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94107",
+      "country": "USA"
+    }
   }
 ]
