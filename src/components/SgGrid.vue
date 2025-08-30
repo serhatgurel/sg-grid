@@ -36,8 +36,8 @@ const slots = useSlots()
 const declaredColumns = computed<ColumnDef[]>(() => {
   const nodes = slots.default ? slots.default() : []
   const cols: ColumnDef[] = []
-  for (const vnode of nodes) {
-    const p = vnode.props || {}
+  for (const vNode of nodes) {
+    const p = vNode.props || {}
     const field = p.dataField ?? p['data-field'] ?? p.field
     if (!field) continue
     const key = p.key ?? field
