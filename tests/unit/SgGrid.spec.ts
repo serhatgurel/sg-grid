@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { reactive, nextTick } from 'vue'
 import SgGrid from '../../src/components/SgGrid.vue'
 
 // Skeleton tests for SgGrid — TODOs only. Implementations intentionally omitted.
@@ -144,6 +145,64 @@ describe('SgGrid.vue', () => {
       const texts = tds.map((td) => td.text())
       expect(texts).toEqual([String(data[idx].id), String(data[idx].name), String(data[idx].age)])
     })
+  })
+
+  // Data and reactivity
+  test('mutating the same rows array/object updates the rendered grid (in-place reactivity)', async () => {
+    const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
+    const rows = reactive([{ id: 1, name: 'Start' }])
+
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows, rowKey: 'id' } })
+
+    // initial render
+    const cell = wrapper.get('tbody tr td')
+    expect(cell.text()).toBe('Start')
+
+    // mutate the same object in-place and ensure update is observed
+    rows[0].name = 'Changed'
+    await nextTick()
+    expect(wrapper.get('tbody tr td').text()).toBe('Changed')
+  })
+
+  test('replacing the rows array via setProps updates the grid (new reference re-render)', async () => {
+    const cols = [
+      { key: 'c1', field: 'id', caption: 'ID' },
+      { key: 'c2', field: 'name', caption: 'Name' },
+    ]
+    const data = [{ id: 1, name: 'One' }]
+
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows: data, rowKey: 'id' } })
+    expect(wrapper.findAll('tbody tr').length).toBe(1)
+    expect(
+      wrapper
+        .findAll('tbody tr')[0]
+        .findAll('td')
+        .map((td) => td.text()),
+    ).toEqual(['1', 'One'])
+
+    // replace the rows array reference
+    await wrapper.setProps({ rows: [{ id: 2, name: 'Two' }] })
+    await nextTick()
+    expect(wrapper.findAll('tbody tr').length).toBe(1)
+    expect(
+      wrapper
+        .findAll('tbody tr')[0]
+        .findAll('td')
+        .map((td) => td.text()),
+    ).toEqual(['2', 'Two'])
+  })
+
+  test('handles empty rows gracefully (renders empty body or placeholder)', async () => {
+    const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
+    const data = [{ id: 1, name: 'Solo' }]
+
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows: data, rowKey: 'id' } })
+    expect(wrapper.findAll('tbody tr').length).toBe(1)
+
+    // clear rows via setProps
+    await wrapper.setProps({ rows: [] })
+    await nextTick()
+    expect(wrapper.findAll('tbody tr').length).toBe(0)
   })
 
   // Data and reactivity
