@@ -1,5 +1,5 @@
 <template>
-  <td class="sg-cell">
+  <td class="sg-cell" :style="cellStyle">
     <slot v-bind="slotProps">{{ defaultDisplay }}</slot>
   </td>
 </template>
@@ -14,6 +14,8 @@ const props = defineProps({
   dataRow: { type: Object as () => Record<string, unknown> | undefined },
   id: { type: String },
   caption: { type: String },
+  width: { type: [String, Number] as PropType<string | number> },
+  align: { type: String as PropType<'left' | 'center' | 'right'> },
   value: { type: null as unknown as PropType<unknown> },
 })
 
@@ -36,6 +38,8 @@ const columnData = computed(() => ({
   value: resolvedValue.value,
   dataRow: props.dataRow,
   dataField: props.dataField,
+  width: props.width,
+  align: props.align,
 }))
 
 const slotProps = computed(() => ({
@@ -50,6 +54,14 @@ const defaultDisplay = computed(() => {
   const v = columnData.value?.value ?? resolvedValue.value
   if (v === undefined || v === null) return ''
   return String(v)
+})
+
+const cellStyle = computed(() => {
+  const s: Record<string, string> = {}
+  if (props.width !== undefined && props.width !== null)
+    s.width = typeof props.width === 'number' ? `${props.width}px` : String(props.width)
+  if (props.align) s.textAlign = props.align
+  return s
 })
 </script>
 

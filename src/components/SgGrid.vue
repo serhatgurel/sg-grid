@@ -7,7 +7,7 @@
     </caption>
     <thead>
       <tr>
-        <th v-for="column in columns" :key="column.key">
+        <th v-for="column in columns" :key="column.key" :style="columnStyle(column)">
           {{ column.caption ?? column.field }}
         </th>
       </tr>
@@ -20,6 +20,8 @@
           :data-row="row"
           :data-field="column.field"
           :caption="column.caption"
+          :width="column.width"
+          :align="column.align"
         />
       </tr>
     </tbody>
@@ -44,7 +46,10 @@ const declaredColumns = computed<ColumnDef[]>(() => {
     if (!field) continue
     const key = p.key ?? field
     const caption = p.caption ?? String(field)
-    cols.push({ key, field, caption })
+    // try to read width and align from the declared <SgColumn> vnode props
+    const width = p.width ?? p['data-width']
+    const align = p.align
+    cols.push({ key, field, caption, width, align })
   }
   return cols
 })
@@ -72,13 +77,25 @@ const columns = computed<ColumnDef[]>(() => {
             ? maybe.key
             : ''
       const caption = captionFromC ?? String(fieldOrKey)
-      return { ...c, caption }
+      // preserve width/align if provided on the column objects
+      const width = maybe.width as string | number | undefined
+      const align = maybe.align as 'left' | 'center' | 'right' | undefined
+      return { ...c, caption, width, align }
     })
   }
   const declared = declaredColumns.value
   if (declared.length > 0) return declared
   return inferredColumns.value
 })
+
+function columnStyle(col: ColumnDef | undefined) {
+  if (!col) return undefined
+  const style: Record<string, string> = {}
+  if (col.width !== undefined && col.width !== null)
+    style.width = typeof col.width === 'number' ? `${col.width}px` : String(col.width)
+  if (col.align) style.textAlign = col.align
+  return style
+}
 
 function getRowKey(row: RowData) {
   if (!props.rowKey) return JSON.stringify(row)
