@@ -1,0 +1,1274 @@
+[
+  {
+    "id": "r1",
+    "title": "Dr.",
+    "gender": "F",
+    "firstName": "Deontae",
+    "lastName": "Lind",
+    "nickname": "Verdie.Adams",
+    "phone": [
+      {
+        "number": "1-731-670-4952",
+        "type": "home"
+      }
+    ],
+    "age": 50,
+    "birthdate": "1992-09-05",
+    "married": "single",
+    "spouse": "",
+    "address": [
+      {
+        "street": "1822 Hansen Knoll",
+        "city": "Port Roycechester",
+        "state": "Colorado",
+        "zip": "94979-9162",
+        "country": {
+          "code": "CZ",
+          "name": "Bangladesh",
+          "id": "IM"
+        },
+        "type": "office"
+      },
+      {
+        "street": "5264 Hoppe Lane",
+        "city": "Friesenstad",
+        "state": "Michigan",
+        "zip": "01495",
+        "country": {
+          "code": "MN",
+          "name": "Gabon",
+          "id": "CL"
+        },
+        "type": "home"
+      },
+      {
+        "street": "6611 Ritchie Trail",
+        "city": "Hermistonchester",
+        "state": "Washington",
+        "zip": "38400-2192",
+        "country": {
+          "code": "EH",
+          "name": "Ireland",
+          "id": "TK"
+        },
+        "type": "work"
+      }
+    ],
+    "hobbies": [
+      "painting",
+      "manga collecting",
+      "birdwatching",
+      "esports",
+      "music"
+    ],
+    "credit-card": "50209781421257461",
+    "kids": [
+      {
+        "name": "Theresia",
+        "age": 14
+      }
+    ],
+    "socialProfiles": [],
+    "favoriteFoods": [
+      "stroopwafel",
+      "maple syrup"
+    ],
+    "skills": [
+      "education consulting",
+      "finance"
+    ],
+    "languages": [
+      "Italian",
+      "French"
+    ],
+    "pets": [
+      {
+        "type": "cat",
+        "name": "Melisa",
+        "age": 14
+      },
+      {
+        "type": "rabbit",
+        "name": "Christine",
+        "age": 7
+      }
+    ],
+    "education": [
+      {
+        "degree": "MArch",
+        "field": "Photography",
+        "institution": "Wisozk - Klocko",
+        "year": 1993
+      }
+    ],
+    "certifications": [],
+    "memberships": [],
+    "personalityType": "INTJ",
+    "emergencyContacts": [
+      {
+        "name": "Hazel Schmidt",
+        "relation": "friend",
+        "phone": "(242) 345-1681"
+      }
+    ],
+    "email": "Deontae36@gmail.com",
+    "job": "Investor Brand Director",
+    "salary": 123066
+  },
+  {
+    "id": "r2",
+    "title": "Ms.",
+    "gender": "O",
+    "firstName": "Viva",
+    "lastName": "Tromp",
+    "middleName": "Talia",
+    "phone": [
+      {
+        "number": "971.729.0562 x3428",
+        "type": "work"
+      }
+    ],
+    "age": 24,
+    "birthdate": "1946-10-10",
+    "married": "single",
+    "spouse": "",
+    "address": [
+      {
+        "street": "5975 Olson Camp",
+        "city": "Watershaven",
+        "state": "Illinois",
+        "zip": "02388",
+        "country": {
+          "code": "IE",
+          "name": "Cyprus",
+          "id": "FM"
+        },
+        "type": "office"
+      },
+      {
+        "street": "428 Magdalena Brooks",
+        "city": "La Mesa",
+        "state": "Virginia",
+        "zip": "67183",
+        "country": {
+          "code": "AZ",
+          "name": "Nigeria",
+          "id": "SM"
+        },
+        "type": "home"
+      },
+      {
+        "street": "622 Gerlach Ferry",
+        "city": "Port Emeraldbury",
+        "state": "Missouri",
+        "zip": "62228-5494",
+        "country": {
+          "code": "CD",
+          "name": "Reunion",
+          "id": "SB"
+        },
+        "type": "vacation"
+      }
+    ],
+    "hobbies": [
+      "conservation",
+      "retro gaming",
+      "traveling",
+      "design blogging",
+      "dancing",
+      "football"
+    ],
+    "credit-card": "589318936133403378",
+    "kids": [],
+    "socialProfiles": [
+      {
+        "platform": "VK",
+        "handle": "Mable35"
+      }
+    ],
+    "favoriteFoods": [
+      "kebap",
+      "hummus"
+    ],
+    "skills": [
+      "project management",
+      "school management",
+      "finance",
+      "healthcare administration"
+    ],
+    "languages": [
+      "French",
+      "Italian"
+    ],
+    "pets": [
+      {
+        "type": "fish",
+        "name": "Johnpaul",
+        "age": 3
+      },
+      {
+        "type": "fish",
+        "name": "Mariano",
+        "age": 2
+      }
+    ],
+    "education": [],
+    "certifications": [
+      "Adobe Photoshop"
+    ],
+    "memberships": [
+      "Egyptian Educators Association"
+    ],
+    "personalityType": "INTJ",
+    "emergencyContacts": [
+      {
+        "name": "Virgil Hammes V",
+        "relation": "father",
+        "phone": "725-578-5741"
+      }
+    ],
+    "email": "Viva.Tromp@hotmail.com",
+    "job": "Principal Metrics Consultant",
+    "salary": 42525
+  },
+  {
+    "id": "r3",
+    "title": "Miss",
+    "gender": "M",
+    "firstName": "Kirstin",
+    "lastName": "Watsica",
+    "middleName": "Kellen",
+    "phone": [
+      {
+        "number": "1-909-906-9514 x480",
+        "type": "work"
+      }
+    ],
+    "age": 32,
+    "birthdate": "1983-09-28",
+    "married": "married",
+    "spouse": "Juana Steuber I",
+    "address": [
+      {
+        "street": "586 Jade Summit",
+        "city": "Sunrise Manor",
+        "state": "South Carolina",
+        "zip": "41129",
+        "country": {
+          "code": "GL",
+          "name": "Samoa",
+          "id": "MX"
+        },
+        "type": "vacation"
+      },
+      {
+        "street": "8497 Roslyn Stravenue",
+        "city": "Spring",
+        "state": "Wyoming",
+        "zip": "61005",
+        "country": {
+          "code": "EC",
+          "name": "Niue",
+          "id": "AF"
+        },
+        "type": "work"
+      }
+    ],
+    "hobbies": [
+      "urban sketching",
+      "diving",
+      "dancing",
+      "beer brewing",
+      "music",
+      "esports",
+      "winemaking",
+      "design blogging",
+      "crafting",
+      "painting"
+    ],
+    "credit-card": "6759-1015-4240-7267",
+    "kids": [
+      {
+        "name": "Riley",
+        "age": 22
+      },
+      {
+        "name": "Norwood",
+        "age": 14
+      }
+    ],
+    "socialProfiles": [
+      {
+        "platform": "VK",
+        "handle": "Gordon_Schuster"
+      },
+      {
+        "platform": "LinkedIn",
+        "handle": "Josh54"
+      }
+    ],
+    "favoriteFoods": [
+      "ceviche",
+      "stroopwafel",
+      "sushi"
+    ],
+    "skills": [
+      "editing"
+    ],
+    "languages": [
+      "Arabic",
+      "Italian"
+    ],
+    "pets": [],
+    "education": [
+      {
+        "degree": "MArch",
+        "field": "Interior Design",
+        "institution": "Collier, Hoeger and Windler",
+        "year": 2005
+      }
+    ],
+    "certifications": [
+      "Unity Certified Producer"
+    ],
+    "memberships": [],
+    "personalityType": "ISTJ",
+    "emergencyContacts": [
+      {
+        "name": "Mable Lueilwitz",
+        "relation": "partner",
+        "phone": "1-714-479-2923 x46005"
+      },
+      {
+        "name": "Howard Cummerata",
+        "relation": "wife",
+        "phone": "(213) 351-5364 x06832"
+      }
+    ],
+    "email": "Kirstin88@yahoo.com",
+    "job": "Regional Directives Agent",
+    "salary": 90882
+  },
+  {
+    "id": "r4",
+    "title": "Dr.",
+    "gender": "O",
+    "firstName": "Amina",
+    "lastName": "West",
+    "phone": [
+      {
+        "number": "1-697-731-5794",
+        "type": "mobile"
+      },
+      {
+        "number": "1-367-593-7568",
+        "type": "work"
+      }
+    ],
+    "age": 24,
+    "birthdate": "1965-05-05",
+    "married": "married",
+    "spouse": "",
+    "address": [
+      {
+        "street": "13864 Dimitri Corner",
+        "city": "Mckennafurt",
+        "state": "West Virginia",
+        "zip": "71507",
+        "country": {
+          "code": "BY",
+          "name": "New Caledonia",
+          "id": "BB"
+        },
+        "type": "office"
+      }
+    ],
+    "hobbies": [
+      "swimming",
+      "music",
+      "birdwatching",
+      "crafting"
+    ],
+    "credit-card": "3465-148439-99698",
+    "kids": [
+      {
+        "name": "Elouise",
+        "age": 3
+      },
+      {
+        "name": "Bettye",
+        "age": 3
+      },
+      {
+        "name": "Elton",
+        "age": 21
+      },
+      {
+        "name": "Judah",
+        "age": 11
+      },
+      {
+        "name": "Hanna",
+        "age": 11
+      }
+    ],
+    "socialProfiles": [
+      {
+        "platform": "Instagram",
+        "handle": "Maiya82"
+      },
+      {
+        "platform": "LinkedIn",
+        "handle": "Ines70"
+      }
+    ],
+    "favoriteFoods": [
+      "sauerkraut",
+      "bibimbap",
+      "braai",
+      "soda bread",
+      "maple syrup"
+    ],
+    "skills": [
+      "healthcare administration",
+      "quantitative analysis"
+    ],
+    "languages": [
+      "Arabic",
+      "Spanish",
+      "Japanese"
+    ],
+    "pets": [
+      {
+        "type": "turtle",
+        "name": "Alden",
+        "age": 5
+      }
+    ],
+    "education": [
+      {
+        "degree": "MArch",
+        "field": "Urban Planning",
+        "institution": "Leannon, Daugherty and Hermann",
+        "year": 2014
+      },
+      {
+        "degree": "MArch",
+        "field": "Education",
+        "institution": "Murphy, Kuphal and Toy",
+        "year": 1981
+      }
+    ],
+    "certifications": [
+      "Solar Energy"
+    ],
+    "memberships": [
+      "Dutch Engineers Association",
+      "Japan Game Developers Association"
+    ],
+    "personalityType": "ENFP",
+    "emergencyContacts": [
+      {
+        "name": "Mr. Nick Hegmann",
+        "relation": "father",
+        "phone": "(398) 498-0849"
+      },
+      {
+        "name": "Phillip Hansen",
+        "relation": "parent",
+        "phone": "1-412-716-4611 x2085"
+      }
+    ],
+    "email": "Amina.West@gmail.com",
+    "job": "Corporate Security Designer",
+    "salary": 93423
+  },
+  {
+    "id": "r5",
+    "title": "Mrs.",
+    "gender": "F",
+    "firstName": "Esteban",
+    "lastName": "Kihn",
+    "middleName": "Horace",
+    "nickname": "Salvador_Howell60",
+    "phone": [
+      {
+        "number": "600-847-3386",
+        "type": "mobile"
+      }
+    ],
+    "age": 47,
+    "birthdate": "1967-04-24",
+    "married": "defacto",
+    "spouse": "",
+    "address": [
+      {
+        "street": "6853 Hilario Ports",
+        "city": "Velvafurt",
+        "state": "Connecticut",
+        "zip": "63375",
+        "country": {
+          "code": "GT",
+          "name": "Micronesia",
+          "id": "RU"
+        },
+        "type": "home"
+      },
+      {
+        "street": "146 Crooks Inlet",
+        "city": "Lake Nathanialborough",
+        "state": "Connecticut",
+        "zip": "07416",
+        "country": {
+          "code": "UA",
+          "name": "Mali",
+          "id": "CF"
+        },
+        "type": "work"
+      },
+      {
+        "street": "3191 O'Kon Pine",
+        "city": "Colorado Springs",
+        "state": "Utah",
+        "zip": "74865-4719",
+        "country": {
+          "code": "DO",
+          "name": "Sierra Leone",
+          "id": "AQ"
+        },
+        "type": "other"
+      }
+    ],
+    "hobbies": [
+      "crafting",
+      "brewing",
+      "manga collecting",
+      "mountain biking",
+      "retro gaming",
+      "yoga",
+      "education reform",
+      "urban sketching",
+      "diving"
+    ],
+    "credit-card": "6706029145164351",
+    "kids": [
+      {
+        "name": "Dandre",
+        "age": 17
+      },
+      {
+        "name": "Leopold",
+        "age": 10
+      }
+    ],
+    "socialProfiles": [
+      {
+        "platform": "Facebook",
+        "handle": "Consuelo_Thiel"
+      },
+      {
+        "platform": "VK",
+        "handle": "Kay_Jerde"
+      }
+    ],
+    "favoriteFoods": [
+      "koshari",
+      "salad",
+      "ceviche",
+      "shawarma",
+      "curry"
+    ],
+    "skills": [
+      "restoration",
+      "engineering",
+      "quantitative analysis",
+      "school management"
+    ],
+    "languages": [
+      "Dutch",
+      "Japanese",
+      "Zulu"
+    ],
+    "pets": [
+      {
+        "type": "bird",
+        "name": "Arlo",
+        "age": 7
+      }
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "field": "Healthcare",
+        "institution": "Koelpin - Sporer",
+        "year": 2020
+      }
+    ],
+    "certifications": [
+      "Adobe XD"
+    ],
+    "memberships": [],
+    "personalityType": "ISTP",
+    "emergencyContacts": [
+      {
+        "name": "Jeffrey Ratke I",
+        "relation": "child",
+        "phone": "(591) 630-3242 x960"
+      },
+      {
+        "name": "Tina Murazik",
+        "relation": "partner",
+        "phone": "385-329-2208 x1936"
+      }
+    ],
+    "email": "Esteban7@yahoo.com",
+    "job": "District Accounts Director",
+    "salary": 53297
+  },
+  {
+    "id": "r6",
+    "title": "Ms.",
+    "gender": "F",
+    "firstName": "Ramona",
+    "lastName": "Renner",
+    "middleName": "Marjolaine",
+    "phone": [
+      {
+        "number": "537-974-8680",
+        "type": "work"
+      }
+    ],
+    "age": 35,
+    "birthdate": "2001-09-09",
+    "married": "married",
+    "spouse": "",
+    "address": [
+      {
+        "street": "3008 Ziemann Pass",
+        "city": "Antoinettehaven",
+        "state": "Rhode Island",
+        "zip": "98995",
+        "country": {
+          "code": "AX",
+          "name": "Serbia",
+          "id": "MA"
+        },
+        "type": "office"
+      }
+    ],
+    "hobbies": [
+      "beer brewing",
+      "ceramics",
+      "street photography",
+      "retro gaming",
+      "winemaking",
+      "yoga",
+      "photography",
+      "diving"
+    ],
+    "credit-card": "5893-5865-4751-9687",
+    "kids": [
+      {
+        "name": "Jaden",
+        "age": 21
+      },
+      {
+        "name": "Norbert",
+        "age": 2
+      },
+      {
+        "name": "Lester",
+        "age": 2
+      }
+    ],
+    "socialProfiles": [],
+    "favoriteFoods": [
+      "duck",
+      "asado",
+      "fish",
+      "pretzel",
+      "stroopwafel"
+    ],
+    "skills": [
+      "interior design",
+      "UX research",
+      "engineering",
+      "JavaScript",
+      "research"
+    ],
+    "languages": [
+      "English",
+      "Russian"
+    ],
+    "pets": [
+      {
+        "type": "bird",
+        "name": "Dawson",
+        "age": 11
+      },
+      {
+        "type": "cat",
+        "name": "Carlos",
+        "age": 14
+      }
+    ],
+    "education": [
+      {
+        "degree": "BS",
+        "field": "Interior Design",
+        "institution": "Murray Group",
+        "year": 1992
+      },
+      {
+        "degree": "MSc",
+        "field": "Sustainability",
+        "institution": "Kuhn and Sons",
+        "year": 2002
+      }
+    ],
+    "certifications": [
+      "Adobe XD",
+      "Adobe Photoshop"
+    ],
+    "memberships": [
+      "Chilean Marine Biologists Association",
+      "Italian Winemakers Association"
+    ],
+    "personalityType": "ENFP",
+    "emergencyContacts": [
+      {
+        "name": "Bryant Bogan",
+        "relation": "father",
+        "phone": "593-698-2612 x7605"
+      },
+      {
+        "name": "Victor Emard",
+        "relation": "mother",
+        "phone": "734.943.7465 x7308"
+      }
+    ],
+    "email": "Ramona.Renner66@gmail.com",
+    "job": "National Intranet Planner",
+    "salary": 170775
+  },
+  {
+    "id": "r7",
+    "title": "Dr.",
+    "gender": "O",
+    "firstName": "Clifton",
+    "lastName": "Armstrong",
+    "middleName": "Ivah",
+    "phone": [
+      {
+        "number": "403.383.5647 x1014",
+        "type": "home"
+      },
+      {
+        "number": "1-736-394-6642 x156",
+        "type": "office"
+      }
+    ],
+    "age": 51,
+    "birthdate": "1970-05-29",
+    "married": "defacto",
+    "spouse": "Brendan Lehner",
+    "address": [
+      {
+        "street": "5952 Prosacco Throughway",
+        "city": "Evansville",
+        "state": "North Dakota",
+        "zip": "49820",
+        "country": {
+          "code": "MX",
+          "name": "Antigua and Barbuda",
+          "id": "MG"
+        },
+        "type": "vacation"
+      },
+      {
+        "street": "338 Willms Ford",
+        "city": "Jaedenton",
+        "state": "South Dakota",
+        "zip": "14943",
+        "country": {
+          "code": "NO",
+          "name": "Cambodia",
+          "id": "BT"
+        },
+        "type": "other"
+      },
+      {
+        "street": "611 Strosin Stravenue",
+        "city": "East Elwin",
+        "state": "New Mexico",
+        "zip": "10555",
+        "country": {
+          "code": "MA",
+          "name": "Austria",
+          "id": "AI"
+        },
+        "type": "office"
+      }
+    ],
+    "hobbies": [
+      "landscape photography",
+      "collecting",
+      "crafting",
+      "mountain biking",
+      "hiking",
+      "urban sketching",
+      "sustainability workshops"
+    ],
+    "credit-card": "3528-1942-4069-6108",
+    "kids": [
+      {
+        "name": "Melissa",
+        "age": 9
+      },
+      {
+        "name": "Ima",
+        "age": 5
+      },
+      {
+        "name": "Muhammad",
+        "age": 5
+      },
+      {
+        "name": "Anna",
+        "age": 1
+      }
+    ],
+    "socialProfiles": [
+      {
+        "platform": "VK",
+        "handle": "Casey31"
+      },
+      {
+        "platform": "Instagram",
+        "handle": "Jaren.Ruecker43"
+      }
+    ],
+    "favoriteFoods": [
+      "lamb",
+      "baklava"
+    ],
+    "skills": [
+      "marketing",
+      "UX research"
+    ],
+    "languages": [
+      "Russian",
+      "French",
+      "Irish"
+    ],
+    "pets": [
+      {
+        "type": "bird",
+        "name": "Mohammad",
+        "age": 13
+      }
+    ],
+    "education": [
+      {
+        "degree": "MArch",
+        "field": "Biology",
+        "institution": "Hane Inc",
+        "year": 1999
+      },
+      {
+        "degree": "PhD",
+        "field": "Sustainability",
+        "institution": "Walter, Hirthe and Satterfield",
+        "year": 1997
+      }
+    ],
+    "certifications": [],
+    "memberships": [
+      "Chilean Marine Biologists Association",
+      "South African Healthcare Association"
+    ],
+    "personalityType": "ISFJ",
+    "emergencyContacts": [
+      {
+        "name": "Danny McDermott",
+        "relation": "friend",
+        "phone": "(606) 440-2263"
+      },
+      {
+        "name": "Eddie Dietrich",
+        "relation": "mother",
+        "phone": "1-210-606-2768"
+      }
+    ],
+    "email": "Clifton_Armstrong25@gmail.com",
+    "job": "International Tactics Strategist",
+    "salary": 160086
+  },
+  {
+    "id": "r8",
+    "title": "Miss",
+    "gender": "M",
+    "firstName": "Kaitlin",
+    "lastName": "Wuckert",
+    "phone": [
+      {
+        "number": "871-670-7831 x64677",
+        "type": "mobile"
+      }
+    ],
+    "age": 53,
+    "birthdate": "1987-07-15",
+    "married": "defacto",
+    "spouse": "",
+    "address": [
+      {
+        "street": "7762 Liza Route",
+        "city": "Hartford",
+        "state": "Maine",
+        "zip": "06266-0460",
+        "country": {
+          "code": "DM",
+          "name": "Sao Tome and Principe",
+          "id": "MX"
+        },
+        "type": "office"
+      },
+      {
+        "street": "183 Kris Circle",
+        "city": "North Rhea",
+        "state": "North Dakota",
+        "zip": "71945",
+        "country": {
+          "code": "NO",
+          "name": "Bouvet Island (Bouvetoya)",
+          "id": "TF"
+        },
+        "type": "work"
+      },
+      {
+        "street": "0316 Alayna Stream",
+        "city": "Colton",
+        "state": "Nebraska",
+        "zip": "92930-4818",
+        "country": {
+          "code": "GL",
+          "name": "Kenya",
+          "id": "VE"
+        },
+        "type": "vacation"
+      }
+    ],
+    "hobbies": [
+      "conservation",
+      "football"
+    ],
+    "credit-card": "5371-8075-7245-1415",
+    "kids": [
+      {
+        "name": "Theodora",
+        "age": 5
+      },
+      {
+        "name": "Edythe",
+        "age": 23
+      }
+    ],
+    "socialProfiles": [
+      {
+        "platform": "Instagram",
+        "handle": "Brigitte_Kulas"
+      }
+    ],
+    "favoriteFoods": [
+      "sauerkraut",
+      "koshari",
+      "duck",
+      "curry",
+      "pizza"
+    ],
+    "skills": [
+      "JavaScript",
+      "renewable energy",
+      "architecture"
+    ],
+    "languages": [
+      "Portuguese",
+      "Hindi",
+      "Irish"
+    ],
+    "pets": [
+      {
+        "type": "fish",
+        "name": "Jerald",
+        "age": 15
+      },
+      {
+        "type": "cat",
+        "name": "Marley",
+        "age": 3
+      }
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "field": "Interior Design",
+        "institution": "Wisoky, Hayes and Ruecker",
+        "year": 1992
+      },
+      {
+        "degree": "MBA",
+        "field": "Finance",
+        "institution": "Kris, Schmidt and Schumm",
+        "year": 1996
+      }
+    ],
+    "certifications": [],
+    "memberships": [],
+    "personalityType": "INFJ",
+    "emergencyContacts": [
+      {
+        "name": "Miss Walter Walsh",
+        "relation": "husband",
+        "phone": "(655) 573-2853 x450"
+      },
+      {
+        "name": "Dr. Lester Kautzer",
+        "relation": "mother",
+        "phone": "(861) 659-5428 x520"
+      }
+    ],
+    "email": "Kaitlin_Wuckert95@gmail.com",
+    "job": "Chief Web Producer",
+    "salary": 90276
+  },
+  {
+    "id": "r9",
+    "title": "Mrs.",
+    "gender": "M",
+    "firstName": "Richie",
+    "lastName": "Oberbrunner",
+    "nickname": "Bernadine_Olson48",
+    "phone": [
+      {
+        "number": "(644) 329-1693 x8518",
+        "type": "mobile"
+      }
+    ],
+    "age": 40,
+    "birthdate": "1979-10-05",
+    "married": "married",
+    "spouse": "Jamie Romaguera",
+    "address": [
+      {
+        "street": "6067 Okuneva Circle",
+        "city": "Vernicechester",
+        "state": "Utah",
+        "zip": "62606",
+        "country": {
+          "code": "FK",
+          "name": "Finland",
+          "id": "BH"
+        },
+        "type": "office"
+      },
+      {
+        "street": "0307 Schneider Avenue",
+        "city": "Port Simshire",
+        "state": "Louisiana",
+        "zip": "92097-6289",
+        "country": {
+          "code": "IE",
+          "name": "Aruba",
+          "id": "KM"
+        },
+        "type": "other"
+      },
+      {
+        "street": "9000 Sheridan River",
+        "city": "Hegmannton",
+        "state": "Vermont",
+        "zip": "20675-4884",
+        "country": {
+          "code": "BF",
+          "name": "Cook Islands",
+          "id": "RW"
+        },
+        "type": "work"
+      }
+    ],
+    "hobbies": [
+      "gaming",
+      "landscape photography",
+      "rugby",
+      "brewing"
+    ],
+    "credit-card": "6011-0709-1803-9992",
+    "kids": [
+      {
+        "name": "Weldon",
+        "age": 15
+      },
+      {
+        "name": "Claudia",
+        "age": 25
+      },
+      {
+        "name": "Johann",
+        "age": 2
+      }
+    ],
+    "socialProfiles": [
+      {
+        "platform": "LinkedIn",
+        "handle": "Orpha.Bogisich77"
+      },
+      {
+        "platform": "LinkedIn",
+        "handle": "Allie.Williamson82"
+      }
+    ],
+    "favoriteFoods": [
+      "pizza",
+      "risotto",
+      "tacos",
+      "scallops",
+      "hummus"
+    ],
+    "skills": [
+      "research",
+      "education consulting",
+      "marketing",
+      "photography"
+    ],
+    "languages": [
+      "Spanish"
+    ],
+    "pets": [
+      {
+        "type": "cat",
+        "name": "Omari",
+        "age": 4
+      }
+    ],
+    "education": [
+      {
+        "degree": "MSc",
+        "field": "Finance",
+        "institution": "Klocko, Murray and Kreiger",
+        "year": 2017
+      }
+    ],
+    "certifications": [
+      "Adobe Photoshop"
+    ],
+    "memberships": [],
+    "personalityType": "ESFP",
+    "emergencyContacts": [
+      {
+        "name": "Sophie Lueilwitz",
+        "relation": "child",
+        "phone": "(249) 531-8571 x732"
+      },
+      {
+        "name": "Albert Dicki",
+        "relation": "father",
+        "phone": "951.713.5874"
+      }
+    ],
+    "email": "Richie58@hotmail.com",
+    "job": "Regional Communications Supervisor",
+    "salary": 86828
+  },
+  {
+    "id": "r10",
+    "title": "Ms.",
+    "gender": "M",
+    "firstName": "Connor",
+    "lastName": "Raynor",
+    "phone": [
+      {
+        "number": "479.626.3971 x871",
+        "type": "office"
+      }
+    ],
+    "age": 25,
+    "birthdate": "1943-06-24",
+    "married": "married",
+    "spouse": "",
+    "address": [
+      {
+        "street": "806 Boyle Hill",
+        "city": "Troyburgh",
+        "state": "Indiana",
+        "zip": "61763-6062",
+        "country": {
+          "code": "VC",
+          "name": "Tunisia",
+          "id": "MZ"
+        },
+        "type": "office"
+      }
+    ],
+    "hobbies": [
+      "painting",
+      "urban sketching",
+      "esports",
+      "cycling",
+      "model trains",
+      "manga collecting"
+    ],
+    "credit-card": "3413-907527-78537",
+    "kids": [],
+    "socialProfiles": [
+      {
+        "platform": "LinkedIn",
+        "handle": "Christy.Rippin"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Watson67"
+      }
+    ],
+    "favoriteFoods": [
+      "ceviche",
+      "asado",
+      "kimchi"
+    ],
+    "skills": [
+      "project management",
+      "public speaking",
+      "quantitative analysis"
+    ],
+    "languages": [
+      "French"
+    ],
+    "pets": [
+      {
+        "type": "rabbit",
+        "name": "Julien",
+        "age": 3
+      }
+    ],
+    "education": [],
+    "certifications": [
+      "Scuba Diving"
+    ],
+    "memberships": [],
+    "personalityType": "ISTP",
+    "emergencyContacts": [
+      {
+        "name": "Angelina Moen",
+        "relation": "parent",
+        "phone": "(607) 651-8218"
+      },
+      {
+        "name": "Joy Kris",
+        "relation": "parent",
+        "phone": "741-218-6028 x30715"
+      }
+    ],
+    "email": "Connor_Raynor44@yahoo.com",
+    "job": "District Applications Coordinator",
+    "salary": 196623
+  }
+]
