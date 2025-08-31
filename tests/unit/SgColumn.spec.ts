@@ -183,7 +183,7 @@ describe('SgColumn.vue', () => {
     // slot.props.data.id is populated with the column id, so include it in expected output
     expect(alias.text()).toBe('email|bob@example.com|email|col-3')
   })
-  test.todo('mutating the same dataRow object updates the cell (in-place reactivity)')
+  // ...existing code...
   test('replacing the dataRow object via setProps updates the cell (re-render on new reference)', async () => {
     const wrapper = mount(SgColumn, {
       props: {
