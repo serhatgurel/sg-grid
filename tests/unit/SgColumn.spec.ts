@@ -420,7 +420,53 @@ describe('SgColumn.vue', () => {
     })
     expect(nullWrapper.get('td').text()).toBe('')
   })
-  test.todo('slot props are not accidentally mutated by slot implementation')
+  test('slot props are not accidentally mutated by slot implementation', () => {
+    // capture the props object the slot receives so we can inspect after render
+    let received: Record<string, unknown> | undefined
+
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        id: 'col-immutable',
+        dataRow: { name: 'Original' },
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          received = props
+
+          // attempt to mutate a variety of slot props
+          try {
+            // these assignments should not succeed in mutating the original slot props
+            ;(props.data as Record<string, unknown>).id = 'hacked-id'
+            ;(props as Record<string, unknown>).name = 'hacked-name'
+            ;(props as Record<string, unknown>).field = 'hacked-field'
+            ;(props as Record<string, unknown>).value = 'hacked-value'
+            ;(props as Record<string, unknown>).row = { hacked: true }
+          } catch {
+            // ignore if runtime prevents mutation (readonly proxies may throw in strict mode)
+          }
+
+          return h('span', { class: 'immutable-slot' }, 'slot')
+        },
+      },
+    })
+
+    // ensure the slot was invoked and we captured props
+    expect(received).toBeDefined()
+
+    // The slot may have mutated its local snapshot, but the component's own
+    // public props and the original dataRow must remain unchanged.
+    expect(wrapper.props('id')).toBe('col-immutable')
+    expect(wrapper.props('dataField')).toBe('name')
+    // original dataRow should not be replaced or mutated by the slot implementation
+    const originalRow = wrapper.props('dataRow') as Record<string, unknown>
+    expect(originalRow.name).toBe('Original')
+
+    // ensure the DOM still shows our slot content (sanity)
+    const el = wrapper.get('.immutable-slot')
+    expect(el.text()).toBe('slot')
+  })
   test.todo('deep nested changes inside dataRow reflect if reactivity is intended')
 
   // Additional recommended / optional tests

@@ -42,13 +42,23 @@ const columnData = computed(() => ({
   align: props.align,
 }))
 
-const slotProps = computed(() => ({
-  data: columnData.value,
-  name: props.dataField,
-  row: props.dataRow,
-  field: props.dataField,
-  value: resolvedValue.value,
-}))
+// Provide defensive copies for slot props so slot implementations cannot
+// accidentally mutate the parent/internal objects. We use JSON-based cloning
+// which is sufficient for the simple POJO shapes used by the grid (no funcs,
+// no circular refs). This keeps nested objects (like dataRow) isolated from
+// mutations inside slots while keeping the API shape intact.
+const slotProps = computed(() => {
+  const dataClone = columnData.value ? JSON.parse(JSON.stringify(columnData.value)) : undefined
+  const rowClone = props.dataRow ? JSON.parse(JSON.stringify(props.dataRow)) : undefined
+  return {
+    data: dataClone,
+    name: props.dataField,
+    row: rowClone,
+    field: props.dataField,
+    // prefer cloned value when available so slots see the snapshot
+    value: dataClone?.value ?? resolvedValue.value,
+  }
+})
 
 const defaultDisplay = computed(() => {
   const v = columnData.value?.value ?? resolvedValue.value
