@@ -184,9 +184,24 @@ describe('SgColumn.vue', () => {
     expect(alias.text()).toBe('email|bob@example.com|email|col-3')
   })
   test.todo('mutating the same dataRow object updates the cell (in-place reactivity)')
-  test.todo(
-    'replacing the dataRow object via setProps updates the cell (re-render on new reference)',
-  )
+  test('replacing the dataRow object via setProps updates the cell (re-render on new reference)', async () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        dataRow: { name: 'Initial' },
+      },
+    })
+
+    // initial render
+    expect(wrapper.get('td').text()).toBe('Initial')
+
+    // replace the dataRow reference with a new object via setProps
+    await wrapper.setProps({ dataRow: { name: 'Updated' } })
+    await nextTick()
+
+    // component should re-render using the new reference
+    expect(wrapper.get('td').text()).toBe('Updated')
+  })
   test.todo('columnData.caption takes precedence for display name when present')
   test.todo('slotProps.data shape includes exactly { id, name, value, dataRow, dataField }')
   test.todo('renders a td element and acts as a proper table cell (smoke test)')
