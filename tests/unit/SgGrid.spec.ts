@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { reactive, nextTick } from 'vue'
+import { reactive, nextTick, defineComponent } from 'vue'
 import SgGrid from '../../src/components/SgGrid.vue'
 
 // Skeleton tests for SgGrid — TODOs only. Implementations intentionally omitted.
@@ -205,13 +205,17 @@ describe('SgGrid.vue', () => {
   })
 
   // Selection & events
-  test.todo.skip('emits a row-click or row-selected event with correct payload when a row is clicked')
+  test.todo.skip(
+    'emits a row-click or row-selected event with correct payload when a row is clicked',
+  )
   test.todo.skip('supports single and multi-row selection modes and emits selection changes')
 
   // Sorting, filtering, pagination
   test.todo.skip('clicking a sortable header toggles sort state and emits sort events')
   test.todo.skip('applies client-side filters to visible rows when filter criteria provided')
-  test.todo.skip('shows pagination controls and renders correct page of rows when pagination enabled')
+  test.todo.skip(
+    'shows pagination controls and renders correct page of rows when pagination enabled',
+  )
 
   // Slots and custom rendering
   test.todo(
@@ -243,11 +247,47 @@ describe('SgGrid.vue', () => {
   test.todo('columns prop takes precedence over slot-declared and inferred columns')
   test.todo('slot-declared columns are used when props.columns is absent')
   test.todo('inferred columns are produced when no columns prop and no declared slot columns')
-  test.todo('grid caption (<caption>) renders when props.caption is provided')
+  test('grid caption (<caption>) renders when props.caption is provided', () => {
+    const wrapper = mount(SgGrid, { props: { caption: 'My Grid Caption', rowKey: 'id' } })
+    const caption = wrapper.find('caption')
+    expect(caption.exists()).toBe(true)
+    expect(caption.text()).toBe('My Grid Caption')
+  })
   test.todo(
     'getRowKey behaviour: no rowKey -> JSON.stringify(row), string -> property, function -> return value',
   )
-  test.todo('SgGrid passes column.caption and column.field to SgColumn via props')
+  test('SgGrid passes column.caption and column.field to SgColumn via props', () => {
+    // We'll mount SgGrid but stub SgColumn to capture the props it receives.
+    const received: Array<Record<string, unknown>> = []
+    const StubColumn = defineComponent({
+      name: 'StubColumn',
+      props: ['dataRow', 'dataField', 'caption', 'width', 'align'],
+      setup(props) {
+        received.push({ ...props })
+        return () => null
+      },
+    })
+
+    const cols = [
+      { key: 'c1', field: 'name', caption: 'Name' },
+      { key: 'c2', field: 'age', caption: 'Age' },
+    ]
+    const rows = [{ id: 1, name: 'X', age: 9 }]
+
+    mount(SgGrid, {
+      props: { columns: cols, rows, rowKey: 'id' },
+      global: { stubs: { 'sg-column': StubColumn } },
+    })
+
+    // There will be one StubColumn instance per column per row (1 row x 2 cols)
+    expect(received.length).toBe(2)
+    // The first received corresponds to first column
+    expect(received[0].caption).toBe('Name')
+    expect(received[0].dataField).toBe('name')
+    // second column
+    expect(received[1].caption).toBe('Age')
+    expect(received[1].dataField).toBe('age')
+  })
   test.todo('rows use stable DOM keys and re-render only when identity changes')
   test.todo(
     'declared slot columns are recognized when using <sg-column data-field=...> in default slot',
@@ -257,6 +297,8 @@ describe('SgGrid.vue', () => {
   test.todo.skip('column resize emits events when user resizes columns if implemented')
   test.todo.skip('virtualization displays only subset of rows when enabled and scrolls correctly')
   test.todo.skip('export to CSV includes visible columns and rows when export feature invoked')
-  test.todo.skip('keyboard navigation focuses correct cell and wraps/limits as expected when supported')
+  test.todo.skip(
+    'keyboard navigation focuses correct cell and wraps/limits as expected when supported',
+  )
   test.todo.skip('filtering/sorting combination behaves correctly with multiple criteria')
 })
