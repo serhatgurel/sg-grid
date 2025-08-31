@@ -1,9 +1,43 @@
-import { describe, test } from 'vitest'
+import { describe, test, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import SgGrid from '../../src/components/SgGrid.vue'
 
 // Skeleton tests for SgGrid — TODOs only. Implementations intentionally omitted.
 // These todos cover typical grid behaviours and recommended edge-case tests.
 
 describe('SgGrid.vue', () => {
+  test('renders a table with thead and tbody (structure smoke test)', () => {
+    const wrapper = mount(SgGrid, {
+      props: {
+        columns: [
+          { key: 'c1', field: 'name', caption: 'Name' },
+          { key: 'c2', field: 'age', caption: 'Age' },
+        ],
+        rows: [
+          { id: 1, name: 'Alice', age: 30 },
+          { id: 2, name: 'Bob', age: 25 },
+        ],
+        rowKey: 'id',
+      },
+    })
+
+    const table = wrapper.get('table')
+    expect(table).toBeTruthy()
+
+    // has thead and tbody
+    expect(wrapper.find('thead')).toBeTruthy()
+    expect(wrapper.find('tbody')).toBeTruthy()
+
+    // header has as many th as columns
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(2)
+    expect(ths[0].text()).toBe('Name')
+    expect(ths[1].text()).toBe('Age')
+
+    // tbody should have two rows
+    const rows = wrapper.findAll('tbody tr')
+    expect(rows.length).toBe(2)
+  })
   // Basic rendering
   test.todo('renders a table with thead and tbody (structure smoke test)')
   test.todo('renders when no columns are supplied (graceful fallback)')
