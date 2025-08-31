@@ -50,6 +50,20 @@ const columns = [
     <SgColumn>{{ rows[2].title }} {{ rows[2].firstName }} {{ rows[2].lastName }}</SgColumn>
   -->
 
+  <SgGrid :rows="rows.slice(0, 8)" rowKey="id" caption="NO COLUMNS EXAMPLE" />
+
+  <SgGrid rowKey="id" caption="NO ROWS EXAMPLE">
+    <SgColumn data-field="id" caption="Id" width="60px" />
+    <SgColumn data-field="title" caption="Title" width="10px" />
+    <SgColumn data-field="firstName" caption="First Name" width="100px" />
+    <SgColumn data-field="lastName" caption="Last Name" width="200px" />
+    <SgColumn data-field="email" caption="Email" width="200px" />
+    <SgColumn data-field="phone[0].type" caption="Phone" width="120px" />
+    <SgColumn data-field="address[0].country.code" caption="Country" width="10%" />
+  </SgGrid>
+
+  <SgGrid rowKey="id" caption="NO ROWS OR COLUMNS EXAMPLE" />
+
   <SgGrid :rows="rows.slice(0, 5)" rowKey="id" caption="DECLARATIVE EXAMPLE">
     <SgColumn data-field="id" caption="Id" width="60px" />
     <SgColumn data-field="title" caption="Title" width="10px" />
