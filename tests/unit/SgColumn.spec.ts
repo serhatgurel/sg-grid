@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { h } from 'vue'
+import { h, nextTick, reactive } from 'vue'
 import SgColumn from '../../src/components/SgColumn.vue'
 
 // Skeleton tests for SgColumn — TODOs only. Implementations intentionally omitted.
@@ -136,6 +136,25 @@ describe('SgColumn.vue', () => {
 
     const alias = wrapper.get('.alias')
     expect(alias.text()).toBe('name|Alice|name')
+  })
+  test('mutating the same dataRow object updates the cell (in-place reactivity)', async () => {
+    // use a reactive object so in-place mutations are observed by the component
+    const row = reactive({ name: 'Start' })
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        dataRow: row,
+      },
+    })
+
+    const td = wrapper.get('td')
+    expect(td.text()).toBe('Start')
+
+    // mutate the same object in-place
+    row.name = 'Changed'
+    await nextTick()
+
+    expect(wrapper.get('td').text()).toBe('Changed')
   })
   test.todo('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField')
   test.todo('mutating the same dataRow object updates the cell (in-place reactivity)')
