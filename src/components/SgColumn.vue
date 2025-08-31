@@ -52,7 +52,9 @@ const slotProps = computed(() => ({
 
 const defaultDisplay = computed(() => {
   const v = columnData.value?.value ?? resolvedValue.value
+  // treat missing, null, or numeric NaN as empty/missing display
   if (v === undefined || v === null) return ''
+  if (typeof v === 'number' && Number.isNaN(v)) return ''
   return String(v)
 })
 

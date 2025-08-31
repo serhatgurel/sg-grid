@@ -370,7 +370,34 @@ describe('SgColumn.vue', () => {
 
   // Recommended additional edge cases to implement
   test.todo('distinguish undefined vs null vs missing key behaviour')
-  test.todo('renders NaN safely or treats it as missing according to the API')
+  test('renders NaN as empty/missing (does not render literal "NaN") when present on dataRow', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'score',
+        dataRow: { score: NaN },
+      },
+    })
+
+    const td = wrapper.get('td')
+    // treat NaN like missing: render empty string and never show the literal 'NaN'
+    expect(td.text()).toBe('')
+    expect(td.html()).not.toContain('NaN')
+  })
+
+  test('renders NaN provided via `value` prop as empty/missing when dataRow is absent', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'score',
+        value: NaN,
+        // intentionally no dataRow to exercise fallback
+      },
+    })
+
+    const td = wrapper.get('td')
+    // fallback value that is NaN should be treated as missing/empty
+    expect(td.text()).toBe('')
+    expect(td.html()).not.toContain('NaN')
+  })
   test.todo('handles non-string dataField types gracefully (number, empty string, null)')
   test.todo('slot props are not accidentally mutated by slot implementation')
   test.todo('deep nested changes inside dataRow reflect if reactivity is intended')
