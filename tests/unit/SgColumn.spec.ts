@@ -498,7 +498,39 @@ describe('SgColumn.vue', () => {
   })
 
   // Additional recommended / optional tests
-  test.todo('slot receives both `data` object and top-level alias props and they map correctly')
+  test('slot receives both `data` object and top-level alias props and they map correctly', () => {
+    const row = { id: 'row-5', email: 'me@example.com' }
+
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'email',
+        id: 'col-5',
+        caption: 'E-mail',
+        dataRow: row,
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const data = props.data as Record<string, unknown> | undefined
+          const aliasName = props.name as string | undefined
+          const aliasRow = props.row as Record<string, unknown> | undefined
+          const aliasField = props.field as string | undefined
+          const aliasValue = props.value as unknown
+          // Compose a fingerprint showing both the data object fields and top-level aliases
+          const text = `${data?.id ?? ''}|${String(data?.name ?? '')}|${String(data?.value ?? '')}|${String((data?.dataRow as Record<string, unknown> | undefined)?.id ?? '')}|${String(data?.dataField ?? '')}|${String(aliasName)}|${String(aliasField)}|${String(aliasRow?.id ?? '')}|${String(aliasValue)}`
+          return h('span', { class: 'slot-mapping' }, text)
+        },
+      },
+    })
+
+    const el = wrapper.get('.slot-mapping')
+    // expected mapping:
+    // data.id -> column id, data.name -> caption, data.value -> resolved row.email
+    // data.dataRow.id -> row id, data.dataField -> dataField, top-level aliases reflect names/row/field/value
+    expect(el.text()).toBe(
+      'col-5|E-mail|me@example.com|row-5|email|email|email|row-5|me@example.com',
+    )
+  })
   test.todo(
     'slotProps.data.name (caption) and slot prop `name` (dataField) are distinct and correct',
   )
