@@ -88,6 +88,19 @@ describe('SgGrid.vue', () => {
     expect(tbodyB).toBeTruthy()
     expect(wrapperB.findAll('tbody tr').length).toBe(0)
   })
+  test('renders when neither columns nor rows are supplied', () => {
+    // mount with no props; component should render table structure but no headers/rows
+    const wrapper = mount(SgGrid, {})
+
+    expect(wrapper.get('table')).toBeTruthy()
+    // thead should exist but contain no th
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(0)
+
+    // tbody should exist but have no rows
+    const trs = wrapper.findAll('tbody tr')
+    expect(trs.length).toBe(0)
+  })
   test.todo('renders when neither columns nor rows are supplied')
   test.todo('renders column headers from columns/columnData (caption/name precedence)')
   test.todo('renders rows from rows prop with correct number of cells')
