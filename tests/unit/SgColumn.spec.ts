@@ -604,9 +604,23 @@ describe('SgColumn.vue', () => {
     })
     expect(rowBool.get('td').text()).toBe('false')
   })
-  test.todo(
-    'explicit behavior when dataRow[field] === null (renders empty string or documented behavior)',
-  )
+  test('explicit behavior when dataRow[field] === null (renders empty string or documented behavior)', () => {
+    // when the dataRow explicitly contains null for the field, render empty string
+    const wrapperNullInRow = mount(SgColumn, {
+      props: { dataField: 'name', dataRow: { name: null } },
+    })
+    const td1 = wrapperNullInRow.get('td')
+    expect(td1.text()).toBe('')
+    expect(td1.html()).not.toContain('null')
+
+    // when the fallback `value` prop is explicitly null and no dataRow provided, render empty string
+    const wrapperNullValue = mount(SgColumn, {
+      props: { dataField: 'name', value: null },
+    })
+    const td2 = wrapperNullValue.get('td')
+    expect(td2.text()).toBe('')
+    expect(td2.html()).not.toContain('null')
+  })
   test.todo('NaN handling: NaN is treated/printed according to documented API')
   test.todo('handles unusual dataField types (number, empty-string) without throwing')
   test.todo('slot implementation cannot accidentally mutate parent props (immutability guard)')
