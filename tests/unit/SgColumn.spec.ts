@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { h } from 'vue'
 import SgColumn from '../../src/components/SgColumn.vue'
 
 // Skeleton tests for SgColumn — TODOs only. Implementations intentionally omitted.
@@ -82,9 +83,35 @@ describe('SgColumn.vue', () => {
     expect(td.text()).not.toContain('undefined')
   })
 
-  test.todo(
-    'slot content replaces default rendering and receives slot props { id, name, value, dataRow, dataField }',
-  )
+  test('slot content replaces default rendering and receives slot props { id, name, value, dataRow, dataField }', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        id: 'col-1',
+        value: 'fallback',
+        dataRow: { id: 'row-1', name: 'row-name' },
+      },
+      // provide a slot that renders the incoming slot props so we can assert them
+      slots: {
+        // use `unknown` then cast for lint-safe test code
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const data = props.data as Record<string, unknown> | undefined
+          const name = props.name as string | undefined
+          const value = props.value as unknown
+          const row = props.row as Record<string, unknown> | undefined
+          const field = props.field as string | undefined
+          const text = `${data?.id ?? ''}|${String(name)}|${String(value)}|${row?.name ?? ''}|${String(field)}`
+          return h('span', { class: 'slot' }, text)
+        },
+      },
+    })
+
+    // default content should be replaced by slot content
+    const slot = wrapper.get('.slot')
+    // column `id` is provided via props.id, so slot.data.id should be the column id
+    expect(slot.text()).toBe('col-1|name|row-name|row-name|name')
+  })
   test.todo('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField')
   test.todo('mutating the same dataRow object updates the cell (in-place reactivity)')
   test.todo(
