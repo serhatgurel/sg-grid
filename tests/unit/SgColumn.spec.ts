@@ -1,11 +1,25 @@
-import { describe, test } from 'vitest'
+import { describe, test, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import SgColumn from '../../src/components/SgColumn.vue'
 
 // Skeleton tests for SgColumn — TODOs only. Implementations intentionally omitted.
 // Each test below corresponds to a user story or recommended edge case.
 
 describe('SgColumn.vue', () => {
   // Core user stories
-  test.todo('renders props.value when dataRow is undefined (fallback display)')
+  test('renders props.value when dataRow is undefined (fallback display)', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        value: 'fallback-value',
+        // intentionally omit dataRow to exercise the fallback path
+      },
+    })
+
+    // the component renders a td with the computed defaultDisplay
+    const td = wrapper.get('td')
+    expect(td.text()).toBe('fallback-value')
+  })
   test.todo('prefers dataRow[dataField] over value when dataRow is present')
   test.todo('renders falsy but valid value 0 correctly')
   test.todo('renders falsy but valid value false correctly')
