@@ -58,8 +58,17 @@ const defaultDisplay = computed(() => {
 
 const cellStyle = computed(() => {
   const s: Record<string, string> = {}
-  if (props.width !== undefined && props.width !== null)
-    s.width = typeof props.width === 'number' ? `${props.width}px` : String(props.width)
+  if (props.width !== undefined && props.width !== null) {
+    // Treat explicit zero widths as a request to hide the column.
+    if (typeof props.width === 'number') {
+      if (props.width === 0) s.display = 'none'
+      else s.width = `${props.width}px`
+    } else {
+      const w = String(props.width).trim().toLowerCase()
+      if (w === '0' || w === '0px') s.display = 'none'
+      else s.width = String(props.width)
+    }
+  }
   if (props.align) s.textAlign = props.align
   return s
 })

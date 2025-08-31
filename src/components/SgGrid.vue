@@ -91,8 +91,16 @@ const columns = computed<ColumnDef[]>(() => {
 function columnStyle(col: ColumnDef | undefined) {
   if (!col) return undefined
   const style: Record<string, string> = {}
-  if (col.width !== undefined && col.width !== null)
-    style.width = typeof col.width === 'number' ? `${col.width}px` : String(col.width)
+  if (col.width !== undefined && col.width !== null) {
+    if (typeof col.width === 'number') {
+      if (col.width === 0) style.display = 'none'
+      else style.width = `${col.width}px`
+    } else {
+      const w = String(col.width).trim().toLowerCase()
+      if (w === '0' || w === '0px') style.display = 'none'
+      else style.width = String(col.width)
+    }
+  }
   if (col.align) style.textAlign = col.align
   return style
 }
