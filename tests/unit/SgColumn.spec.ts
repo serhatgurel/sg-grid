@@ -257,14 +257,34 @@ describe('SgColumn.vue', () => {
     // expected: id is column id, name is caption, value is row.name, dataRow contains the row, dataField is the field
     expect(el.text()).toBe('col-shape|Caption|Zoe|Zoe|name')
   })
-  test.todo('renders a td element and acts as a proper table cell (smoke test)')
+  test('renders a td element and acts as a proper table cell (smoke test)', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        value: 'cell-value',
+        width: 200,
+        align: 'right',
+      },
+    })
+
+    // should render a td element (wrapper.get will throw if missing)
+    const td = wrapper.get('td')
+    // has the expected class from the component template
+    expect(td.classes()).toContain('sg-cell')
+    // inline style should reflect width and text alignment
+    const style = td.attributes('style') || ''
+    expect(style).toContain('width: 200px')
+    expect(style).toContain('text-align: right')
+    // default display should show the provided value
+    expect(td.text()).toBe('cell-value')
+  })
 
   // Accessibility / DOM attributes
   test.todo('includes appropriate ARIA/role attributes (role="cell" or similar) when applicable')
   test.todo('does not render "undefined" text for absent fields (explicit DOM assertion)')
 
   // Optional / future behavior
-  test.todo.skip(
+  test.todo(
     'nested-field behaviour: supports "a.b.c" style paths when implemented (pending feature)',
   )
 
