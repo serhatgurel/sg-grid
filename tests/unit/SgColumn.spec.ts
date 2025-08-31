@@ -20,6 +20,18 @@ describe('SgColumn.vue', () => {
     const td = wrapper.get('td')
     expect(td.text()).toBe('fallback-value')
   })
+  test('prefers dataRow[dataField] over value when dataRow is present', async () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        value: 'fallback-value',
+        dataRow: { name: 'row-value' },
+      },
+    })
+
+    const td = wrapper.get('td')
+    expect(td.text()).toBe('row-value')
+  })
   test.todo('prefers dataRow[dataField] over value when dataRow is present')
   test.todo('renders falsy but valid value 0 correctly')
   test.todo('renders falsy but valid value false correctly')
