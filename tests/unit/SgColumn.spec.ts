@@ -156,7 +156,33 @@ describe('SgColumn.vue', () => {
 
     expect(wrapper.get('td').text()).toBe('Changed')
   })
-  test.todo('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField')
+  test('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField (alternate check)', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'email',
+        id: 'col-3',
+        dataRow: { email: 'bob@example.com' },
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const nameAlias = props.name as string | undefined
+          const rowAlias = props.row as Record<string, unknown> | undefined
+          const fieldAlias = props.field as string | undefined
+          const dataObj = props.data as Record<string, unknown> | undefined
+          return h(
+            'span',
+            { class: 'alias-2' },
+            `${String(nameAlias)}|${rowAlias?.email ?? ''}|${String(fieldAlias)}|${dataObj?.id ?? ''}`,
+          )
+        },
+      },
+    })
+
+    const alias = wrapper.get('.alias-2')
+    // slot.props.data.id is populated with the column id, so include it in expected output
+    expect(alias.text()).toBe('email|bob@example.com|email|col-3')
+  })
   test.todo('mutating the same dataRow object updates the cell (in-place reactivity)')
   test.todo(
     'replacing the dataRow object via setProps updates the cell (re-render on new reference)',
