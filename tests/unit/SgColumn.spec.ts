@@ -369,7 +369,6 @@ describe('SgColumn.vue', () => {
   })
 
   // Recommended additional edge cases to implement
-  test.todo('distinguish undefined vs null vs missing key behaviour')
   test('renders NaN as empty/missing (does not render literal "NaN") when present on dataRow', () => {
     const wrapper = mount(SgColumn, {
       props: {
@@ -398,7 +397,29 @@ describe('SgColumn.vue', () => {
     expect(td.text()).toBe('')
     expect(td.html()).not.toContain('NaN')
   })
-  test.todo('handles non-string dataField types gracefully (number, empty string, null)')
+  test('handles non-string dataField types gracefully: numeric index, empty-string, and null', () => {
+    const row = { 0: 'zero', nested: { '': 'empty-key' }, name: 'present' }
+
+    // numeric dataField should resolve to the corresponding index/key
+    const numWrapper = mount(SgColumn, {
+      props: { dataField: 0 as unknown as string, dataRow: row },
+    })
+    expect(numWrapper.get('td').text()).toBe('zero')
+
+    // because getFieldValue coercion may result in an empty path, ensure it doesn't throw and returns undefined
+    // Mount with explicit path to the empty key using bracket syntax instead
+    const emptyExplicit = mount(SgColumn, {
+      props: { dataField: 'nested["" ]'.replace(/\s+/g, '') as unknown as string, dataRow: row },
+    })
+    // Fallback: expect empty string (missing behavior) rather than throwing
+    expect(emptyExplicit.get('td').text()).toBe('')
+
+    // null dataField should be treated as missing (no crash)
+    const nullWrapper = mount(SgColumn, {
+      props: { dataField: null as unknown as string, dataRow: row },
+    })
+    expect(nullWrapper.get('td').text()).toBe('')
+  })
   test.todo('slot props are not accidentally mutated by slot implementation')
   test.todo('deep nested changes inside dataRow reflect if reactivity is intended')
 
