@@ -70,7 +70,24 @@ describe('SgGrid.vue', () => {
     expect(firstRowTds.length).toBe(3)
     expect(firstRowTds.map((td) => td.text())).toEqual(['1', 'Alice', '30'])
   })
-  test.todo('renders when no rows are supplied (empty body or placeholder)')
+  test('renders when no rows are supplied (empty body or placeholder)', () => {
+    const cols = [
+      { key: 'c1', field: 'name', caption: 'Name' },
+      { key: 'c2', field: 'age', caption: 'Age' },
+    ]
+
+    // Case A: rows prop omitted entirely
+    const wrapperA = mount(SgGrid, { props: { columns: cols, rowKey: 'id' } })
+    const tbodyA = wrapperA.find('tbody')
+    expect(tbodyA).toBeTruthy()
+    expect(wrapperA.findAll('tbody tr').length).toBe(0)
+
+    // Case B: rows explicitly empty array
+    const wrapperB = mount(SgGrid, { props: { columns: cols, rows: [], rowKey: 'id' } })
+    const tbodyB = wrapperB.find('tbody')
+    expect(tbodyB).toBeTruthy()
+    expect(wrapperB.findAll('tbody tr').length).toBe(0)
+  })
   test.todo('renders when neither columns nor rows are supplied')
   test.todo('renders column headers from columns/columnData (caption/name precedence)')
   test.todo('renders rows from rows prop with correct number of cells')
