@@ -312,9 +312,34 @@ describe('SgColumn.vue', () => {
     // and the rendered HTML must not include the literal 'undefined'
     expect(td.html()).not.toContain('undefined')
   })
-  test.todo(
-    'nested-field behaviour: supports "a.b.c" style paths when implemented (pending feature)',
-  )
+  test('nested-field behaviour: supports "a.b.c" and bracket paths (e.g. phones[0].number)', () => {
+    const row = {
+      profile: {
+        address: {
+          city: 'Metropolis',
+        },
+      },
+      phones: [{ number: '555-0101' }, { number: '555-0202' }],
+    }
+
+    // dot-path test
+    const dotWrapper = mount(SgColumn, {
+      props: {
+        dataField: 'profile.address.city',
+        dataRow: row,
+      },
+    })
+    expect(dotWrapper.get('td').text()).toBe('Metropolis')
+
+    // bracket/index path test
+    const bracketWrapper = mount(SgColumn, {
+      props: {
+        dataField: 'phones[0].number',
+        dataRow: row,
+      },
+    })
+    expect(bracketWrapper.get('td').text()).toBe('555-0101')
+  })
 
   // Recommended additional edge cases to implement
   test.todo('distinguish undefined vs null vs missing key behaviour')
