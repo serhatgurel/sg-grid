@@ -6,6 +6,7 @@ import SgGrid from '../../src/components/SgGrid.vue'
 // These todos cover typical grid behaviours and recommended edge-case tests.
 
 describe('SgGrid.vue', () => {
+  // Basic rendering
   test('renders a table with thead and tbody (structure smoke test)', () => {
     const wrapper = mount(SgGrid, {
       props: {
@@ -38,9 +39,37 @@ describe('SgGrid.vue', () => {
     const rows = wrapper.findAll('tbody tr')
     expect(rows.length).toBe(2)
   })
-  // Basic rendering
-  test.todo('renders a table with thead and tbody (structure smoke test)')
-  test.todo('renders when no columns are supplied (graceful fallback)')
+  test('renders when no columns are supplied (graceful fallback)', () => {
+    // provide rows but no columns; SgGrid should infer columns from row keys
+    const rows = [
+      { id: 1, name: 'Alice', age: 30 },
+      { id: 2, name: 'Bob', age: 25 },
+    ]
+
+    const wrapper = mount(SgGrid, {
+      props: { rows, rowKey: 'id' },
+    })
+
+    // table structure exists
+    expect(wrapper.get('table')).toBeTruthy()
+    expect(wrapper.find('thead')).toBeTruthy()
+    expect(wrapper.find('tbody')).toBeTruthy()
+
+    // inferred headers come from row keys (in insertion order)
+    const ths = wrapper.findAll('thead th')
+    // we expect three inferred columns: id, name, age
+    expect(ths.length).toBe(3)
+    expect(ths.map((t) => t.text())).toEqual(['id', 'name', 'age'])
+
+    // tbody rows should match provided rows
+    const trs = wrapper.findAll('tbody tr')
+    expect(trs.length).toBe(rows.length)
+
+    // first row cells should render the corresponding values
+    const firstRowTds = trs[0].findAll('td')
+    expect(firstRowTds.length).toBe(3)
+    expect(firstRowTds.map((td) => td.text())).toEqual(['1', 'Alice', '30'])
+  })
   test.todo('renders when no rows are supplied (empty body or placeholder)')
   test.todo('renders when neither columns nor rows are supplied')
   test.todo('renders column headers from columns/columnData (caption/name precedence)')
