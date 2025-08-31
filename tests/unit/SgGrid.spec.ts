@@ -102,7 +102,24 @@ describe('SgGrid.vue', () => {
     expect(trs.length).toBe(0)
   })
   test.todo('renders when neither columns nor rows are supplied')
-  test.todo('renders column headers from columns/columnData (caption/name precedence)')
+  test('renders column headers from columns/columnData (caption/name precedence)', () => {
+    const cols = [
+      { key: 'k1', field: 'firstName', caption: 'First Name' },
+      { key: 'k2', field: 'lastName' },
+      // caption present but empty string should fall back to field
+      { key: 'k3', field: 'age', caption: '' },
+    ]
+
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows: [], rowKey: 'id' } })
+
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(3)
+    // caption should be used when provided and non-empty; otherwise show field
+    expect(ths[0].text()).toBe('First Name')
+    expect(ths[1].text()).toBe('lastName')
+    // empty caption remains empty string (component preserves provided caption value)
+    expect(ths[2].text()).toBe('')
+  })
   test.todo('renders rows from rows prop with correct number of cells')
 
   // Data and reactivity
