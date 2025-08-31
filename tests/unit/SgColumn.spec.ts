@@ -68,6 +68,19 @@ describe('SgColumn.vue', () => {
     const td = wrapper.get('td')
     expect(td.text()).toBe('')
   })
+  test('missing key on dataRow renders empty default display (no "undefined" text)', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'missingField',
+        dataRow: { other: 'value' },
+        // no value prop provided
+      },
+    })
+
+    const td = wrapper.get('td')
+    expect(td.text()).toBe('')
+    expect(td.text()).not.toContain('undefined')
+  })
   test.todo('prefers dataRow[dataField] over value when dataRow is present')
   test.todo('renders falsy but valid value 0 correctly')
   test.todo('renders falsy but valid value false correctly')
