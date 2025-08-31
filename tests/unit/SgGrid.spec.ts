@@ -319,7 +319,30 @@ describe('SgGrid.vue', () => {
     expect(received[1].caption).toBe('Age')
     expect(received[1].dataField).toBe('age')
   })
-  test.todo('rows use stable DOM keys and re-render only when identity changes')
+  test('rows use stable DOM keys and re-render only when identity changes', async () => {
+    const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
+    const rows = reactive([{ id: 1, name: 'A' }, { id: 2, name: 'B' }])
+
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows, rowKey: 'id' } })
+
+    // capture the first row element
+    const firstTr = wrapper.findAll('tbody tr')[0].element
+    expect(wrapper.findAll('tbody tr')[0].find('td').text()).toBe('A')
+
+    // mutate a non-key field on the same object; DOM node should remain same
+    rows[0].name = 'AA'
+    await nextTick()
+    const firstTrAfter = wrapper.findAll('tbody tr')[0].element
+    expect(firstTrAfter).toBe(firstTr)
+    expect(wrapper.findAll('tbody tr')[0].find('td').text()).toBe('AA')
+
+    // replace the rows with a new array where the first row has a different id -> key changed
+    await wrapper.setProps({ rows: [{ id: 99, name: 'New' }, { id: 2, name: 'B' }] })
+    await nextTick()
+    const firstTrNew = wrapper.findAll('tbody tr')[0].element
+    expect(firstTrNew).not.toBe(firstTr)
+    expect(wrapper.findAll('tbody tr')[0].find('td').text()).toBe('New')
+  })
   test.todo(
     'declared slot columns are recognized when using <sg-column data-field=...> in default slot',
   )
