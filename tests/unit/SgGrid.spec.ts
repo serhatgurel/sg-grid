@@ -120,7 +120,31 @@ describe('SgGrid.vue', () => {
     // empty caption remains empty string (component preserves provided caption value)
     expect(ths[2].text()).toBe('')
   })
-  test.todo('renders rows from rows prop with correct number of cells')
+  test('renders rows from rows prop with correct number of cells', () => {
+    const cols = [
+      { key: 'col-id', field: 'id', caption: 'ID' },
+      { key: 'col-name', field: 'name', caption: 'Name' },
+      { key: 'col-age', field: 'age', caption: 'Age' },
+    ]
+
+    const data = [
+      { id: 101, name: 'Carol', age: 40 },
+      { id: 102, name: 'Dave', age: 35 },
+    ]
+
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows: data, rowKey: 'id' } })
+
+    const trs = wrapper.findAll('tbody tr')
+    expect(trs.length).toBe(2)
+
+    // each row should have the same number of cells as columns and cells should match column field order
+    trs.forEach((tr, idx) => {
+      const tds = tr.findAll('td')
+      expect(tds.length).toBe(cols.length)
+      const texts = tds.map((td) => td.text())
+      expect(texts).toEqual([String(data[idx].id), String(data[idx].name), String(data[idx].age)])
+    })
+  })
 
   // Data and reactivity
   test.todo('mutating the same rows array/object updates the rendered grid (in-place reactivity)')
