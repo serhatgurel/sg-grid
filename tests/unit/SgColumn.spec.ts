@@ -56,6 +56,18 @@ describe('SgColumn.vue', () => {
     const td = wrapper.get('td')
     expect(td.text()).toBe('false')
   })
+  test("renders falsy but valid empty string ('') correctly", () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'label',
+        value: '',
+        // no dataRow to exercise fallback behavior
+      },
+    })
+
+    const td = wrapper.get('td')
+    expect(td.text()).toBe('')
+  })
   test.todo('prefers dataRow[dataField] over value when dataRow is present')
   test.todo('renders falsy but valid value 0 correctly')
   test.todo('renders falsy but valid value false correctly')
