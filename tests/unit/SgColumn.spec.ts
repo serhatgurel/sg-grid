@@ -662,5 +662,72 @@ describe('SgColumn.vue', () => {
     })
     expect(emptyWrapper.get('td').text()).toBe('')
   })
-  test.todo('slot implementation cannot accidentally mutate parent props (immutability guard)')
+  test('slot implementation cannot accidentally mutate parent props (immutability guard)', async () => {
+    // use a reactive row to ensure we can detect unintended changes to the
+    // original object if the slot were given a live reference.
+    const row = reactive({
+      id: 'r-immutable',
+      name: 'Original',
+      profile: { address: { city: 'OrigCity' } },
+    })
+
+    let received: Record<string, unknown> | undefined
+
+    const wrapper = mount(SgColumn, {
+      props: { dataField: 'name', id: 'col-immut-2', dataRow: row },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          received = props
+
+          // attempt a range of mutations that would be harmful if they
+          // reached back into the parent's objects
+          try {
+            // mutate column snapshot
+            ;(props.data as Record<string, unknown>).id = 'hacked-col-id'
+            // mutate cloned row snapshot
+            if (props.row && typeof props.row === 'object') {
+              ;(props.row as Record<string, unknown>).name = 'Hacked'
+              // nested mutation
+              const pr = (props.row as Record<string, unknown>)['profile'] as
+                | Record<string, unknown>
+                | undefined
+              if (pr && typeof pr === 'object') {
+                ;(pr.address as Record<string, unknown>).city = 'HackedCity'
+              }
+            }
+            // overwrite top-level aliases
+            ;(props as Record<string, unknown>).name = 'hacked-name'
+            ;(props as Record<string, unknown>).field = 'hacked-field'
+            ;(props as Record<string, unknown>).value = 'hacked-value'
+          } catch {
+            // ignore if runtime prevents mutation
+          }
+
+          return h('span', { class: 'immut-slot' }, 'slot')
+        },
+      },
+    })
+
+    // slot should have been invoked and we should have captured the snapshot
+    expect(received).toBeDefined()
+
+    // original component props must remain unchanged
+    expect(wrapper.props('id')).toBe('col-immut-2')
+    expect(wrapper.props('dataField')).toBe('name')
+
+    // original reactive row must not have been mutated by slot code
+    const originalRow = wrapper.props('dataRow') as Record<string, unknown>
+    expect(originalRow.name).toBe('Original')
+    // nested original value should also remain unchanged
+    const nested = (originalRow.profile as Record<string, unknown>).address as Record<
+      string,
+      unknown
+    >
+    expect(nested.city).toBe('OrigCity')
+
+    // DOM still shows our slot content (sanity) and not mutated values
+    const el = wrapper.get('.immut-slot')
+    expect(el.text()).toBe('slot')
+  })
 })
