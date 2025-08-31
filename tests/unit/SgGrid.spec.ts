@@ -321,7 +321,10 @@ describe('SgGrid.vue', () => {
   })
   test('rows use stable DOM keys and re-render only when identity changes', async () => {
     const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
-    const rows = reactive([{ id: 1, name: 'A' }, { id: 2, name: 'B' }])
+    const rows = reactive([
+      { id: 1, name: 'A' },
+      { id: 2, name: 'B' },
+    ])
 
     const wrapper = mount(SgGrid, { props: { columns: cols, rows, rowKey: 'id' } })
 
@@ -337,7 +340,12 @@ describe('SgGrid.vue', () => {
     expect(wrapper.findAll('tbody tr')[0].find('td').text()).toBe('AA')
 
     // replace the rows with a new array where the first row has a different id -> key changed
-    await wrapper.setProps({ rows: [{ id: 99, name: 'New' }, { id: 2, name: 'B' }] })
+    await wrapper.setProps({
+      rows: [
+        { id: 99, name: 'New' },
+        { id: 2, name: 'B' },
+      ],
+    })
     await nextTick()
     const firstTrNew = wrapper.findAll('tbody tr')[0].element
     expect(firstTrNew).not.toBe(firstTr)
