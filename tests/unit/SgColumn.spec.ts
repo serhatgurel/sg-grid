@@ -341,6 +341,33 @@ describe('SgColumn.vue', () => {
     expect(bracketWrapper.get('td').text()).toBe('555-0101')
   })
 
+  test('distinguish undefined vs null vs missing key behaviour', () => {
+    // missing key
+    const missing = mount(SgColumn, {
+      props: { dataField: 'missing', dataRow: { other: 'x' } },
+    })
+    expect(missing.get('td').text()).toBe('')
+
+    // explicitly undefined
+    const rowWithUndefined: Record<string, unknown> = { name: undefined }
+    const explicitUndefined = mount(SgColumn, {
+      props: { dataField: 'name', dataRow: rowWithUndefined },
+    })
+    expect(explicitUndefined.get('td').text()).toBe('')
+
+    // explicitly null
+    const explicitNull = mount(SgColumn, {
+      props: { dataField: 'name', dataRow: { name: null } },
+    })
+    expect(explicitNull.get('td').text()).toBe('')
+
+    // when dataRow is absent entirely, props.value is used as fallback
+    const fallback = mount(SgColumn, {
+      props: { dataField: 'name', value: 'fallback' /* no dataRow */ },
+    })
+    expect(fallback.get('td').text()).toBe('fallback')
+  })
+
   // Recommended additional edge cases to implement
   test.todo('distinguish undefined vs null vs missing key behaviour')
   test.todo('renders NaN safely or treats it as missing according to the API')
