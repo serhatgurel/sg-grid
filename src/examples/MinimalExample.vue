@@ -33,6 +33,8 @@ const columns = [
   { key: 'email', field: 'email', caption: 'Email', width: '200px' },
   { key: 'salary', field: 'salary', caption: 'Salary', width: '120px' },
   { key: 'job', field: 'job', caption: 'Job', width: '200px' },
+  // example of percentage width
+  { key: 'country', field: 'address[0].country.code', caption: 'Country', width: '10%' },
   {
     key: 'exclamation',
     field: (row: Partial<RowDef>) => (row.firstName ? row.firstName + '!' : ''),
@@ -55,6 +57,7 @@ const columns = [
     <SgColumn data-field="lastName" caption="Last Name" width="200px" />
     <SgColumn data-field="email" caption="Email" width="200px" />
     <SgColumn data-field="phone[0].type" caption="Phone" width="120px" />
+    <SgColumn data-field="address[0].country.code" caption="Country" width="10%" />
   </SgGrid>
 
   <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE NO CAPTION *">
@@ -73,7 +76,7 @@ const columns = [
     <SgColumn data-field="job" caption="Job" width="200px" />
     <SgColumn data-field="salary" caption="Salary" width="120px" />
     <SgColumn data-field="phone[0].number" caption="Phone" width="120px" />
-    <SgColumn data-field="address[0].country.code" caption="Country" width="120px" />
+    <SgColumn data-field="address[0].country.code" caption="Country" width="10%" />
     <SgColumn
       :data-field="(row) => (row.firstName ? row.firstName + '@' : '')"
       caption="Exclamation"
