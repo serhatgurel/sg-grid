@@ -49,7 +49,7 @@ const columns = [
     <SgColumn data-field="firstName" caption="First Name" />
     <SgColumn data-field="lastName" caption="Last Name" />
     <SgColumn data-field="email" caption="Email" />
-    <SgColumn data-field="phone" caption="Phone" />
+    <SgColumn data-field="phone[0].type" caption="Phone" />
   </SgGrid>
 
   <SgGrid :rows="rows.slice(0, 3)" rowKey="id" caption="* DECLARATIVE EXAMPLE NO CAPTION *">
