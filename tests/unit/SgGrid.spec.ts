@@ -318,7 +318,26 @@ describe('SgGrid.vue', () => {
     'keyboard navigation focuses correct cell and wraps/limits as expected when supported',
   )
 
-  test.todo('gracefully handles invalid column definitions (missing dataField or id)')
+  test('gracefully handles invalid column definitions (missing dataField or id)', () => {
+    // Provide a mix of valid and invalid column defs
+    const cols = [
+      // valid
+      { key: 'k1', field: 'name', caption: 'Name' },
+      // invalid: missing field
+      { key: 'bad1', caption: 'NoField' },
+      // invalid: null field
+      { key: 'bad2', field: null as unknown as string, caption: 'NullField' },
+    ]
+
+    const rows = [{ id: 1, name: 'Z' }]
+
+    // Mounting should not throw and should render only the valid column(s)
+    const wrapper = mount(SgGrid, { props: { columns: cols as any, rows, rowKey: 'id' } })
+    const ths = wrapper.findAll('thead th')
+    // Only the valid 'name' column should be rendered as a header
+    expect(ths.length).toBeGreaterThanOrEqual(1)
+    expect(ths.map((t) => t.text())).toEqual(expect.arrayContaining(['Name']))
+  })
 
   // Recommended / optional tests
   test('columns prop takes precedence over slot-declared and inferred columns', () => {
