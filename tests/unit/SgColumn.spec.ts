@@ -581,7 +581,29 @@ describe('SgColumn.vue', () => {
     const el = wrapper.get('.col-id-slot')
     expect(el.text()).toBe('col-id-test|r-10')
   })
-  test.todo('defaultDisplay converts numbers and booleans to string (0 -> "0", false -> "false")')
+  test('defaultDisplay converts numbers and booleans to string (0 -> "0", false -> "false")', () => {
+    // when no dataRow is supplied, `value` prop should be used and converted to string
+    const numWrapper = mount(SgColumn, {
+      props: { dataField: 'count', value: 0 },
+    })
+    expect(numWrapper.get('td').text()).toBe('0')
+
+    const boolWrapper = mount(SgColumn, {
+      props: { dataField: 'active', value: false },
+    })
+    expect(boolWrapper.get('td').text()).toBe('false')
+
+    // when dataRow provides the value, it should also be stringified
+    const rowNum = mount(SgColumn, {
+      props: { dataField: 'count', dataRow: { count: 0 } },
+    })
+    expect(rowNum.get('td').text()).toBe('0')
+
+    const rowBool = mount(SgColumn, {
+      props: { dataField: 'active', dataRow: { active: false } },
+    })
+    expect(rowBool.get('td').text()).toBe('false')
+  })
   test.todo(
     'explicit behavior when dataRow[field] === null (renders empty string or documented behavior)',
   )
