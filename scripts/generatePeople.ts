@@ -88,6 +88,9 @@ interface Person {
   memberships: string[]
   personalityType: string
   emergencyContacts: EmergencyContact[]
+  email: string
+  job: string
+  salary: number
 }
 
 function randomInt(min: number, max: number): number {
@@ -472,14 +475,22 @@ function makePerson(id: number): Person {
     memberships: randomMemberships(),
     personalityType: randomPersonalityType(),
     emergencyContacts: randomEmergencyContacts(),
+    email: faker.internet.email(names.firstName, names.lastName),
+    job: faker.name.jobTitle(),
+    salary: randomInt(30000, 200000),
   }
 }
 
 function main() {
+  if (process.argv.length < 3) {
+    console.error('Usage: ts-node generatePeople.ts <count> [<fileName>]')
+    process.exit(1)
+  }
   const count = parseInt(process.argv[2], 10) || 35
+  const fileName = process.argv[3] || 'people.generated.json'
   const people: Person[] = Array.from({ length: count }, (_, i) => makePerson(i))
-  fs.writeFileSync('people.generated.json', JSON.stringify(people, null, 2))
-  console.log(`Generated ${count} people to people.generated.json`)
+  fs.writeFileSync(fileName, JSON.stringify(people, null, 2))
+  console.log(`Generated ${count} people to ${fileName}`)
 }
 
 main()
