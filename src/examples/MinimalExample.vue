@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import rowsJson from './rows.json'
+import rowsJson from './people.json'
 import SgGrid from '@/components/SgGrid.vue'
 import SgColumn from '@/components/SgColumn.vue'
 
