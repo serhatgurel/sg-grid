@@ -244,9 +244,40 @@ describe('SgGrid.vue', () => {
   test.todo('gracefully handles invalid column definitions (missing dataField or id)')
 
   // Recommended / optional tests
-  test.todo('columns prop takes precedence over slot-declared and inferred columns')
-  test.todo('slot-declared columns are used when props.columns is absent')
-  test.todo('inferred columns are produced when no columns prop and no declared slot columns')
+  test('columns prop takes precedence over slot-declared and inferred columns', () => {
+    // Provide both props.columns and a slot-declared sg-column; props.columns should win
+    const propsCols = [{ key: 'p1', field: 'id', caption: 'FromProps' }]
+    const slotContent = '<sg-column data-field="name" caption="FromSlot"></sg-column>'
+
+    const wrapper = mount(SgGrid, {
+      props: { columns: propsCols, rows: [], rowKey: 'id' },
+      slots: { default: slotContent },
+    })
+
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(1)
+    expect(ths[0].text()).toBe('FromProps')
+  })
+
+  test('slot-declared columns are used when props.columns is absent', () => {
+    const slotContent = '<sg-column data-field="name" caption="FromSlot"></sg-column>'
+    const wrapper = mount(SgGrid, {
+      props: { rows: [], rowKey: 'id' },
+      slots: { default: slotContent },
+    })
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(1)
+    expect(ths[0].text()).toBe('FromSlot')
+  })
+
+  test('inferred columns are produced when no columns prop and no declared slot columns', () => {
+    const rows = [{ id: 1, a: 'x', b: 'y' }]
+    const wrapper = mount(SgGrid, { props: { rows, rowKey: 'id' } })
+    const ths = wrapper.findAll('thead th')
+    // inferred from object keys: id,a,b (order may vary but SgGrid collects Object.keys order)
+    expect(ths.length).toBeGreaterThanOrEqual(3)
+    expect(ths.map((t) => t.text())).toEqual(expect.arrayContaining(['id', 'a', 'b']))
+  })
   test('grid caption (<caption>) renders when props.caption is provided', () => {
     const wrapper = mount(SgGrid, { props: { caption: 'My Grid Caption', rowKey: 'id' } })
     const caption = wrapper.find('caption')
