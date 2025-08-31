@@ -29,10 +29,11 @@ const columns = [
   { key: 'age', field: 'age', caption: 'Age', width: '60px' },
   { key: 'birthdate', field: 'birthdate', caption: 'Birthdate', width: '120px' },
   { key: 'gender', field: 'gender', caption: 'Gender', width: '120px' },
-  { key: 'phone', field: 'phone', caption: 'Phone', width: '120px' },
+  { key: 'phone', field: 'phone[0].number', caption: 'Phone', width: '120px' },
   { key: 'email', field: 'email', caption: 'Email', width: '200px' },
   { key: 'salary', field: 'salary', caption: 'Salary', width: '120px' },
   { key: 'job', field: 'job', caption: 'Job', width: '200px' },
+  { key: 'exclamation', field: (row: Partial<RowDef>) => (row.firstName ? row.firstName + '!' : ''), caption: 'Exclamation', width: '120px' },
 ]
 </script>
 
@@ -66,6 +67,9 @@ const columns = [
     <SgColumn data-field="email" caption="Email" />
     <SgColumn data-field="job" caption="Job" />
     <SgColumn data-field="salary" caption="Salary" />
+    <SgColumn data-field="phone[0].number" caption="Phone" />
+    <SgColumn data-field="address[0].country.code" caption="Country" />
+    <SgColumn :data-field="(row) => (row.firstName ? row.firstName + '@' : '')" caption="Exclamation" />
   </SgGrid>
 
   <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" caption="PROPS BASED EXAMPLE" />
