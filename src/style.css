@@ -29,6 +29,9 @@
 .sg-grid-table {
   border-collapse: collapse;
   width: 100%;
+  /* Use fixed layout so explicit column widths (px or %) are respected
+    by the browser rather than being sized purely by content. */
+  table-layout: fixed;
   font-family: var(--sg-font-family);
   font-size: var(--sg-font-size);
   color: var(--sg-cell-color);
@@ -38,6 +41,10 @@
 .sg-grid-table td {
   border: var(--sg-border-width) var(--sg-border-style) var(--sg-border-color);
   padding: var(--sg-cell-padding);
+  /* Prevent content from forcing a column wider than its specified width. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sg-grid-table td.sg-cell {
