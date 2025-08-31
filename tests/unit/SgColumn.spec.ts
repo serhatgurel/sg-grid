@@ -202,7 +202,28 @@ describe('SgColumn.vue', () => {
     // component should re-render using the new reference
     expect(wrapper.get('td').text()).toBe('Updated')
   })
-  test.todo('columnData.caption takes precedence for display name when present')
+  test('columnData.caption takes precedence for display name when present', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        id: 'col-caption',
+        caption: 'Full Name',
+        dataRow: { name: 'Bob' },
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const data = props.data as Record<string, unknown> | undefined
+          const nameAlias = props.name as string | undefined
+          return h('span', { class: 'caption-slot' }, `${data?.name ?? ''}|${String(nameAlias)}`)
+        },
+      },
+    })
+
+    const el = wrapper.get('.caption-slot')
+    // columnData.name should be the caption, while name alias remains the dataField
+    expect(el.text()).toBe('Full Name|name')
+  })
   test.todo('slotProps.data shape includes exactly { id, name, value, dataRow, dataField }')
   test.todo('renders a td element and acts as a proper table cell (smoke test)')
 
