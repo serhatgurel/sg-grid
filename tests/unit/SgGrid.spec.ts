@@ -351,9 +351,17 @@ describe('SgGrid.vue', () => {
     expect(firstTrNew).not.toBe(firstTr)
     expect(wrapper.findAll('tbody tr')[0].find('td').text()).toBe('New')
   })
-  test.todo(
-    'declared slot columns are recognized when using <sg-column data-field=...> in default slot',
-  )
+  test('declared slot columns are recognized when using <sg-column data-field=...> in default slot', () => {
+    // Use the data-field attribute (dash-case) in a default slot; SgGrid should read it
+    const slotContent = '<sg-column data-field="age" caption="SlotAge"></sg-column>'
+    const wrapper = mount(SgGrid, {
+      props: { rows: [], rowKey: 'id' },
+      slots: { default: slotContent },
+    })
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(1)
+    expect(ths[0].text()).toBe('SlotAge')
+  })
   test.todo.skip('column hide/show API works when implemented')
   test.todo.skip('column reorder API respects programmatic reordering when implemented')
   test.todo.skip('column resize emits events when user resizes columns if implemented')
