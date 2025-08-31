@@ -6,6 +6,9 @@ import { describe, test } from 'vitest'
 describe('SgGrid.vue', () => {
   // Basic rendering
   test.todo('renders a table with thead and tbody (structure smoke test)')
+  test.todo('renders when no columns are supplied (graceful fallback)')
+  test.todo('renders when no rows are supplied (empty body or placeholder)')
+  test.todo('renders when neither columns nor rows are supplied')
   test.todo('renders column headers from columns/columnData (caption/name precedence)')
   test.todo('renders rows from rows prop with correct number of cells')
 
