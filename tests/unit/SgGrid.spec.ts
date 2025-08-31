@@ -102,7 +102,6 @@ describe('SgGrid.vue', () => {
     const trs = wrapper.findAll('tbody tr')
     expect(trs.length).toBe(0)
   })
-  test.todo('renders when neither columns nor rows are supplied')
   test('renders column headers from columns/columnData (caption/name precedence)', () => {
     const cols = [
       { key: 'k1', field: 'firstName', caption: 'First Name' },
