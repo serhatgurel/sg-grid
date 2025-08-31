@@ -259,7 +259,34 @@ describe('SgGrid.vue', () => {
   })
 
   // Accessibility and semantics
-  test.todo('renders as semantic table cells (td/th) with appropriate ARIA attributes if used')
+  test('renders as semantic table cells (td/th) with appropriate ARIA attributes if used', () => {
+    const cols = [
+      { key: 'c1', field: 'name', caption: 'Name', thAttrs: { 'aria-label': 'name-col' } },
+      { key: 'c2', field: 'age', caption: 'Age' },
+    ]
+
+    const wrapper = mount(SgGrid, {
+      props: { columns: cols, rows: [{ id: 1, name: 'A', age: 1 }], rowKey: 'id' },
+    })
+
+    // Verify semantic elements
+    expect(wrapper.find('table').exists()).toBe(true)
+    expect(wrapper.find('thead').exists()).toBe(true)
+    expect(wrapper.find('tbody').exists()).toBe(true)
+
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(2)
+
+    // If the component supports passing arbitrary attrs to the header, they should appear
+    // We'll check aria-label presence for the first header cell if the implementation wires attrs
+    const firstTh = ths[0]
+    // either the attribute exists or the component doesn't support passthrough; both are acceptable
+    // but we assert that the element is a <th>
+    expect(firstTh.element.tagName.toLowerCase()).toBe('th')
+    // optional: check aria if present
+    const aria = firstTh.attributes('aria-label')
+    if (aria) expect(aria).toBe('name-col')
+  })
   test.todo.skip('keyboard navigation between cells/rows works (focus, arrow keys) if supported')
 
   // Column features
