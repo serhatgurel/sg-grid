@@ -274,8 +274,23 @@ describe('SgGrid.vue', () => {
   // Row identity and keys
   test.todo.skip('uses row id or provided key as DOM key to avoid unnecessary re-renders')
 
-  // Edge cases / future behavior
-  test.todo('supports nested-field paths like "a.b.c" if/when implemented (pending)')
+  test('supports nested-field paths like "a.b.c" if/when implemented (pending)', () => {
+    const cols = [{ key: 'n1', field: 'a.b.c', caption: 'Deep' }]
+    const rows = [{ id: 1, a: { b: { c: 'deep-value' } } }]
+    const wrapper = mount(SgGrid, { props: { columns: cols, rows, rowKey: 'id' } })
+    const td = wrapper.find('tbody tr td')
+    expect(td.exists()).toBe(true)
+    expect(td.text()).toBe('deep-value')
+  })
+  test.todo.skip('column hide/show API works when implemented')
+  test.todo.skip('column reorder API respects programmatic reordering when implemented')
+  test.todo.skip('column resize emits events when user resizes columns if implemented')
+  test.todo.skip('virtualization displays only subset of rows when enabled and scrolls correctly')
+  test.todo.skip('export to CSV includes visible columns and rows when export feature invoked')
+  test.todo.skip(
+    'keyboard navigation focuses correct cell and wraps/limits as expected when supported',
+  )
+
   test.todo('gracefully handles invalid column definitions (missing dataField or id)')
 
   // Recommended / optional tests
@@ -432,13 +447,6 @@ describe('SgGrid.vue', () => {
     expect(ths.length).toBe(1)
     expect(ths[0].text()).toBe('SlotAge')
   })
-  test.todo.skip('column hide/show API works when implemented')
-  test.todo.skip('column reorder API respects programmatic reordering when implemented')
-  test.todo.skip('column resize emits events when user resizes columns if implemented')
-  test.todo.skip('virtualization displays only subset of rows when enabled and scrolls correctly')
-  test.todo.skip('export to CSV includes visible columns and rows when export feature invoked')
-  test.todo.skip(
-    'keyboard navigation focuses correct cell and wraps/limits as expected when supported',
-  )
+
   test.todo.skip('filtering/sorting combination behaves correctly with multiple criteria')
 })
