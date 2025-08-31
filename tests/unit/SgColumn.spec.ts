@@ -621,7 +621,31 @@ describe('SgColumn.vue', () => {
     expect(td2.text()).toBe('')
     expect(td2.html()).not.toContain('null')
   })
-  test.todo('NaN handling: NaN is treated/printed according to documented API')
+  test('NaN handling: NaN is treated/printed according to documented API', () => {
+    // when dataRow contains NaN the cell should render empty and never the literal 'NaN'
+    const wrapper = mount(SgColumn, {
+      props: { dataField: 'score', dataRow: { score: NaN } },
+    })
+
+    const td = wrapper.get('td')
+    expect(td.text()).toBe('')
+    expect(td.html()).not.toContain('NaN')
+
+    // when a slot is provided, it should not receive a value that prints as the literal 'NaN'
+    const wrapperSlot = mount(SgColumn, {
+      props: { dataField: 'score', dataRow: { score: NaN } },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          // render the incoming slot value as a string so we can assert it isn't 'NaN'
+          return h('span', { class: 'nan-slot' }, String(props.value))
+        },
+      },
+    })
+
+    const slotEl = wrapperSlot.get('.nan-slot')
+    expect(slotEl.text()).not.toBe('NaN')
+  })
   test.todo('handles unusual dataField types (number, empty-string) without throwing')
   test.todo('slot implementation cannot accidentally mutate parent props (immutability guard)')
 })

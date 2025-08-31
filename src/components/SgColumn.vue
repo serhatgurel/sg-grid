@@ -55,8 +55,15 @@ const slotProps = computed(() => {
     name: props.dataField,
     row: rowClone,
     field: props.dataField,
-    // prefer cloned value when available so slots see the snapshot
-    value: dataClone?.value ?? resolvedValue.value,
+    // prefer the cloned snapshot's own `value` when the snapshot contains
+    // the property (even if it's null). The previous nullish-coalescing
+    // allowed `null` (from JSON-cloning NaN) to fall back to the original
+    // resolvedValue which could be NaN again. Use a hasOwnProperty check
+    // so slots receive the snapshot's value when present.
+    value:
+      dataClone && Object.prototype.hasOwnProperty.call(dataClone, 'value')
+        ? (dataClone as Record<string, unknown>).value
+        : resolvedValue.value,
   }
 })
 
