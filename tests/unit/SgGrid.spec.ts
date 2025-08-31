@@ -1,7 +1,8 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { reactive, nextTick, defineComponent, getCurrentInstance } from 'vue'
+import { reactive, nextTick, defineComponent, getCurrentInstance, h } from 'vue'
 import SgGrid from '../../src/components/SgGrid.vue'
+import SgColumn from '../../src/components/SgColumn.vue'
 
 // Skeleton tests for SgGrid — TODOs only. Implementations intentionally omitted.
 // These todos cover typical grid behaviours and recommended edge-case tests.
@@ -218,9 +219,25 @@ describe('SgGrid.vue', () => {
   )
 
   // Slots and custom rendering
-  test.todo(
-    'cell slot replaces default cell and receives slot props { id, name, value, dataRow, dataField }',
-  )
+  test('cell slot replaces default cell and receives slot props { id, name, value, dataRow, dataField }', () => {
+    const row = { id: 7, name: 'SlotName', extra: 42 }
+
+    const wrapper = mount(SgColumn, {
+      props: { dataField: 'name', dataRow: row },
+      slots: {
+        default: (slotProps: Record<string, unknown>) => {
+          // render a real vnode span that includes the slot value and the snapshot data.name
+          const val = String(slotProps.value)
+          const name = String((slotProps.row as Record<string, unknown>)?.name)
+          return h('span', { class: 'slot-cell' }, `${val}-${name}`)
+        },
+      },
+    })
+
+    const span = wrapper.find('td .slot-cell')
+    expect(span.exists()).toBe(true)
+    expect(span.text()).toBe('SlotName-SlotName')
+  })
   test.todo('header slot can replace header content and receives appropriate slot props')
 
   // Accessibility and semantics
