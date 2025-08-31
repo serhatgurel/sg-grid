@@ -3,7 +3,8 @@
 // Requires: npm install faker@5.5.3 @types/node ts-node typescript
 
 import fs from 'fs'
-import faker from 'faker'
+import { faker } from '@faker-js/faker';
+
 
 interface Address {
   street: string
@@ -79,7 +80,7 @@ interface Person {
   'credit-card': string
   kids: Kid[]
   socialProfiles: SocialProfile[]
-  favoriteFoods: string[]
+  favouriteFoods: string[]
   skills: string[]
   languages: string[]
   pets: Pet[]
@@ -158,14 +159,14 @@ function randomAddresses(): Address[] {
   const n = randomInt(1, 3)
   const chosenTypes = faker.helpers.shuffle(types).slice(0, n)
   return chosenTypes.map((type) => ({
-    street: faker.address.streetAddress(),
-    city: faker.address.city(),
-    state: faker.address.state(),
-    zip: faker.address.zipCode(),
+    street: faker.location.streetAddress(),
+    city: faker.location.city(),
+    state: faker.location.state(),
+    zip: faker.location.zipCode(),
     country: {
-      code: faker.address.countryCode(),
-      name: faker.address.country(),
-      id: faker.address.countryCode(),
+      code: faker.location.countryCode(),
+      name: faker.location.country(),
+      id: faker.location.countryCode(),
     },
     type,
   }))
@@ -176,7 +177,7 @@ function randomPhones(): Phone[] {
   const n = randomInt(1, 2)
   const chosenTypes = faker.helpers.shuffle(types).slice(0, n)
   return chosenTypes.map((type) => ({
-    number: faker.phone.phoneNumber(),
+    number: faker.phone.number(),
     type,
   }))
 }
@@ -184,7 +185,7 @@ function randomPhones(): Phone[] {
 function randomKids(): Kid[] {
   return randomArray(
     () => ({
-      name: faker.name.firstName(),
+      name: faker.person.firstName(),
       age: randomInt(1, 25),
     }),
     0,
@@ -196,15 +197,16 @@ function randomSocialProfiles(): SocialProfile[] {
   const platforms = ['Twitter', 'Facebook', 'Instagram', 'LinkedIn', 'VK']
   return randomArray(
     () => ({
-      platform: faker.helpers.randomize(platforms),
-      handle: faker.internet.userName(),
+      platform: faker.helpers.arrayElement
+(platforms),
+      handle: faker.internet.username(),
     }),
     0,
     2,
   )
 }
 
-function randomFavoriteFoods(): string[] {
+function randomFavouriteFoods(): string[] {
   const foods = [
     'pizza',
     'sushi',
@@ -313,8 +315,9 @@ function randomPets(): Pet[] {
   const types = ['dog', 'cat', 'bird', 'fish', 'hamster', 'rabbit', 'turtle']
   return randomArray(
     () => ({
-      type: faker.helpers.randomize(types),
-      name: faker.name.firstName(),
+      type: faker.helpers.arrayElement
+(types),
+      name: faker.person.firstName(),
       age: randomInt(1, 15),
     }),
     0,
@@ -342,9 +345,11 @@ function randomEducation(): Education[] {
   ]
   return randomArray(
     () => ({
-      degree: faker.helpers.randomize(degrees),
-      field: faker.helpers.randomize(fields),
-      institution: faker.company.companyName(),
+      degree: faker.helpers.arrayElement
+(degrees),
+      field: faker.helpers.arrayElement
+(fields),
+      institution: faker.company.name(),
       year: randomInt(1980, 2023),
     }),
     0,
@@ -410,14 +415,16 @@ function randomPersonalityType(): string {
     'INFP',
     'ISFJ',
   ]
-  return faker.helpers.randomize(types)
+  return faker.helpers.arrayElement
+(types)
 }
 
 function randomEmergencyContacts(): EmergencyContact[] {
   return randomArray(
     () => ({
-      name: faker.name.findName(),
-      relation: faker.helpers.randomize([
+      name: faker.person.fullName(),
+      relation: faker.helpers.arrayElement
+([
         'father',
         'mother',
         'wife',
@@ -427,7 +434,7 @@ function randomEmergencyContacts(): EmergencyContact[] {
         'child',
         'friend',
       ]),
-      phone: faker.phone.phoneNumber(),
+      phone: faker.phone.number(),
     }),
     1,
     2,
@@ -441,11 +448,11 @@ function randomNames(): {
   nickname?: string
   suffix?: string
 } {
-  const firstName = faker.name.firstName()
-  const lastName = faker.name.lastName()
-  const middleName = Math.random() < 0.5 ? faker.name.firstName() : undefined
-  const nickname = Math.random() < 0.3 ? faker.internet.userName() : undefined
-  const suffix = Math.random() < 0.2 ? faker.name.suffix() : undefined
+  const firstName = faker.person.firstName()
+  const lastName = faker.person.lastName()
+  const middleName = Math.random() < 0.5 ? faker.person.firstName() : undefined
+  const nickname = Math.random() < 0.3 ? faker.internet.username() : undefined
+  const suffix = Math.random() < 0.2 ? faker.person.suffix() : undefined
   return { firstName, lastName, middleName, nickname, suffix }
 }
 
@@ -453,20 +460,22 @@ function makePerson(id: number): Person {
   const names = randomNames()
   return {
     id: `r${id + 1}`,
-    title: faker.name.prefix(),
-    gender: faker.helpers.randomize(['M', 'F', 'O']),
+    title: faker.person.prefix(),
+    gender: faker.helpers.arrayElement
+(['M', 'F', 'O']),
     ...names,
     phone: randomPhones(),
     age: randomInt(18, 65),
-    birthdate: faker.date.past(65, new Date('2007-01-01')).toISOString().slice(0, 10),
-    married: faker.helpers.randomize(['single', 'married', 'defacto']),
-    spouse: Math.random() < 0.5 ? faker.name.findName() : '',
+    birthdate: faker.date.past({ years: 65, refDate: new Date('2007-01-01') }).toISOString().slice(0, 10),
+    married: faker.helpers.arrayElement
+(['single', 'married', 'de-facto']),
+    spouse: Math.random() < 0.5 ? faker.person.fullName() : '',
     address: randomAddresses(),
     hobbies: randomHobbies(),
     'credit-card': faker.finance.creditCardNumber(),
     kids: randomKids(),
     socialProfiles: randomSocialProfiles(),
-    favoriteFoods: randomFavoriteFoods(),
+    favouriteFoods: randomFavouriteFoods(),
     skills: randomSkills(),
     languages: randomLanguages(),
     pets: randomPets(),
@@ -475,8 +484,8 @@ function makePerson(id: number): Person {
     memberships: randomMemberships(),
     personalityType: randomPersonalityType(),
     emergencyContacts: randomEmergencyContacts(),
-    email: faker.internet.email(names.firstName, names.lastName),
-    job: faker.name.jobTitle(),
+    email: faker.internet.email({ firstName: names.firstName, lastName: names.lastName }),
+    job: faker.person.jobTitle(),
     salary: randomInt(30000, 200000),
   }
 }
