@@ -557,7 +557,30 @@ describe('SgColumn.vue', () => {
     // data.name should be the caption, while top-level alias `name` should be the dataField
     expect(el.text()).toBe('User Email|email')
   })
-  test.todo('columnData.id is present in slotProps.data when `id` prop supplied')
+  test('columnData.id is present in slotProps.data when `id` prop supplied', () => {
+    const row = { id: 'r-10', name: 'Sam' }
+
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        id: 'col-id-test',
+        caption: 'Name',
+        dataRow: row,
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const data = props.data as Record<string, unknown> | undefined
+          const colId = data?.id ?? ''
+          const rowId = (data?.dataRow as Record<string, unknown> | undefined)?.id ?? ''
+          return h('span', { class: 'col-id-slot' }, `${String(colId)}|${String(rowId)}`)
+        },
+      },
+    })
+
+    const el = wrapper.get('.col-id-slot')
+    expect(el.text()).toBe('col-id-test|r-10')
+  })
   test.todo('defaultDisplay converts numbers and booleans to string (0 -> "0", false -> "false")')
   test.todo(
     'explicit behavior when dataRow[field] === null (renders empty string or documented behavior)',
