@@ -298,9 +298,20 @@ describe('SgColumn.vue', () => {
       expect(role).toBe('cell')
     }
   })
-  test.todo('does not render "undefined" text for absent fields (explicit DOM assertion)')
+  test('does not render "undefined" text for absent fields (explicit DOM assertion)', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'missingField',
+        dataRow: { other: 'value' },
+      },
+    })
 
-  // Optional / future behavior
+    const td = wrapper.get('td')
+    // text should be empty string, not the word 'undefined'
+    expect(td.text()).toBe('')
+    // and the rendered HTML must not include the literal 'undefined'
+    expect(td.html()).not.toContain('undefined')
+  })
   test.todo(
     'nested-field behaviour: supports "a.b.c" style paths when implemented (pending feature)',
   )
