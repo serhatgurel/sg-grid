@@ -224,7 +224,39 @@ describe('SgColumn.vue', () => {
     // columnData.name should be the caption, while name alias remains the dataField
     expect(el.text()).toBe('Full Name|name')
   })
-  test.todo('slotProps.data shape includes exactly { id, name, value, dataRow, dataField }')
+  test('slotProps.data shape includes expected keys { id, name, value, dataRow, dataField }', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        id: 'col-shape',
+        caption: 'Caption',
+        width: 120,
+        align: 'center',
+        dataRow: { name: 'Zoe' },
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const data = props.data as Record<string, unknown> | undefined
+          // build a small fingerprint of the required fields
+          const id = data?.id ?? ''
+          const name = data?.name ?? ''
+          const value = data?.value ?? ''
+          const rowName = (data?.dataRow as Record<string, unknown> | undefined)?.name ?? ''
+          const dataField = String(data?.dataField ?? '')
+          return h(
+            'span',
+            { class: 'shape-slot' },
+            `${id}|${name}|${String(value)}|${rowName}|${dataField}`,
+          )
+        },
+      },
+    })
+
+    const el = wrapper.get('.shape-slot')
+    // expected: id is column id, name is caption, value is row.name, dataRow contains the row, dataField is the field
+    expect(el.text()).toBe('col-shape|Caption|Zoe|Zoe|name')
+  })
   test.todo('renders a td element and acts as a proper table cell (smoke test)')
 
   // Accessibility / DOM attributes
