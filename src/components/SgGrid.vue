@@ -8,7 +8,9 @@
     <thead>
       <tr>
         <th v-for="column in columns" :key="column.key" :style="columnStyle(column)">
-          {{ column.caption ?? column.field }}
+          <slot name="header" :column="column">
+            {{ column.caption ?? column.field }}
+          </slot>
         </th>
       </tr>
     </thead>

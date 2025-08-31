@@ -238,7 +238,25 @@ describe('SgGrid.vue', () => {
     expect(span.exists()).toBe(true)
     expect(span.text()).toBe('SlotName-SlotName')
   })
-  test.todo('header slot can replace header content and receives appropriate slot props')
+  test('header slot can replace header content and receives appropriate slot props', () => {
+    const cols = [
+      { key: 'h1', field: 'name', caption: 'Name' },
+      { key: 'h2', field: 'age', caption: 'Age' },
+    ]
+    const wrapper = mount(SgGrid, {
+      props: { columns: cols, rows: [], rowKey: 'id' },
+      slots: {
+        header: (slotProps: Record<string, unknown>) => {
+          const column = slotProps.column as Record<string, unknown>
+          return h('span', { class: 'hdr' }, `H-${String(column.caption ?? column.field)}`)
+        },
+      },
+    })
+
+    const ths = wrapper.findAll('thead th')
+    expect(ths.length).toBe(2)
+    expect(ths.map((t) => t.text())).toEqual(['H-Name', 'H-Age'])
+  })
 
   // Accessibility and semantics
   test.todo('renders as semantic table cells (td/th) with appropriate ARIA attributes if used')
