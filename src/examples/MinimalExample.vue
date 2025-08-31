@@ -23,8 +23,8 @@ interface RowDef {
 const rows = computed(() => rowsJson as unknown as Array<Partial<RowDef>>)
 
 const columns = [
-  { key: 'title', field: 'title', caption: 'Title', width: '200px' },
-  { key: 'firstName', field: 'firstName', caption: 'First Name', width: '100px' },
+  { key: 'title', field: 'title', caption: 'Title', width: '2px' },
+  { key: 'firstName', field: 'firstName', caption: 'First Name', width: '50px' },
   { key: 'lastName', field: 'lastName', caption: 'Last Name', width: '200px' },
   { key: 'age', field: 'age', caption: 'Age', width: '60px' },
   { key: 'birthdate', field: 'birthdate', caption: 'Birthdate', width: '120px' },
