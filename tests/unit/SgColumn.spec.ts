@@ -112,6 +112,31 @@ describe('SgColumn.vue', () => {
     // column `id` is provided via props.id, so slot.data.id should be the column id
     expect(slot.text()).toBe('col-1|name|row-name|row-name|name')
   })
+  test('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        id: 'col-2',
+        dataRow: { name: 'Alice' },
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const nameAlias = props.name as string | undefined
+          const rowAlias = props.row as Record<string, unknown> | undefined
+          const fieldAlias = props.field as string | undefined
+          return h(
+            'span',
+            { class: 'alias' },
+            `${String(nameAlias)}|${rowAlias?.name ?? ''}|${String(fieldAlias)}`,
+          )
+        },
+      },
+    })
+
+    const alias = wrapper.get('.alias')
+    expect(alias.text()).toBe('name|Alice|name')
+  })
   test.todo('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField')
   test.todo('mutating the same dataRow object updates the cell (in-place reactivity)')
   test.todo(
