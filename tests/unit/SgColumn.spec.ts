@@ -81,11 +81,7 @@ describe('SgColumn.vue', () => {
     expect(td.text()).toBe('')
     expect(td.text()).not.toContain('undefined')
   })
-  test.todo('prefers dataRow[dataField] over value when dataRow is present')
-  test.todo('renders falsy but valid value 0 correctly')
-  test.todo('renders falsy but valid value false correctly')
-  test.todo("renders falsy but valid empty string ('') correctly")
-  test.todo('missing key on dataRow renders empty default display (no \"undefined\" text)')
+
   test.todo(
     'slot content replaces default rendering and receives slot props { id, name, value, dataRow, dataField }',
   )
