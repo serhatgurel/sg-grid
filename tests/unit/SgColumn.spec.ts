@@ -467,7 +467,35 @@ describe('SgColumn.vue', () => {
     const el = wrapper.get('.immutable-slot')
     expect(el.text()).toBe('slot')
   })
-  test.todo('deep nested changes inside dataRow reflect if reactivity is intended')
+  test('deep nested changes inside dataRow reflect if reactivity is intended', async () => {
+    // create a deeply nested reactive object
+    const row = reactive({ profile: { address: { city: 'OldTown' } }, phones: [{ number: '111' }] })
+
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'profile.address.city',
+        dataRow: row,
+      },
+    })
+
+    // initial render shows the nested value
+    expect(wrapper.get('td').text()).toBe('OldTown')
+
+    // mutate a deep nested property in-place
+    row.profile.address.city = 'NewCity'
+    await nextTick()
+    expect(wrapper.get('td').text()).toBe('NewCity')
+
+    // also assert that updating an indexed path is observed
+    await wrapper.setProps({ dataField: 'phones[0].number' })
+    await nextTick()
+    expect(wrapper.get('td').text()).toBe('111')
+
+    // mutate the array element's nested value
+    row.phones[0].number = '222'
+    await nextTick()
+    expect(wrapper.get('td').text()).toBe('222')
+  })
 
   // Additional recommended / optional tests
   test.todo('slot receives both `data` object and top-level alias props and they map correctly')
