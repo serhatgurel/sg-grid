@@ -1,9 +1,11 @@
 // Lightweight shared types for sg-grid components
 import type { PropType } from 'vue'
 
+export type FieldPath = string | ((row: Record<string, unknown>) => unknown)
+
 export interface ColumnDef {
   key: string
-  field: string
+  field: FieldPath
   caption?: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
@@ -11,7 +13,7 @@ export interface ColumnDef {
 
 // Props for declarative <sg-column>
 export interface SgColumnProps {
-  dataField: string
+  dataField: FieldPath
   key?: string
   caption?: string
   width?: string | number
