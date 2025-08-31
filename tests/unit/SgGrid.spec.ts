@@ -16,7 +16,7 @@ describe('SgGrid.vue', () => {
   test.todo('mutating the same rows array/object updates the rendered grid (in-place reactivity)')
   test.todo('replacing the rows array via setProps updates the grid (new reference re-render)')
   test.todo('handles empty rows gracefully (renders empty body or placeholder)')
-  test.todo('renders falsy values in cells correctly (0, false, empty string)')
+  
 
   // Selection & events
   test.todo('emits a row-click or row-selected event with correct payload when a row is clicked')
