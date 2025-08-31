@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { reactive, nextTick, defineComponent } from 'vue'
+import { reactive, nextTick, defineComponent, getCurrentInstance } from 'vue'
 import SgGrid from '../../src/components/SgGrid.vue'
 
 // Skeleton tests for SgGrid — TODOs only. Implementations intentionally omitted.
@@ -284,9 +284,44 @@ describe('SgGrid.vue', () => {
     expect(caption.exists()).toBe(true)
     expect(caption.text()).toBe('My Grid Caption')
   })
-  test.todo(
-    'getRowKey behaviour: no rowKey -> JSON.stringify(row), string -> property, function -> return value',
-  )
+  test('getRowKey behaviour: no rowKey -> JSON.stringify(row), string -> property, function -> return value', async () => {
+    // no rowKey: SgGrid should fallback to JSON.stringify(row) and preserve identity when mutating non-key fields
+    const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
+    const rowsNoKey = reactive([{ id: 1, name: 'X' }])
+    const wrapperNoKey = mount(SgGrid, { props: { columns: cols, rows: rowsNoKey, rowKey: 'id' } })
+    const trNoKey = wrapperNoKey.findAll('tbody tr')[0].element
+    rowsNoKey[0].name = 'XX'
+    await nextTick()
+    expect(wrapperNoKey.findAll('tbody tr')[0].element).toBe(trNoKey)
+
+    // string rowKey: use property
+    const rowsStringKey = reactive([{ id: 'k1', name: 'A' }])
+    const wrapperStringKey = mount(SgGrid, {
+      props: { columns: cols, rows: rowsStringKey, rowKey: 'id' },
+    })
+    const trStringKey = wrapperStringKey.findAll('tbody tr')[0].element
+    // changing non-key should keep DOM node
+    rowsStringKey[0].name = 'AA'
+    await nextTick()
+    expect(wrapperStringKey.findAll('tbody tr')[0].element).toBe(trStringKey)
+
+    // function rowKey: return name; changing name should replace DOM node
+    const rowsFuncKey = reactive([{ id: 1, name: 'one' }])
+    const rowKeyFn = (r: { [k: string]: unknown }) => String(r.name)
+    const wrapperFuncKey = mount(SgGrid, {
+      props: {
+        columns: cols,
+        rows: rowsFuncKey,
+        rowKey: rowKeyFn as unknown as (row: unknown) => string,
+      },
+    })
+    const trFunc = wrapperFuncKey.findAll('tbody tr')[0].element
+    // changing the name (which is used as the key) -> should replace the DOM node
+    rowsFuncKey[0].name = 'changed'
+    await wrapperFuncKey.setProps({ rows: [{ id: 1, name: 'changed' }] })
+    await nextTick()
+    expect(wrapperFuncKey.findAll('tbody tr')[0].element).not.toBe(trFunc)
+  })
   test('SgGrid passes column.caption and column.field to SgColumn via props', () => {
     // We'll mount SgGrid but stub SgColumn to capture the props it receives.
     const received: Array<Record<string, unknown>> = []
