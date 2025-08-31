@@ -531,9 +531,32 @@ describe('SgColumn.vue', () => {
       'col-5|E-mail|me@example.com|row-5|email|email|email|row-5|me@example.com',
     )
   })
-  test.todo(
-    'slotProps.data.name (caption) and slot prop `name` (dataField) are distinct and correct',
-  )
+  test('slotProps.data.name (caption) and slot prop `name` (dataField) are distinct and correct', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'email',
+        id: 'col-name-test',
+        caption: 'User Email',
+        dataRow: { email: 'x@y.com' },
+      },
+      slots: {
+        default: (p: unknown) => {
+          const props = p as Record<string, unknown>
+          const data = props.data as Record<string, unknown> | undefined
+          const aliasName = props.name as string | undefined
+          return h(
+            'span',
+            { class: 'caption-vs-name' },
+            `${String(data?.name ?? '')}|${String(aliasName)}`,
+          )
+        },
+      },
+    })
+
+    const el = wrapper.get('.caption-vs-name')
+    // data.name should be the caption, while top-level alias `name` should be the dataField
+    expect(el.text()).toBe('User Email|email')
+  })
   test.todo('columnData.id is present in slotProps.data when `id` prop supplied')
   test.todo('defaultDisplay converts numbers and booleans to string (0 -> "0", false -> "false")')
   test.todo(
