@@ -205,19 +205,14 @@ describe('SgGrid.vue', () => {
     expect(wrapper.findAll('tbody tr').length).toBe(0)
   })
 
-  // Data and reactivity
-  test.todo('mutating the same rows array/object updates the rendered grid (in-place reactivity)')
-  test.todo('replacing the rows array via setProps updates the grid (new reference re-render)')
-  test.todo('handles empty rows gracefully (renders empty body or placeholder)')
-
   // Selection & events
-  test.todo('emits a row-click or row-selected event with correct payload when a row is clicked')
-  test.todo('supports single and multi-row selection modes and emits selection changes')
+  test.todo.skip('emits a row-click or row-selected event with correct payload when a row is clicked')
+  test.todo.skip('supports single and multi-row selection modes and emits selection changes')
 
   // Sorting, filtering, pagination
-  test.todo('clicking a sortable header toggles sort state and emits sort events')
-  test.todo('applies client-side filters to visible rows when filter criteria provided')
-  test.todo('shows pagination controls and renders correct page of rows when pagination enabled')
+  test.todo.skip('clicking a sortable header toggles sort state and emits sort events')
+  test.todo.skip('applies client-side filters to visible rows when filter criteria provided')
+  test.todo.skip('shows pagination controls and renders correct page of rows when pagination enabled')
 
   // Slots and custom rendering
   test.todo(
@@ -227,19 +222,19 @@ describe('SgGrid.vue', () => {
 
   // Accessibility and semantics
   test.todo('renders as semantic table cells (td/th) with appropriate ARIA attributes if used')
-  test.todo('keyboard navigation between cells/rows works (focus, arrow keys) if supported')
+  test.todo.skip('keyboard navigation between cells/rows works (focus, arrow keys) if supported')
 
   // Column features
-  test.todo('supports hiding/showing columns via column definitions or API')
-  test.todo('respects column order and allows programmatic reordering if supported')
-  test.todo('handles column resize and emits resize events when user resizes columns')
+  test.todo.skip('supports hiding/showing columns via column definitions or API')
+  test.todo.skip('respects column order and allows programmatic reordering if supported')
+  test.todo.skip('handles column resize and emits resize events when user resizes columns')
 
   // Performance / advanced features
-  test.todo('supports virtualization/virtual scrolling for large row sets if implemented')
-  test.todo('exports visible rows to CSV/print when export feature invoked (if supported)')
+  test.todo.skip('supports virtualization/virtual scrolling for large row sets if implemented')
+  test.todo.skip('exports visible rows to CSV/print when export feature invoked (if supported)')
 
   // Row identity and keys
-  test.todo('uses row id or provided key as DOM key to avoid unnecessary re-renders')
+  test.todo.skip('uses row id or provided key as DOM key to avoid unnecessary re-renders')
 
   // Edge cases / future behavior
   test.todo('supports nested-field paths like "a.b.c" if/when implemented (pending)')
@@ -258,11 +253,11 @@ describe('SgGrid.vue', () => {
   test.todo(
     'declared slot columns are recognized when using <sg-column data-field=...> in default slot',
   )
-  test.todo('column hide/show API works when implemented')
-  test.todo('column reorder API respects programmatic reordering when implemented')
-  test.todo('column resize emits events when user resizes columns if implemented')
-  test.todo('virtualization displays only subset of rows when enabled and scrolls correctly')
-  test.todo('export to CSV includes visible columns and rows when export feature invoked')
-  test.todo('keyboard navigation focuses correct cell and wraps/limits as expected when supported')
-  test.todo('filtering/sorting combination behaves correctly with multiple criteria')
+  test.todo.skip('column hide/show API works when implemented')
+  test.todo.skip('column reorder API respects programmatic reordering when implemented')
+  test.todo.skip('column resize emits events when user resizes columns if implemented')
+  test.todo.skip('virtualization displays only subset of rows when enabled and scrolls correctly')
+  test.todo.skip('export to CSV includes visible columns and rows when export feature invoked')
+  test.todo.skip('keyboard navigation focuses correct cell and wraps/limits as expected when supported')
+  test.todo.skip('filtering/sorting combination behaves correctly with multiple criteria')
 })
