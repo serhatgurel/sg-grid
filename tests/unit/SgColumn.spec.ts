@@ -646,6 +646,21 @@ describe('SgColumn.vue', () => {
     const slotEl = wrapperSlot.get('.nan-slot')
     expect(slotEl.text()).not.toBe('NaN')
   })
-  test.todo('handles unusual dataField types (number, empty-string) without throwing')
+  test('handles unusual dataField types (number, empty-string) without throwing', () => {
+    const row = { 0: 'zero', '': 'empty-key', name: 'present' }
+
+    // numeric dataField should resolve to the corresponding index/key
+    const numWrapper = mount(SgColumn, {
+      props: { dataField: 0 as unknown as string, dataRow: row },
+    })
+    expect(numWrapper.get('td').text()).toBe('zero')
+
+    // empty-string dataField is treated as missing by the resolver and
+    // should render empty string rather than throwing or returning a value.
+    const emptyWrapper = mount(SgColumn, {
+      props: { dataField: '', dataRow: row },
+    })
+    expect(emptyWrapper.get('td').text()).toBe('')
+  })
   test.todo('slot implementation cannot accidentally mutate parent props (immutability guard)')
 })
