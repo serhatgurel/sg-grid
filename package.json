@@ -12,6 +12,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test": "vitest",
+    "test:run": "vitest run --silent",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "build-only": "vite build",
