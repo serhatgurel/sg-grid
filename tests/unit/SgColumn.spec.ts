@@ -280,7 +280,24 @@ describe('SgColumn.vue', () => {
   })
 
   // Accessibility / DOM attributes
-  test.todo('includes appropriate ARIA/role attributes (role="cell" or similar) when applicable')
+  test('includes appropriate ARIA/role attributes (role="cell" or similar) when applicable', () => {
+    const wrapper = mount(SgColumn, {
+      props: {
+        dataField: 'name',
+        value: 'a',
+      },
+    })
+
+    const td = wrapper.get('td')
+    // should be a semantic table cell
+    expect(td.element.tagName).toBe('TD')
+
+    // if role attribute is present, it should be 'cell'
+    const role = td.attributes('role')
+    if (role !== undefined) {
+      expect(role).toBe('cell')
+    }
+  })
   test.todo('does not render "undefined" text for absent fields (explicit DOM assertion)')
 
   // Optional / future behavior
