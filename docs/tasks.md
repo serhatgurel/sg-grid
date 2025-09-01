@@ -10,7 +10,7 @@ Below is a structured task list created from the PRD. Each user story is a high-
 - [x] 1.5 Docs: update README and examples index with minimal example
 
 - [ ] 2.  As a user, I want filter and sort so I can find information quickly.
-- [ ] 2.1 Design: define filter & sort API (props/events/edge-cases)
+- [x] 2.1 Design: define filter & sort API (props/events/edge-cases)
 - [ ] 2.2 Implementation: composable and header UI
   - [ ] 2.2.1 Implement sorting logic (multi-column, direction)
   - [ ] 2.2.2 Implement per-column filter controls (string/number/date)
