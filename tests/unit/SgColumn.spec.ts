@@ -10,7 +10,7 @@ describe('SgColumn.vue', () => {
   // Core user stories
   // Intent: When no `dataRow` is supplied, the component should fall back to
   // using the `value` prop as the displayed cell content.
-  test('renders props.value when dataRow is undefined (fallback display)', () => {
+  test('shows fallback value when no dataRow', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -25,7 +25,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: If a `dataRow` is provided and contains the requested field,
   // prefer that value over the `value` prop.
-  test('prefers dataRow[dataField] over value when dataRow is present', async () => {
+  test('uses dataRow field over value when present', async () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -38,7 +38,7 @@ describe('SgColumn.vue', () => {
     expect(td.text()).toBe('row-value')
   })
   // Intent: Ensure falsy numeric value 0 is rendered (not treated as missing).
-  test('renders falsy but valid value 0 correctly', () => {
+  test('renders 0 correctly', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'count',
@@ -51,7 +51,7 @@ describe('SgColumn.vue', () => {
     expect(td.text()).toBe('0')
   })
   // Intent: Ensure falsy boolean value `false` is rendered as "false".
-  test('renders falsy but valid value false correctly', () => {
+  test('renders false correctly', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'active',
@@ -65,7 +65,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Ensure an explicit empty string value renders as an empty cell
   // and not as `undefined` or other text.
-  test("renders falsy but valid empty string ('') correctly", () => {
+  test('renders empty string correctly', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'label',
@@ -79,7 +79,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: If the dataRow lacks the requested key, render an empty cell and
   // never the literal string "undefined".
-  test('missing key on dataRow renders empty default display (no "undefined" text)', () => {
+  test('missing key renders empty cell (no "undefined")', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'missingField',
@@ -95,7 +95,7 @@ describe('SgColumn.vue', () => {
 
   // Intent: Verify that a provided default slot replaces the native cell
   // rendering and receives the expected slot props (data, name, value, row, field).
-  test('slot content replaces default rendering and receives slot props { id, name, value, dataRow, dataField }', () => {
+  test('slot replaces default rendering and receives expected props', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -126,7 +126,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Ensure slot prop aliases (name, row, field) map correctly to
   // the underlying props (`dataField`, `dataRow`).
-  test('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField', () => {
+  test('slot aliases map to field/row (name,row,field)', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -153,7 +153,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: When the same `dataRow` object is mutated in-place, the component
   // should react and update the displayed cell (Vue reactivity/nextTick).
-  test('mutating the same dataRow object updates the cell (in-place reactivity)', async () => {
+  test('in-place dataRow mutation updates cell', async () => {
     // use a reactive object so in-place mutations are observed by the component
     const row = reactive({ name: 'Start' })
     const wrapper = mount(SgColumn, {
@@ -174,7 +174,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Additional check that slot aliases and `data` object contain the
   // expected id/name/value mapping (covers `data.id` population).
-  test('slot prop aliases available: name -> dataField, row -> dataRow, field -> dataField (alternate check)', () => {
+  test('slot aliases and data.id present (alternate)', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'email',
@@ -204,7 +204,7 @@ describe('SgColumn.vue', () => {
   // ...existing code...
   // Intent: Replacing the `dataRow` prop with a new object reference via
   // `setProps` should cause the component to re-render with the new value.
-  test('replacing the dataRow object via setProps updates the cell (re-render on new reference)', async () => {
+  test('replacing dataRow reference re-renders cell', async () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -224,7 +224,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Confirm that when a `caption` prop is provided it is surfaced in
   // the slot `data.name` (display name) while alias `name` remains the field.
-  test('columnData.caption takes precedence for display name when present', () => {
+  test('caption is used for display name in slot data', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -248,7 +248,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Verify the shape of the `data` object passed to slots includes
   // the keys `{ id, name, value, dataRow, dataField }` and they contain expected values.
-  test('slotProps.data shape includes expected keys { id, name, value, dataRow, dataField }', () => {
+  test('slot data object contains id,name,value,dataRow,dataField', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -283,7 +283,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Smoke test to ensure component renders a semantic `<td>` with
   // expected class, inline styles (width, alignment), and displays the value.
-  test('renders a td element and acts as a proper table cell (smoke test)', () => {
+  test('renders td with correct class, style and value', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -308,7 +308,7 @@ describe('SgColumn.vue', () => {
   // Accessibility / DOM attributes
   // Intent: Accessibility smoke — ensure rendered element is a table cell
   // and, if a role attribute exists, it is `cell`.
-  test('includes appropriate ARIA/role attributes (role="cell" or similar) when applicable', () => {
+  test('renders semantic td and optional role=cell', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'name',
@@ -328,7 +328,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Explicit DOM-level assertion that absent fields do not render
   // the string "undefined" anywhere in the cell HTML or text.
-  test('does not render "undefined" text for absent fields (explicit DOM assertion)', () => {
+  test('does not render literal "undefined" for absent fields', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'missingField',
@@ -344,7 +344,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Verify nested path resolution supports both dot-paths and
   // bracket/index paths (e.g., 'profile.address.city' and 'phones[0].number').
-  test('nested-field behaviour: supports "a.b.c" and bracket paths (e.g. phones[0].number)', () => {
+  test('supports nested field paths (dot and bracket)', () => {
     const row = {
       profile: {
         address: {
@@ -375,7 +375,7 @@ describe('SgColumn.vue', () => {
 
   // Intent: Confirm handling differences between missing key, explicit
   // `undefined`, and explicit `null` — all should render as empty cell.
-  test('distinguish undefined vs null vs missing key behaviour', () => {
+  test('treats missing/undefined/null as empty (fallback value used when no dataRow)', () => {
     // missing key
     const missing = mount(SgColumn, {
       props: { dataField: 'missing', dataRow: { other: 'x' } },
@@ -404,7 +404,7 @@ describe('SgColumn.vue', () => {
 
   // Recommended additional edge cases to implement
   // Intent: Treat `NaN` values as missing/empty and never render the literal 'NaN'.
-  test('renders NaN as empty/missing (does not render literal "NaN") when present on dataRow', () => {
+  test('treats NaN in dataRow as empty (no "NaN")', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'score',
@@ -420,7 +420,7 @@ describe('SgColumn.vue', () => {
 
   // Intent: When fallback `value` prop is `NaN`, treat it as missing and do
   // not render the literal 'NaN' in the cell.
-  test('renders NaN provided via `value` prop as empty/missing when dataRow is absent', () => {
+  test('treats NaN fallback value as empty', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'score',
@@ -436,7 +436,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Ensure unusual `dataField` types (numeric index, bracketed empty
   // key, and null) do not throw and behave sensibly (resolve or render empty).
-  test('handles non-string dataField types gracefully: numeric index, empty-string, and null', () => {
+  test('handles numeric/empty/null dataField without throwing', () => {
     const row = { 0: 'zero', nested: { '': 'empty-key' }, name: 'present' }
 
     // numeric dataField should resolve to the corresponding index/key
@@ -461,7 +461,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Guard against slot implementations mutating the slot-provided
   // objects/back-reference. The original component props and dataRow must stay intact.
-  test('slot props are not accidentally mutated by slot implementation', () => {
+  test('slot implementation must not mutate parent props/dataRow', () => {
     // capture the props object the slot receives so we can inspect after render
     let received: Record<string, unknown> | undefined
 
@@ -510,7 +510,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Validate deep reactivity — updating nested fields inside a
   // reactive `dataRow` should update the cell display; also ensure index-path changes work.
-  test('deep nested changes inside dataRow reflect if reactivity is intended', async () => {
+  test('deep nested reactive changes update cell', async () => {
     // create a deeply nested reactive object
     const row = reactive({ profile: { address: { city: 'OldTown' } }, phones: [{ number: '111' }] })
 
@@ -543,7 +543,7 @@ describe('SgColumn.vue', () => {
   // Additional recommended / optional tests
   // Intent: Verify both the `data` object and top-level slot aliases are
   // provided and map to the same underlying values (id/name/value/row/field).
-  test('slot receives both `data` object and top-level alias props and they map correctly', () => {
+  test('slot receives data object and aliases mapping correctly', () => {
     const row = { id: 'row-5', email: 'me@example.com' }
 
     const wrapper = mount(SgColumn, {
@@ -578,7 +578,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Ensure `data.name` (caption) and the alias `name` (dataField)
   // are distinct and correctly populated for slots.
-  test('slotProps.data.name (caption) and slot prop `name` (dataField) are distinct and correct', () => {
+  test('data.name (caption) and alias name (field) are distinct', () => {
     const wrapper = mount(SgColumn, {
       props: {
         dataField: 'email',
@@ -606,7 +606,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Confirm the column `id` prop is included in `data.id` passed to slots
   // and that `data.dataRow.id` reflects the row id.
-  test('columnData.id is present in slotProps.data when `id` prop supplied', () => {
+  test('column id is included in slot data.id', () => {
     const row = { id: 'r-10', name: 'Sam' }
 
     const wrapper = mount(SgColumn, {
@@ -632,7 +632,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Ensure numeric and boolean values are stringified for display
   // (so 0 becomes "0" and false becomes "false").
-  test('defaultDisplay converts numbers and booleans to string (0 -> "0", false -> "false")', () => {
+  test('numbers and booleans stringify for display', () => {
     // when no dataRow is supplied, `value` prop should be used and converted to string
     const numWrapper = mount(SgColumn, {
       props: { dataField: 'count', value: 0 },
@@ -657,7 +657,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Explicitly assert that `null` values are rendered as empty
   // (and not as the literal 'null') both from `dataRow` and `value` fallback.
-  test('explicit behavior when dataRow[field] === null (renders empty string or documented behavior)', () => {
+  test('renders null as empty (no "null")', () => {
     // when the dataRow explicitly contains null for the field, render empty string
     const wrapperNullInRow = mount(SgColumn, {
       props: { dataField: 'name', dataRow: { name: null } },
@@ -676,7 +676,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Additional NaN-related checks: treat NaN as missing and ensure
   // slots also don't receive a value that stringifies to 'NaN'.
-  test('NaN handling: NaN is treated/printed according to documented API', () => {
+  test('NaN treated as missing; slots don\'t get "NaN"', () => {
     // when dataRow contains NaN the cell should render empty and never the literal 'NaN'
     const wrapper = mount(SgColumn, {
       props: { dataField: 'score', dataRow: { score: NaN } },
@@ -703,7 +703,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Another guard covering unusual `dataField` inputs (numeric and empty string)
   // — ensure no exceptions and empty-string path renders empty cell.
-  test('handles unusual dataField types (number, empty-string) without throwing', () => {
+  test('unusual dataField types do not throw', () => {
     const row = { 0: 'zero', '': 'empty-key', name: 'present' }
 
     // numeric dataField should resolve to the corresponding index/key
@@ -721,7 +721,7 @@ describe('SgColumn.vue', () => {
   })
   // Intent: Ensure slot code cannot mutate the parent component's props or
   // the original reactive `dataRow` (immutability guard smoke-test).
-  test('slot implementation cannot accidentally mutate parent props (immutability guard)', async () => {
+  test('slot cannot mutate parent props/dataRow (immutability)', async () => {
     // use a reactive row to ensure we can detect unintended changes to the
     // original object if the slot were given a live reference.
     const row = reactive({
