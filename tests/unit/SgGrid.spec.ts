@@ -9,6 +9,8 @@ import SgColumn from '../../src/components/SgColumn.vue'
 
 describe('SgGrid.vue', () => {
   // Basic rendering
+  // Intent: Smoke test to assert the grid renders a table structure with
+  // a `thead` and `tbody`, correct header captions and the expected number of rows.
   test('renders a table with thead and tbody (structure smoke test)', () => {
     const wrapper = mount(SgGrid, {
       props: {
@@ -41,6 +43,8 @@ describe('SgGrid.vue', () => {
     const rows = wrapper.findAll('tbody tr')
     expect(rows.length).toBe(2)
   })
+  // Intent: When no `columns` prop is supplied, SgGrid should infer columns
+  // from row object keys and render headers and cells accordingly.
   test('renders when no columns are supplied (graceful fallback)', () => {
     // provide rows but no columns; SgGrid should infer columns from row keys
     const rows = [
@@ -72,6 +76,8 @@ describe('SgGrid.vue', () => {
     expect(firstRowTds.length).toBe(3)
     expect(firstRowTds.map((td) => td.text())).toEqual(['1', 'Alice', '30'])
   })
+  // Intent: Component should render table structure even when `rows` is
+  // omitted or an empty array, rendering an empty tbody (no rows).
   test('renders when no rows are supplied (empty body or placeholder)', () => {
     const cols = [
       { key: 'c1', field: 'name', caption: 'Name' },
@@ -90,6 +96,8 @@ describe('SgGrid.vue', () => {
     expect(tbodyB).toBeTruthy()
     expect(wrapperB.findAll('tbody tr').length).toBe(0)
   })
+  // Intent: With no props provided, SgGrid should still render a table
+  // shell (thead/tbody) but no header cells or rows.
   test('renders when neither columns nor rows are supplied', () => {
     // mount with no props; component should render table structure but no headers/rows
     const wrapper = mount(SgGrid, {})
@@ -103,6 +111,8 @@ describe('SgGrid.vue', () => {
     const trs = wrapper.findAll('tbody tr')
     expect(trs.length).toBe(0)
   })
+  // Intent: Header cell content should prefer `caption` when present;
+  // otherwise fall back to the `field` value (and preserve empty captions).
   test('renders column headers from columns/columnData (caption/name precedence)', () => {
     const cols = [
       { key: 'k1', field: 'firstName', caption: 'First Name' },
@@ -121,6 +131,8 @@ describe('SgGrid.vue', () => {
     // empty caption remains empty string (component preserves provided caption value)
     expect(ths[2].text()).toBe('')
   })
+  // Intent: Rows passed via `rows` prop should render one <tr> per row and
+  // the correct number of <td> cells matching column order and values.
   test('renders rows from rows prop with correct number of cells', () => {
     const cols = [
       { key: 'col-id', field: 'id', caption: 'ID' },
@@ -148,6 +160,8 @@ describe('SgGrid.vue', () => {
   })
 
   // Data and reactivity
+  // Intent: In-place mutations on a reactive rows array/object should
+  // update the rendered grid (Vue reactivity observation).
   test('mutating the same rows array/object updates the rendered grid (in-place reactivity)', async () => {
     const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
     const rows = reactive([{ id: 1, name: 'Start' }])
@@ -164,6 +178,8 @@ describe('SgGrid.vue', () => {
     expect(wrapper.get('tbody tr td').text()).toBe('Changed')
   })
 
+  // Intent: Replacing the rows array with a new reference via `setProps`
+  // should cause the grid to re-render using the new rows.
   test('replacing the rows array via setProps updates the grid (new reference re-render)', async () => {
     const cols = [
       { key: 'c1', field: 'id', caption: 'ID' },
@@ -192,6 +208,8 @@ describe('SgGrid.vue', () => {
     ).toEqual(['2', 'Two'])
   })
 
+  // Intent: Clearing rows (empty array) should remove rendered rows and
+  // leave an empty tbody or placeholder without errors.
   test('handles empty rows gracefully (renders empty body or placeholder)', async () => {
     const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
     const data = [{ id: 1, name: 'Solo' }]
@@ -206,12 +224,17 @@ describe('SgGrid.vue', () => {
   })
 
   // Selection & events
+  // Intent: (TODO) Verify events emitted on row click and selection change
   test.todo.skip(
     'emits a row-click or row-selected event with correct payload when a row is clicked',
   )
+  // Intent: (TODO) Ensure grid supports single/multi selection modes and
+  // emits selection-change events with correct payloads
   test.todo.skip('supports single and multi-row selection modes and emits selection changes')
 
   // Sorting, filtering, pagination
+  // Intent: (TODO) Sorting, filtering and pagination behaviour should be
+  // tested when those features are implemented.
   test.todo.skip('clicking a sortable header toggles sort state and emits sort events')
   test.todo.skip('applies client-side filters to visible rows when filter criteria provided')
   test.todo.skip(
@@ -219,6 +242,9 @@ describe('SgGrid.vue', () => {
   )
 
   // Slots and custom rendering
+  // Intent: A cell slot should replace default cell rendering and receive
+  // slot props (including the cell value and the data row) so custom content
+  // can be rendered by consumers.
   test('cell slot replaces default cell and receives slot props { id, name, value, dataRow, dataField }', () => {
     const row = { id: 7, name: 'SlotName', extra: 42 }
 
@@ -238,6 +264,8 @@ describe('SgGrid.vue', () => {
     expect(span.exists()).toBe(true)
     expect(span.text()).toBe('SlotName-SlotName')
   })
+  // Intent: Header slot should be able to replace header cell content and
+  // receive column-related slot props so custom header UI can be rendered.
   test('header slot can replace header content and receives appropriate slot props', () => {
     const cols = [
       { key: 'h1', field: 'name', caption: 'Name' },
@@ -259,6 +287,8 @@ describe('SgGrid.vue', () => {
   })
 
   // Accessibility and semantics
+  // Intent: Ensure grid renders semantic table elements (<table>, <thead>, <tbody>, <th>, <td>)
+  // and that optional ARIA attributes are passed through when supported.
   test('renders as semantic table cells (td/th) with appropriate ARIA attributes if used', () => {
     const cols = [
       { key: 'c1', field: 'name', caption: 'Name', thAttrs: { 'aria-label': 'name-col' } },
@@ -287,20 +317,27 @@ describe('SgGrid.vue', () => {
     const aria = firstTh.attributes('aria-label')
     if (aria) expect(aria).toBe('name-col')
   })
+  // Intent: (TODO) Test keyboard navigation (focus movement) when implemented.
   test.todo.skip('keyboard navigation between cells/rows works (focus, arrow keys) if supported')
 
   // Column features
+  // Intent: (TODO) Tests for column visibility, ordering and resizing when implemented.
   test.todo.skip('supports hiding/showing columns via column definitions or API')
   test.todo.skip('respects column order and allows programmatic reordering if supported')
   test.todo.skip('handles column resize and emits resize events when user resizes columns')
 
   // Performance / advanced features
+  // Intent: (TODO) Performance features like virtualization and export should
+  // have dedicated tests when those features are added.
   test.todo.skip('supports virtualization/virtual scrolling for large row sets if implemented')
   test.todo.skip('exports visible rows to CSV/print when export feature invoked (if supported)')
 
   // Row identity and keys
+  // Intent: (TODO) Validate that row identity/keying prevents unnecessary re-renders.
   test.todo.skip('uses row id or provided key as DOM key to avoid unnecessary re-renders')
 
+  // Intent: If nested-field resolution is supported, the grid should resolve
+  // dot-path fields like 'a.b.c' to nested values inside row objects.
   test('supports nested-field paths like "a.b.c" if/when implemented (pending)', () => {
     const cols = [{ key: 'n1', field: 'a.b.c', caption: 'Deep' }]
     const rows = [{ id: 1, a: { b: { c: 'deep-value' } } }]
@@ -309,6 +346,8 @@ describe('SgGrid.vue', () => {
     expect(td.exists()).toBe(true)
     expect(td.text()).toBe('deep-value')
   })
+  // Intent: (TODO) Column APIs (hide/reorder/resize), virtualization and export
+  // tests should be added when the features are supported.
   test.todo.skip('column hide/show API works when implemented')
   test.todo.skip('column reorder API respects programmatic reordering when implemented')
   test.todo.skip('column resize emits events when user resizes columns if implemented')
@@ -318,6 +357,8 @@ describe('SgGrid.vue', () => {
     'keyboard navigation focuses correct cell and wraps/limits as expected when supported',
   )
 
+  // Intent: Passing invalid column definitions (missing field or null field)
+  // should not crash; component should render valid columns and ignore bad defs.
   test('gracefully handles invalid column definitions (missing dataField or id)', () => {
     // Provide a mix of valid and invalid column defs
     const cols = [
@@ -340,6 +381,7 @@ describe('SgGrid.vue', () => {
   })
 
   // Recommended / optional tests
+  // Intent: props.columns should take precedence over slot-declared or inferred columns.
   test('columns prop takes precedence over slot-declared and inferred columns', () => {
     // Provide both props.columns and a slot-declared sg-column; props.columns should win
     const propsCols = [{ key: 'p1', field: 'id', caption: 'FromProps' }]
@@ -355,6 +397,8 @@ describe('SgGrid.vue', () => {
     expect(ths[0].text()).toBe('FromProps')
   })
 
+  // Intent: If `props.columns` is absent, columns declared via default slot
+  // (e.g., <sg-column>) should be recognized and used for headers.
   test('slot-declared columns are used when props.columns is absent', () => {
     const slotContent = '<sg-column data-field="name" caption="FromSlot"></sg-column>'
     const wrapper = mount(SgGrid, {
@@ -366,6 +410,8 @@ describe('SgGrid.vue', () => {
     expect(ths[0].text()).toBe('FromSlot')
   })
 
+  // Intent: When neither props.columns nor slot-declared columns exist, the
+  // grid should infer columns from the keys of the first row object.
   test('inferred columns are produced when no columns prop and no declared slot columns', () => {
     const rows = [{ id: 1, a: 'x', b: 'y' }]
     const wrapper = mount(SgGrid, { props: { rows, rowKey: 'id' } })
@@ -374,12 +420,15 @@ describe('SgGrid.vue', () => {
     expect(ths.length).toBeGreaterThanOrEqual(3)
     expect(ths.map((t) => t.text())).toEqual(expect.arrayContaining(['id', 'a', 'b']))
   })
+  // Intent: When `caption` prop is provided, render a <caption> element with that text.
   test('grid caption (<caption>) renders when props.caption is provided', () => {
     const wrapper = mount(SgGrid, { props: { caption: 'My Grid Caption', rowKey: 'id' } })
     const caption = wrapper.find('caption')
     expect(caption.exists()).toBe(true)
     expect(caption.text()).toBe('My Grid Caption')
   })
+  // Intent: Verify row keying strategies: default/string/function rowKey
+  // behavior and its effect on DOM node stability when identity changes.
   test('getRowKey behaviour: no rowKey -> JSON.stringify(row), string -> property, function -> return value', async () => {
     // no rowKey: SgGrid should fallback to JSON.stringify(row) and preserve identity when mutating non-key fields
     const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
@@ -418,6 +467,8 @@ describe('SgGrid.vue', () => {
     await nextTick()
     expect(wrapperFuncKey.findAll('tbody tr')[0].element).not.toBe(trFunc)
   })
+  // Intent: SgGrid should forward column metadata (caption, field) to
+  // SgColumn instances; this test stubs SgColumn to capture props passed.
   test('SgGrid passes column.caption and column.field to SgColumn via props', () => {
     // We'll mount SgGrid but stub SgColumn to capture the props it receives.
     const received: Array<Record<string, unknown>> = []
@@ -450,6 +501,8 @@ describe('SgGrid.vue', () => {
     expect(received[1].caption).toBe('Age')
     expect(received[1].dataField).toBe('age')
   })
+  // Intent: Ensure rows are keyed stably (via `rowKey`) so DOM nodes are
+  // preserved on non-identity changes and replaced when identity changes.
   test('rows use stable DOM keys and re-render only when identity changes', async () => {
     const cols = [{ key: 'c1', field: 'name', caption: 'Name' }]
     const rows = reactive([
@@ -482,6 +535,8 @@ describe('SgGrid.vue', () => {
     expect(firstTrNew).not.toBe(firstTr)
     expect(wrapper.findAll('tbody tr')[0].find('td').text()).toBe('New')
   })
+  // Intent: Columns declared in the default slot using <sg-column data-field=...>
+  // should be detected and used to render headers when present.
   test('declared slot columns are recognized when using <sg-column data-field=...> in default slot', () => {
     // Use the data-field attribute (dash-case) in a default slot; SgGrid should read it
     const slotContent = '<sg-column data-field="age" caption="SlotAge"></sg-column>'
