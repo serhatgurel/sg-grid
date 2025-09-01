@@ -42,6 +42,7 @@ const columns = [
     width: '120px',
   },
 ]
+
 </script>
 
 <template>
@@ -50,7 +51,11 @@ const columns = [
     <SgColumn>{{ rows[2].title }} {{ rows[2].firstName }} {{ rows[2].lastName }}</SgColumn>
   -->
 
-  <SgGrid :rows="rows.slice(0, 8)" rowKey="id" caption="NO COLUMNS EXAMPLE" />
+  <SgGrid
+    :rows="rows.slice(0, 5).map((r) => ({id: r.id, title: r.title, firstName: r.firstName, lastName: r.lastName, email: r.email, }))"
+    rowKey="id"
+    caption="NO COLUMNS EXAMPLE"
+  />
 
   <SgGrid rowKey="id" caption="NO ROWS EXAMPLE">
     <SgColumn data-field="id" caption="Id" width="60px" />
