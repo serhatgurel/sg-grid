@@ -2,12 +2,12 @@
 
 Below is a structured task list created from the PRD. Each user story is a high-level task followed by bite-sized subtasks (design, implementation, tests, docs, reviews). Each line starts on a new line, uses numbered numbering and a checkbox as requested. Save this file as `docs/tasks.md`.
 
-- [ ] 1.  As a developer, implement a minimal, declarative `sg-grid` and a minimal example that accept `columns` and `rows` and render headers and rows only (no editing/sorting/paging). Ensure row key and column field metadata (caption, width) are supported.
-- [ ] 1.1 Design: define minimal public API and example data shape
-- [ ] 1.2 Implementation: small `sg-grid` component that accepts `columns` and `rows` props and renders header + rows
-- [ ] 1.3 Example: add `examples/minimal` or `src/examples/MinimalExample.vue` to show usage
-- [ ] 1.4 Tests: smoke render test for the component
-- [ ] 1.5 Docs: update README and examples index with minimal example
+- [x] 1.  As a developer, implement a minimal, declarative `sg-grid` and a minimal example that accept `columns` and `rows` and render headers and rows only (no editing/sorting/paging). Ensure row key and column field metadata (caption, width) are supported.
+- [x] 1.1 Design: define minimal public API and example data shape
+- [x] 1.2 Implementation: small `sg-grid` component that accepts `columns` and `rows` props and renders header + rows
+- [x] 1.3 Example: add `examples/minimal` or `src/examples/MinimalExample.vue` to show usage
+- [x] 1.4 Tests: smoke render test for the component
+- [x] 1.5 Docs: update README and examples index with minimal example
 
 - [ ] 2.  As a user, I want filter and sort so I can find information quickly.
 - [ ] 2.1 Design: define filter & sort API (props/events/edge-cases)
