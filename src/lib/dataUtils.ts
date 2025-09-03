@@ -36,6 +36,45 @@ function tryCoerceNumber(v: unknown): number | null {
   return null
 }
 
+// --- Operator helpers (exported for unit testing)
+export function opEq(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val)) return false
+  const aNum = tryCoerceNumber(val)
+  const bNum = tryCoerceNumber(clauseVal)
+  if (aNum !== null && bNum !== null) return aNum === bNum
+  return val === clauseVal
+}
+
+export function opNe(val: unknown, clauseVal: unknown): boolean {
+  // per semantics: missing values satisfy `ne`
+  if (isMissingValue(val)) return true
+  const aNum = tryCoerceNumber(val)
+  const bNum = tryCoerceNumber(clauseVal)
+  if (aNum !== null && bNum !== null) return aNum !== bNum
+  return val !== clauseVal
+}
+
+export function opRelational(
+  val: unknown,
+  clauseVal: unknown,
+  operator: 'lt' | 'lte' | 'gt' | 'gte',
+): boolean {
+  const aNum = tryCoerceNumber(val)
+  const bNum = tryCoerceNumber(clauseVal)
+  if (aNum === null || bNum === null) return false
+  if (operator === 'lt') return aNum < bNum
+  if (operator === 'lte') return aNum <= bNum
+  if (operator === 'gt') return aNum > bNum
+  return aNum >= bNum
+}
+
+export function opContains(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val)) return false
+  if (typeof val !== 'string') return false
+  if (typeof clauseVal !== 'string' && typeof clauseVal !== 'number') return false
+  return val.includes(String(clauseVal))
+}
+
 /**
  * applyFilters - minimal, pure filter implementation for TDD slice
  *
@@ -53,57 +92,29 @@ export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | 
   return rows.filter((r) => {
     for (const clause of filter) {
       const val = (r as Row)[clause.column]
-
       const op = clause.operator
-      // relational operators with coercion when possible
-      if (
-        op === 'eq' ||
-        op === 'ne' ||
-        op === 'lt' ||
-        op === 'lte' ||
-        op === 'gt' ||
-        op === 'gte'
-      ) {
-        const aNum = tryCoerceNumber(val)
-        const bNum = tryCoerceNumber(clause.value)
 
-        // eq: missing values never match
-        if (op === 'eq' && isMissingValue(val)) return false
-
-        // ne: missing values are treated as "not equal" and therefore satisfy the clause
-        if (op === 'ne' && isMissingValue(val)) {
-          // clause satisfied for this row
-          continue
-        }
-
-        if (aNum !== null && bNum !== null) {
-          // numeric comparison
-          if (op === 'eq' && !(aNum === bNum)) return false
-          if (op === 'ne' && !(aNum !== bNum)) return false
-          if (op === 'lt' && !(aNum < bNum)) return false
-          if (op === 'lte' && !(aNum <= bNum)) return false
-          if (op === 'gt' && !(aNum > bNum)) return false
-          if (op === 'gte' && !(aNum >= bNum)) return false
-        } else {
-          // fallback to strict comparisons for non-numeric
-          if (op === 'eq') {
-            if (val !== clause.value) return false
-          } else if (op === 'ne') {
-            if (val === clause.value) return false
-          } else {
-            // relational ops (lt/lte/gt/gte) without numeric coercion are considered non-matching
-            return false
-          }
-        }
-      } else if (op === 'contains') {
-        if (isMissingValue(val)) return false
-        if (typeof val !== 'string') return false
-        if (typeof clause.value !== 'string' && typeof clause.value !== 'number') return false
-        if (!val.includes(String(clause.value))) return false
-      } else {
-        // unknown operator: treat as non-matching
-        return false
+      if (op === 'eq') {
+        if (!opEq(val, clause.value)) return false
+        continue
       }
+      if (op === 'ne') {
+        if (!opNe(val, clause.value)) return false
+        continue
+      }
+      if (op === 'lt' || op === 'lte' || op === 'gt' || op === 'gte') {
+        // relational helpers expect one of the four operators
+        const relOp = op as 'lt' | 'lte' | 'gt' | 'gte'
+        if (!opRelational(val, clause.value, relOp)) return false
+        continue
+      }
+      if (op === 'contains') {
+        if (!opContains(val, clause.value)) return false
+        continue
+      }
+
+      // unknown operator -> row doesn't match
+      return false
     }
     return true
   })

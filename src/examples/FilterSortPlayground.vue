@@ -2,9 +2,30 @@
   <div style="padding: 16px; font-family: ui-sans-serif, system-ui">
     <h2>Filter & Sort Playground</h2>
     <div style="display: flex; gap: 12px; align-items: center; margin: 12px 0">
-      <label
-        >Filter by name contains:
-        <input v-model="filterText" placeholder="substring" />
+      <label>
+        Column:
+        <select v-model="filterColumn">
+          <option value="name">name</option>
+          <option value="age">age</option>
+        </select>
+      </label>
+
+      <label>
+        Operator:
+        <select v-model="filterOp">
+          <option value="contains">contains</option>
+          <option value="eq">eq</option>
+          <option value="ne">ne</option>
+          <option value="lt">lt</option>
+          <option value="lte">lte</option>
+          <option value="gt">gt</option>
+          <option value="gte">gte</option>
+        </select>
+      </label>
+
+      <label>
+        Value:
+        <input v-model="filterValue" placeholder="value" />
       </label>
 
       <label
@@ -45,23 +66,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, Ref } from 'vue'
 import people from './people.json'
-import { applyFilters, applySort } from '../lib/dataUtils'
+import { useVisibleRows } from '../composables/useVisibleRows'
 
-const filterText = ref('')
+// Minimal local type for the demo dataset so SFC type-checking is happy
+interface Person {
+  id: string
+  title?: string
+  gender?: string
+  firstName?: string
+  lastName?: string
+  age?: number
+  email?: string
+  [k: string]: unknown
+}
+
+const filterColumn = ref<'name' | 'age'>('name')
+const filterOp = ref('contains')
+const filterValue = ref('')
 const sortKey = ref('')
 const sortDir = ref<'asc' | 'desc'>('asc')
 
-const rows = people as Array<Record<string, any>>
+// cast via unknown to avoid unsafe `any` and to align JSON typing with Person
+const rows = ref<Person[]>(people as unknown as Person[])
 
-const visible = computed(() => {
-  const filters = filterText.value
-    ? [{ column: 'name', operator: 'contains', value: filterText.value }]
-    : null
-  const sorted = sortKey.value
-    ? applySort(rows, [{ column: sortKey.value, direction: sortDir.value }])
-    : rows.slice()
-  return applyFilters(sorted, filters)
+// derive a stable display name for the demo from firstName + lastName
+function displayName(p: Person): string {
+  const fn = p.firstName || ''
+  const ln = p.lastName || ''
+  const combined = `${fn} ${ln}`.trim()
+  if (combined) return combined
+  // fall back to id or email
+  return (p.email as string) || p.id
+}
+
+const filtersRef = computed(() =>
+  filterValue.value
+    ? [{ column: filterColumn.value, operator: filterOp.value, value: filterValue.value }]
+    : null,
+)
+
+const sortRef = computed(() =>
+  sortKey.value ? [{ column: sortKey.value, direction: sortDir.value }] : null,
+)
+
+// The composable expects rows with arbitrary columns; for the demo we map
+// visible rows to expose a `name` property used by filter/sort when `column==='name'`.
+const computedRows = computed(() => rows.value.map((r) => ({ ...r, name: displayName(r) })))
+const { visible } = useVisibleRows({
+  rows: computedRows as unknown as Ref<ReadonlyArray<Record<string, unknown>>>,
+  filter: filtersRef,
+  sort: sortRef,
 })
 </script>

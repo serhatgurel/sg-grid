@@ -29,16 +29,16 @@ Notes
 - [x] 5 — Implement applySort
   - Implement `applySort(rows, sort, columns)` in `src/lib/dataUtils.ts`. Pure, returns new array, supports multi-column ordering and `column.sortFunction` overrides. Pass tests from item 4.
 
-- [ ] 6 — Early visual demo (playground)
-  - Build `src/examples/FilterSortPlayground.vue` that imports the composable or utilities directly and provides simple external controls (dropdowns/inputs) for sort and filter. Wire it in `App.vue` so devs can visually verify behaviour early. No header interactions required.
 - [x] 6 — Early visual demo (playground)
-  - Build `src/examples/FilterSortPlayground.vue` that imports the composable or utilities directly and provides simple external controls (dropdowns/inputs) for sort and filter. Wire it in `App.vue` so devs can visually verify behaviour early. No header interactions required.
+- Build `src/examples/FilterSortPlayground.vue` that imports the composable or utilities directly and provides simple external controls (dropdowns/inputs) for sort and filter. Wire it in `App.vue` so devs can visually verify behaviour early. No header interactions required.
 
 - [ ] 7 — Composable visible-rows tests (with filterMode & fast-fail)
   - Unit tests for a composable that computes visible rows from `rows`, `sort`, `filter`, `filterMode`, `caseSensitive`. Include fast-fail when inputs are empty (return original or shallow copy). Keep pure and easily testable.
+- [x] 7 — Composable visible-rows tests (with filterMode & fast-fail)
+- Unit tests for a composable that computes visible rows from `rows`, `sort`, `filter`, `filterMode`, `caseSensitive`. Include fast-fail when inputs are empty (return original or shallow copy). Keep pure and easily testable.
 
-- [ ] 8 — Implement composable `useVisibleRows`
-  - Implement a composable (e.g., `src/components/useVisibleRows.ts`) that uses `applyFilters` and `applySort`, honours `filterMode` (`and` | `or`) and `caseSensitive`. Pass tests from item 7. Do not integrate into `SgGrid` yet.
+- [x] 8 — Implement composable `useVisibleRows`
+- Implement a composable (e.g., `src/components/useVisibleRows.ts`) that uses `applyFilters` and `applySort`, honours `filterMode` (`and` | `or`) and `caseSensitive`. Pass tests from item 7. Do not integrate into `SgGrid` yet.
 
 - [ ] 9 — Operator helpers tests (relational)
   - Focused tests for `eq`, `ne`, `lt`, `lte`, `gt`, `gte` covering null/undefined and NaN edge cases.
@@ -126,10 +126,6 @@ Notes
 
 - [ ] 37 — Code, docs & test review
   - Conduct reviews: code review, docs review, and unit test review. Address feedback and finalize feature.
-
----
-
-## How to use
 
 - Start at item 2. Mark tests in source control first. Implement and run tests, iterate until green. Move to next item.
 - After completing item 6 (demo), ensure each subsequent task updates `src/examples/FilterSortPlayground.vue` (or related wiring in `App.vue`) to demonstrate the new capability before marking the task as done.
