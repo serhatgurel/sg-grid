@@ -31,6 +31,8 @@ Notes
 
 - [ ] 6 — Early visual demo (playground)
   - Build `src/examples/FilterSortPlayground.vue` that imports the composable or utilities directly and provides simple external controls (dropdowns/inputs) for sort and filter. Wire it in `App.vue` so devs can visually verify behaviour early. No header interactions required.
+- [x] 6 — Early visual demo (playground)
+  - Build `src/examples/FilterSortPlayground.vue` that imports the composable or utilities directly and provides simple external controls (dropdowns/inputs) for sort and filter. Wire it in `App.vue` so devs can visually verify behaviour early. No header interactions required.
 
 - [ ] 7 — Composable visible-rows tests (with filterMode & fast-fail)
   - Unit tests for a composable that computes visible rows from `rows`, `sort`, `filter`, `filterMode`, `caseSensitive`. Include fast-fail when inputs are empty (return original or shallow copy). Keep pure and easily testable.

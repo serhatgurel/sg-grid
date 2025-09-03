@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MinimalExample from './examples/MinimalExample.vue'
+import FilterSortPlayground from './examples/FilterSortPlayground.vue'
 </script>
 
 <template>
-  <MinimalExample />
+  <FilterSortPlayground />
 </template>
 
 <style scoped>
