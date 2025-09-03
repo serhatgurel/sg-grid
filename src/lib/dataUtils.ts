@@ -18,6 +18,24 @@ function isNil(v: unknown): v is null | undefined {
   return v === null || v === undefined
 }
 
+function isMissingValue(v: unknown): boolean {
+  // treat null, undefined and numeric NaN as missing
+  return isNil(v) || (typeof v === 'number' && Number.isNaN(v))
+}
+
+function tryCoerceNumber(v: unknown): number | null {
+  if (typeof v === 'number') {
+    if (Number.isNaN(v)) return null
+    return v
+  }
+  if (typeof v === 'string') {
+    const n = Number(v)
+    if (!Number.isNaN(n)) return n
+    return null
+  }
+  return null
+}
+
 /**
  * applyFilters - minimal, pure filter implementation for TDD slice
  *
@@ -35,13 +53,55 @@ export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | 
   return rows.filter((r) => {
     for (const clause of filter) {
       const val = (r as Row)[clause.column]
-      if (clause.operator === 'eq') {
-        if (val !== clause.value) return false
-      } else if (clause.operator === 'contains') {
-        if (isNil(val) || typeof val !== 'string') return false
+
+      const op = clause.operator
+      // relational operators with coercion when possible
+      if (
+        op === 'eq' ||
+        op === 'ne' ||
+        op === 'lt' ||
+        op === 'lte' ||
+        op === 'gt' ||
+        op === 'gte'
+      ) {
+        const aNum = tryCoerceNumber(val)
+        const bNum = tryCoerceNumber(clause.value)
+
+        // eq: missing values never match
+        if (op === 'eq' && isMissingValue(val)) return false
+
+        // ne: missing values are treated as "not equal" and therefore satisfy the clause
+        if (op === 'ne' && isMissingValue(val)) {
+          // clause satisfied for this row
+          continue
+        }
+
+        if (aNum !== null && bNum !== null) {
+          // numeric comparison
+          if (op === 'eq' && !(aNum === bNum)) return false
+          if (op === 'ne' && !(aNum !== bNum)) return false
+          if (op === 'lt' && !(aNum < bNum)) return false
+          if (op === 'lte' && !(aNum <= bNum)) return false
+          if (op === 'gt' && !(aNum > bNum)) return false
+          if (op === 'gte' && !(aNum >= bNum)) return false
+        } else {
+          // fallback to strict comparisons for non-numeric
+          if (op === 'eq') {
+            if (val !== clause.value) return false
+          } else if (op === 'ne') {
+            if (val === clause.value) return false
+          } else {
+            // relational ops (lt/lte/gt/gte) without numeric coercion are considered non-matching
+            return false
+          }
+        }
+      } else if (op === 'contains') {
+        if (isMissingValue(val)) return false
+        if (typeof val !== 'string') return false
+        if (typeof clause.value !== 'string' && typeof clause.value !== 'number') return false
         if (!val.includes(String(clause.value))) return false
       } else {
-        // unknown operator: treat as non-matching for the minimal slice
+        // unknown operator: treat as non-matching
         return false
       }
     }
