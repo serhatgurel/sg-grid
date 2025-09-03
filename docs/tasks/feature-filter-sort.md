@@ -6,7 +6,7 @@ Goals
 
 - Provide a simple, declarative API for sorting and filtering that works with the existing `columns` and `rows` props.
 - Keep the API framework-agnostic and easy to test.
-- Support client-side behavior first; server-side adapters will be addressed in Task 2.2.3.
+- Support client-side behaviour first; server-side adapters will be addressed in Task 2.2.3.
 
 Design constraints
 
