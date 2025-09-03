@@ -119,18 +119,34 @@ export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | 
  */
 export function applySort(rows: ReadonlyArray<Row>, sort: SortClause[] | null): Row[] {
   if (!sort || sort.length === 0) return rows.slice()
-
-  const primary = sort[0]
   const copy = rows.slice()
   copy.sort((a, b) => {
-    const av = (a as Row)[primary.column]
-    const bv = (b as Row)[primary.column]
-    if (isNil(av) && isNil(bv)) return 0
-    if (isNil(av)) return -1
-    if (isNil(bv)) return 1
-    // rely on JS ordering for primitives; keep minimal and explicit
-    if (av < bv) return primary.direction === 'asc' ? -1 : 1
-    if (av > bv) return primary.direction === 'asc' ? 1 : -1
+    for (const clause of sort) {
+      const av = (a as Row)[clause.column]
+      const bv = (b as Row)[clause.column]
+
+      // both missing -> continue to next clause
+      if (isMissingValue(av) && isMissingValue(bv)) continue
+      if (isMissingValue(av)) return -1
+      if (isMissingValue(bv)) return 1
+
+      const aNum = tryCoerceNumber(av)
+      const bNum = tryCoerceNumber(bv)
+
+      let cmp = 0
+      if (aNum !== null && bNum !== null) {
+        cmp = aNum < bNum ? -1 : aNum > bNum ? 1 : 0
+      } else {
+        const aStr = String(av)
+        const bStr = String(bv)
+        if (aStr < bStr) cmp = -1
+        else if (aStr > bStr) cmp = 1
+        else cmp = 0
+      }
+
+      if (cmp !== 0) return clause.direction === 'asc' ? cmp : -cmp
+      // else continue to next clause for tie-breaker
+    }
     return 0
   })
   return copy

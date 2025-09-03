@@ -17,16 +17,16 @@ Notes
 - [x] 1 — Design: finalize API
   - Confirm and document filter & sort API (props, events, edge-cases). Source: `docs/feature-filter-sort.md`.
 
-- [ ] 2 — Create dataUtils tests (filters)
+- [x] 2 — Create dataUtils tests (filters)
   - Write Vitest unit tests for `applyFilters` covering operator behaviours, null/NaN/coercion and immutability. Commit tests before implementation.
 
-- [ ] 3 — Implement applyFilters
+- [x] 3 — Implement applyFilters
   - Implement `applyFilters(rows, filter, columns, options?)` in `src/lib/dataUtils.ts`. Must be pure, return new arrays, support `column.filterFunction` overrides and `caseSensitive` option. Pass tests from item 2.
 
-- [ ] 4 — Create dataUtils tests (sort)
+- [x] 4 — Create dataUtils tests (sort)
   - Write Vitest unit tests for `applySort` covering single-column sort, multi-column sort, custom comparator, stability and immutability. Commit tests first.
 
-- [ ] 5 — Implement applySort
+- [x] 5 — Implement applySort
   - Implement `applySort(rows, sort, columns)` in `src/lib/dataUtils.ts`. Pure, returns new array, supports multi-column ordering and `column.sortFunction` overrides. Pass tests from item 4.
 
 - [ ] 6 — Early visual demo (playground)
