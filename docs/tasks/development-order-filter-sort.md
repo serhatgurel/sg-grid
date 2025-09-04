@@ -44,6 +44,9 @@ Notes
 - [ ] 10 — Implement operator helpers (relational)
   - Implement and export relational operator helpers with deterministic coercion and safe NaN handling.
 
+- [x] 10 — Implement operator helpers (relational)
+  - Implement and export relational operator helpers with deterministic coercion and safe NaN handling.
+
 - [ ] 11 — String ops tests (case)
   - Tests for `contains`, `startsWith`, `endsWith` with `caseSensitive` true/false and non-string inputs.
 
