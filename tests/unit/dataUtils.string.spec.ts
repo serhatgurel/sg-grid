@@ -25,4 +25,24 @@ describe('dataUtils string operator helpers (TDD)', () => {
     expect(opEndsWith('Testing', 'ING', true)).toBe(false)
     expect(opEndsWith(12345, '45', false)).toBe(true)
   })
+
+  it('edge cases: empty string, null, undefined, objects and NaN', () => {
+    // empty clause should match (every string contains/startsWith/endsWith empty string)
+    expect(opContains('abc', '', false)).toBe(true)
+    expect(opStartsWith('abc', '', false)).toBe(true)
+    expect(opEndsWith('abc', '', false)).toBe(true)
+
+    // null/undefined clause or value should be treated as missing -> no match
+    // implementations treat null/undefined/NaN as missing
+    expect(opContains(null, 'a', false)).toBe(false)
+    expect(opContains('a', null, false)).toBe(false)
+    expect(opStartsWith(undefined, 'a', false)).toBe(false)
+    expect(opEndsWith('a', undefined, false)).toBe(false)
+
+    // objects are coerced to strings
+    expect(opContains({ toString: () => 'obj-val' }, 'obj', false)).toBe(true)
+
+    // NaN treated as missing
+    expect(opContains(NaN, 'a', false)).toBe(false)
+  })
 })
