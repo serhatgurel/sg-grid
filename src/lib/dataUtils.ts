@@ -178,9 +178,13 @@ export function opBetween(val: unknown, clauseVal: unknown): boolean {
  * @param filter - array of filter clauses or null
  * @returns new array of rows matching the filter
  */
+import type { ColumnDef } from '../components/types'
+
 export function applyFilters(
   rows: ReadonlyArray<Row>,
   filter: FilterClause[] | null,
+  // optional columns map/array to lookup column-level hooks. Accepts either array of ColumnDef or a map from key->ColumnDef
+  columns?: ColumnDef[] | Record<string, ColumnDef>,
   options?: { caseSensitive?: boolean },
 ): Row[] {
   // fast-fail: return a shallow copy when there's no filter
@@ -192,6 +196,29 @@ export function applyFilters(
     for (const clause of filter) {
       const val = (r as Row)[clause.column]
       const op = clause.operator
+
+      // column-level filterFunction override
+      let colDef: ColumnDef | undefined = undefined
+      if (Array.isArray(columns)) {
+        colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
+      } else if (columns && typeof columns === 'object') {
+        colDef = (columns as Record<string, ColumnDef>)[clause.column]
+      }
+      if (colDef && typeof colDef.filterFunction === 'function') {
+        // filterFunction returns boolean
+        if (
+          !(
+            colDef.filterFunction as unknown as (
+              v: unknown,
+              clauseVal: unknown,
+              row?: Row,
+              clause?: FilterClause,
+            ) => boolean
+          )(val, clause.value, r, clause)
+        )
+          return false
+        continue
+      }
 
       if (op === 'eq') {
         if (!opEq(val, clause.value)) return false
@@ -235,7 +262,11 @@ export function applyFilters(
  * @param sort - array of sort clauses or null
  * @returns new sorted array
  */
-export function applySort(rows: ReadonlyArray<Row>, sort: SortClause[] | null): Row[] {
+export function applySort(
+  rows: ReadonlyArray<Row>,
+  sort: SortClause[] | null,
+  columns?: ColumnDef[] | Record<string, ColumnDef>,
+): Row[] {
   if (!sort || sort.length === 0) return rows.slice()
   const copy = rows.slice()
   copy.sort((a, b) => {
@@ -250,6 +281,21 @@ export function applySort(rows: ReadonlyArray<Row>, sort: SortClause[] | null): 
 
       const aNum = tryCoerceNumber(av)
       const bNum = tryCoerceNumber(bv)
+
+      // column-level sortFunction support: if present, use it to compare
+      let colDef: ColumnDef | undefined = undefined
+      if (Array.isArray(columns)) {
+        colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
+      } else if (columns && typeof columns === 'object') {
+        colDef = (columns as Record<string, ColumnDef>)[clause.column]
+      }
+      if (colDef && typeof colDef.sortFunction === 'function') {
+        const cmp = (
+          colDef.sortFunction as unknown as (x: unknown, y: unknown, xr?: Row, yr?: Row) => number
+        )(av, bv, a, b)
+        if (cmp !== 0) return clause.direction === 'asc' ? (cmp < 0 ? -1 : 1) : cmp < 0 ? 1 : -1
+        continue
+      }
 
       let cmp = 0
       if (aNum !== null && bNum !== null) {

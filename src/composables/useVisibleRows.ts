@@ -10,6 +10,11 @@ export function useVisibleRows(options: {
   rows: Ref<ReadonlyArray<Row>>
   filter?: Ref<FilterClause[] | null>
   sort?: Ref<SortClause[] | null>
+  columns?: Ref<
+    | import('../components/types').ColumnDef[]
+    | Record<string, import('../components/types').ColumnDef>
+    | undefined
+  >
   filterMode?: Ref<'and' | 'or'>
   caseSensitive?: Ref<boolean> | boolean
 }): { visible: ComputedRef<Array<Row & { id?: PropertyKey }>> } {
@@ -18,6 +23,7 @@ export function useVisibleRows(options: {
   const sortRef = options.sort
   const filterModeRef = options.filterMode
   const caseSensitiveRef = options.caseSensitive
+  const columnsRef = options.columns
 
   const visible = computed(() => {
     const baseRows = rowsRef.value || []
@@ -32,11 +38,16 @@ export function useVisibleRows(options: {
       if (!filterModeRef || filterModeRef.value === 'and') {
         const cs =
           typeof caseSensitiveRef === 'boolean' ? caseSensitiveRef : caseSensitiveRef?.value
-        filtered = applyFilters(filtered, filterRef.value, { caseSensitive: !!cs })
+        filtered = applyFilters(
+          filtered,
+          filterRef.value,
+          columnsRef ? columnsRef.value : undefined,
+          { caseSensitive: !!cs },
+        )
       } else {
         // or: union of individual clause results
         const sets = (filterRef.value || []).map((cl) =>
-          applyFilters(baseRows, [cl], {
+          applyFilters(baseRows, [cl], columnsRef ? columnsRef.value : undefined, {
             caseSensitive: !!(typeof caseSensitiveRef === 'boolean'
               ? caseSensitiveRef
               : caseSensitiveRef?.value),
@@ -57,7 +68,7 @@ export function useVisibleRows(options: {
 
     // Apply sort
     if (!noSort && sortRef) {
-      filtered = applySort(filtered, sortRef.value)
+      filtered = applySort(filtered, sortRef.value, columnsRef ? columnsRef.value : undefined)
     }
 
     return filtered

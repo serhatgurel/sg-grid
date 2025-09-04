@@ -88,6 +88,7 @@
 import { ref, computed, Ref } from 'vue'
 import people from './people.json'
 import { useVisibleRows } from '../composables/useVisibleRows'
+import type { ColumnDef } from '../components/types'
 
 // Minimal local type for the demo dataset so SFC type-checking is happy
 interface Person {
@@ -171,10 +172,35 @@ const sortRef = computed(() =>
 const computedRows = computed(() => rows.value.map((r) => ({ ...r, name: displayName(r) })))
 const caseSensitive = ref(false)
 
+// Demonstration columns with column-level hooks for filter/sort overrides
+const columns = ref<ColumnDef[]>([
+  {
+    key: 'name',
+    field: 'name',
+    // demo filterFunction: case-insensitive contains using clause.value
+    filterFunction: (cellValue: unknown, clauseValue: unknown) => {
+      if (cellValue === null || cellValue === undefined) return false
+      if (clauseValue === null || clauseValue === undefined) return false
+      return String(cellValue).toLowerCase().includes(String(clauseValue).toLowerCase())
+    },
+  },
+  {
+    key: 'age',
+    field: 'age',
+    // demo sortFunction: numeric comparator
+    sortFunction: (a: unknown, b: unknown) => {
+      const an = typeof a === 'number' ? a : Number(a)
+      const bn = typeof b === 'number' ? b : Number(b)
+      return an - bn
+    },
+  },
+])
+
 const { visible } = useVisibleRows({
   rows: computedRows as unknown as Ref<ReadonlyArray<Record<string, unknown>>>,
   filter: filtersRef,
   sort: sortRef,
+  columns,
   caseSensitive,
 })
 </script>

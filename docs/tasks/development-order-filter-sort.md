@@ -60,7 +60,7 @@ Notes
   - Implement coercion heuristics and NaN handling used by operators/filters. Ensure pure behaviour and pass tests.
 - Unit tests verifying `column.sortFunction` and `column.filterFunction` overrides are invoked by utilities when present.
 
-- [ ] 17 — Column-level hooks tests
+- [x] 17 — Column-level hooks tests
   - Unit tests verifying `column.sortFunction` and `column.filterFunction` overrides are invoked by utilities when present.
 
 - [ ] 18 — Implement column-level hook support

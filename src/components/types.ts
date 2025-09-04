@@ -9,6 +9,22 @@ export interface ColumnDef {
   caption?: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
+  // Optional hooks that allow column-level override of filter and sort behaviour.
+  // filterFunction should return a boolean (match or not). Signature: (cellValue, clauseValue, row?, clause?) => boolean
+  filterFunction?: (
+    cellValue: unknown,
+    clauseValue: unknown,
+    row?: Record<string, unknown>,
+    clause?: { column: string; operator: string; value: unknown },
+  ) => boolean
+  // sortFunction should act like a comparator returning negative/zero/positive.
+  // Signature: (aValue, bValue, aRow?, bRow?) => number
+  sortFunction?: (
+    aValue: unknown,
+    bValue: unknown,
+    aRow?: Record<string, unknown>,
+    bRow?: Record<string, unknown>,
+  ) => number
 }
 
 // Props for declarative <sg-column>
