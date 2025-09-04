@@ -47,8 +47,8 @@ Notes
 - [x] 11 — String ops tests (case)
   - Tests for `contains`, `startsWith`, `endsWith` with `caseSensitive` true/false and non-string inputs.
 
- - [x] 12 — Implement string ops & case handling
-  - Implement string operators honouring `caseSensitive` and null-safe behaviour.
+- [x] 12 — Implement string ops & case handling
+- Implement string operators honouring `caseSensitive` and null-safe behaviour.
 
 - [ ] 13 — Array ops tests (`in`, `between`)
   - Tests for `in` (array & single value) and `between` (valid two-element arrays and malformed input).
