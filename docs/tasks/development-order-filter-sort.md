@@ -41,13 +41,10 @@ Notes
 - [x] 9 — Operator helpers tests (relational)
   - Focused tests for `eq`, `ne`, `lt`, `lte`, `gt`, `gte` covering null/undefined and NaN edge cases.
 
-- [ ] 10 — Implement operator helpers (relational)
-  - Implement and export relational operator helpers with deterministic coercion and safe NaN handling.
-
 - [x] 10 — Implement operator helpers (relational)
   - Implement and export relational operator helpers with deterministic coercion and safe NaN handling.
 
-- [ ] 11 — String ops tests (case)
+- [x] 11 — String ops tests (case)
   - Tests for `contains`, `startsWith`, `endsWith` with `caseSensitive` true/false and non-string inputs.
 
 - [ ] 12 — Implement string ops & case handling

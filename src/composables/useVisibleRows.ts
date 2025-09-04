@@ -17,6 +17,7 @@ export function useVisibleRows(options: {
   const filterRef = options.filter
   const sortRef = options.sort
   const filterModeRef = options.filterMode
+  const caseSensitiveRef = options.caseSensitive
 
   const visible = computed(() => {
     const baseRows = rowsRef.value || []
@@ -29,10 +30,18 @@ export function useVisibleRows(options: {
     let filtered = baseRows.slice()
     if (!noFilter && filterRef) {
       if (!filterModeRef || filterModeRef.value === 'and') {
-        filtered = applyFilters(filtered, filterRef.value)
+        const cs =
+          typeof caseSensitiveRef === 'boolean' ? caseSensitiveRef : caseSensitiveRef?.value
+        filtered = applyFilters(filtered, filterRef.value, { caseSensitive: !!cs })
       } else {
         // or: union of individual clause results
-        const sets = (filterRef.value || []).map((cl) => applyFilters(baseRows, [cl]))
+        const sets = (filterRef.value || []).map((cl) =>
+          applyFilters(baseRows, [cl], {
+            caseSensitive: !!(typeof caseSensitiveRef === 'boolean'
+              ? caseSensitiveRef
+              : caseSensitiveRef?.value),
+          }),
+        )
         const map = new Map<string, Row>()
 
         for (const s of sets) {

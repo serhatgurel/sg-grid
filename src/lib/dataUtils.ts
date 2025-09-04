@@ -68,11 +68,43 @@ export function opRelational(
   return aNum >= bNum
 }
 
-export function opContains(val: unknown, clauseVal: unknown): boolean {
-  if (isMissingValue(val)) return false
-  if (typeof val !== 'string') return false
-  if (typeof clauseVal !== 'string' && typeof clauseVal !== 'number') return false
-  return val.includes(String(clauseVal))
+export function opContains(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  const aStr = String(val)
+  const bStr = String(clauseVal)
+
+  if (!caseSensitive) {
+    return aStr.toLowerCase().includes(bStr.toLowerCase())
+  }
+  return aStr.includes(bStr)
+}
+
+// --- String operator stubs (to be implemented in task 12)
+export function opStartsWith(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
+  // treat null/undefined and numeric NaN as missing
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  // coerce both values to strings
+  const aStr = String(val)
+  const bStr = String(clauseVal)
+
+  if (!caseSensitive) {
+    return aStr.toLowerCase().startsWith(bStr.toLowerCase())
+  }
+  return aStr.startsWith(bStr)
+}
+
+export function opEndsWith(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  const aStr = String(val)
+  const bStr = String(clauseVal)
+
+  if (!caseSensitive) {
+    return aStr.toLowerCase().endsWith(bStr.toLowerCase())
+  }
+  return aStr.endsWith(bStr)
 }
 
 /**
@@ -85,9 +117,15 @@ export function opContains(val: unknown, clauseVal: unknown): boolean {
  * @param filter - array of filter clauses or null
  * @returns new array of rows matching the filter
  */
-export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | null): Row[] {
+export function applyFilters(
+  rows: ReadonlyArray<Row>,
+  filter: FilterClause[] | null,
+  options?: { caseSensitive?: boolean },
+): Row[] {
   // fast-fail: return a shallow copy when there's no filter
   if (!filter || filter.length === 0) return rows.slice()
+
+  const caseSensitive = options?.caseSensitive ?? false
 
   return rows.filter((r) => {
     for (const clause of filter) {
@@ -109,7 +147,15 @@ export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | 
         continue
       }
       if (op === 'contains') {
-        if (!opContains(val, clause.value)) return false
+        if (!opContains(val, clause.value, caseSensitive)) return false
+        continue
+      }
+      if (op === 'startsWith') {
+        if (!opStartsWith(val, clause.value, caseSensitive)) return false
+        continue
+      }
+      if (op === 'endsWith') {
+        if (!opEndsWith(val, clause.value, caseSensitive)) return false
         continue
       }
 

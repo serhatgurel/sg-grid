@@ -16,6 +16,8 @@
           <option value="contains">contains</option>
           <option value="eq">eq</option>
           <option value="ne">ne</option>
+          <option value="startsWith">startsWith</option>
+          <option value="endsWith">endsWith</option>
           <option value="lt">lt</option>
           <option value="lte">lte</option>
           <option value="gt">gt</option>
@@ -26,6 +28,11 @@
       <label>
         Value:
         <input v-model="filterValue" placeholder="value" />
+      </label>
+
+      <label style="display: flex; align-items: center; gap: 6px">
+        <input type="checkbox" v-model="caseSensitive" />
+        <span>caseSensitive</span>
       </label>
 
       <label>
@@ -133,10 +140,13 @@ const sortRef = computed(() =>
 // The composable expects rows with arbitrary columns; for the demo we map
 // visible rows to expose a `name` property used by filter/sort when `column==='name'`.
 const computedRows = computed(() => rows.value.map((r) => ({ ...r, name: displayName(r) })))
+const caseSensitive = ref(false)
+
 const { visible } = useVisibleRows({
   rows: computedRows as unknown as Ref<ReadonlyArray<Record<string, unknown>>>,
   filter: filtersRef,
   sort: sortRef,
+  caseSensitive,
 })
 </script>
 
