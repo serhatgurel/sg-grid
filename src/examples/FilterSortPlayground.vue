@@ -56,7 +56,7 @@
       </label>
     </div>
 
-    <table border="1" cellpadding="6" cellspacing="0">
+    <table class="playground-table" border="1" cellpadding="6" cellspacing="0">
       <thead>
         <tr>
           <th>id</th>
@@ -139,3 +139,20 @@ const { visible } = useVisibleRows({
   sort: sortRef,
 })
 </script>
+
+<style scoped>
+.playground-table {
+  border-collapse: collapse;
+  border: 1px solid #d1d5db; /* subtle gray border */
+}
+.playground-table th,
+.playground-table td {
+  border: 1px solid #d1d5db;
+  padding: 6px;
+  text-align: left;
+}
+.playground-table th {
+  background-color: #f9fafb; /* very light gray background for headers */
+  font-weight: 600;
+}
+</style>
