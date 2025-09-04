@@ -38,7 +38,7 @@ Notes
 - [x] 8 — Implement composable `useVisibleRows`
 - Implement a composable (e.g., `src/components/useVisibleRows.ts`) that uses `applyFilters` and `applySort`, honours `filterMode` (`and` | `or`) and `caseSensitive`. Pass tests from item 7. Do not integrate into `SgGrid` yet.
 
-- [ ] 9 — Operator helpers tests (relational)
+- [x] 9 — Operator helpers tests (relational)
   - Focused tests for `eq`, `ne`, `lt`, `lte`, `gt`, `gte` covering null/undefined and NaN edge cases.
 
 - [ ] 10 — Implement operator helpers (relational)

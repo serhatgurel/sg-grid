@@ -35,4 +35,16 @@ describe('dataUtils operator helpers', () => {
     expect(opContains('12345', 234)).toBe(true)
     expect(opContains(null, 'x')).toBe(false)
   })
+
+  it('NaN handling: numeric NaN is treated as missing', () => {
+    // opEq should treat NaN as missing -> no match
+    expect(opEq(NaN, NaN)).toBe(false)
+
+    // opNe should treat NaN as missing -> satisfy ne
+    expect(opNe(NaN, 1)).toBe(true)
+
+    // relational ops with NaN should return false
+    expect(opRelational(NaN, 1, 'lt')).toBe(false)
+    expect(opRelational(1, NaN, 'gt')).toBe(false)
+  })
 })
