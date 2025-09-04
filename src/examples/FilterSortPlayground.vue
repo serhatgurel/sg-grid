@@ -18,6 +18,8 @@
           <option value="ne">ne</option>
           <option value="startsWith">startsWith</option>
           <option value="endsWith">endsWith</option>
+          <option value="in">in</option>
+          <option value="between">between</option>
           <option value="lt">lt</option>
           <option value="lte">lte</option>
           <option value="gt">gt</option>
@@ -27,7 +29,7 @@
 
       <label>
         Value:
-        <input v-model="filterValue" placeholder="value" />
+        <input v-model="filterValue" :placeholder="valuePlaceholder" />
       </label>
 
       <label style="display: flex; align-items: center; gap: 6px">
@@ -119,10 +121,24 @@ function displayName(p: Person): string {
   return (p.email as string) || p.id
 }
 
+const valuePlaceholder = computed(() => {
+  if (filterOp.value === 'in') return 'comma-separated values, e.g. a,b,c'
+  if (filterOp.value === 'between') return 'two values separated by comma, e.g. 1,10'
+  return 'value'
+})
+
 const filtersRef = computed(() => {
   if (!filterValue.value) return null
+
+  // parse operator-specific input shapes
   let val: unknown = filterValue.value
-  if (filterValueType.value === 'number') {
+
+  if (filterOp.value === 'in') {
+    // split CSV and trim
+    val = filterValue.value.split(',').map((s) => s.trim())
+  } else if (filterOp.value === 'between') {
+    val = filterValue.value.split(',').map((s) => s.trim())
+  } else if (filterValueType.value === 'number') {
     const n = Number(filterValue.value)
     val = Number.isNaN(n) ? NaN : n
   } else if (filterValueType.value === 'nan') {
@@ -130,6 +146,19 @@ const filtersRef = computed(() => {
   } else if (filterValueType.value === 'null') {
     val = null
   }
+
+  // for 'in' and 'between', coerce numeric-looking strings to numbers when type=number
+  if (
+    (filterOp.value === 'in' || filterOp.value === 'between') &&
+    filterValueType.value === 'number' &&
+    Array.isArray(val)
+  ) {
+    val = (val as string[]).map((s) => {
+      const n = Number(s)
+      return Number.isNaN(n) ? s : n
+    })
+  }
+
   return [{ column: filterColumn.value, operator: filterOp.value, value: val }]
 })
 

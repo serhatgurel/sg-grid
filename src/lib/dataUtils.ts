@@ -107,6 +107,34 @@ export function opEndsWith(val: unknown, clauseVal: unknown, caseSensitive = fal
   return aStr.endsWith(bStr)
 }
 
+export function opIn(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  // if clauseVal is an array, check membership (with numeric coercion)
+  if (Array.isArray(clauseVal)) {
+    for (const item of clauseVal) {
+      if (opEq(val, item)) return true
+    }
+    return false
+  }
+
+  // fallback: treat clauseVal as single value equality
+  return opEq(val, clauseVal)
+}
+
+export function opBetween(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  // clauseVal must be an array of two values
+  if (!Array.isArray(clauseVal) || clauseVal.length !== 2) return false
+
+  const aNum = tryCoerceNumber(val)
+  const low = tryCoerceNumber(clauseVal[0])
+  const high = tryCoerceNumber(clauseVal[1])
+  if (aNum === null || low === null || high === null) return false
+  return aNum >= low && aNum <= high
+}
+
 /**
  * applyFilters - minimal, pure filter implementation for TDD slice
  *

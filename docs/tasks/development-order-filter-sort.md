@@ -50,7 +50,7 @@ Notes
 - [x] 12 — Implement string ops & case handling
 - Implement string operators honouring `caseSensitive` and null-safe behaviour.
 
-- [ ] 13 — Array ops tests (`in`, `between`)
+- [x] 13 — Array ops tests (`in`, `between`)
   - Tests for `in` (array & single value) and `between` (valid two-element arrays and malformed input).
 
 - [ ] 14 — Implement `in` & `between` ops
