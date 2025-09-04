@@ -36,6 +36,28 @@ function tryCoerceNumber(v: unknown): number | null {
   return null
 }
 
+/**
+ * coerceIfNumeric - returns a number when the input is numeric or a numeric-like string;
+ * returns null for missing/NaN inputs; otherwise returns the original value unchanged.
+ */
+export function coerceIfNumeric(v: unknown): number | null | unknown {
+  if (isMissingValue(v)) return null
+
+  if (typeof v === 'number') {
+    // already handled NaN above
+    return v as number
+  }
+
+  if (typeof v === 'string') {
+    const trimmed = v.trim()
+    const n = Number(trimmed)
+    if (!Number.isNaN(n)) return n
+    return v
+  }
+
+  return v
+}
+
 // --- Operator helpers (exported for unit testing)
 export function opEq(val: unknown, clauseVal: unknown): boolean {
   if (isMissingValue(val)) return false

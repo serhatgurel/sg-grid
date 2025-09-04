@@ -53,10 +53,10 @@ Notes
 - [x] 13 — Array ops tests (`in`, `between`)
   - Tests for `in` (array & single value) and `between` (valid two-element arrays and malformed input).
 
-- [ ] 14 — Implement `in` & `between` ops
-  - Implement `in` and `between` with validation and fallbacks (treat non-array in `in` as equality). Pass tests.
+- [x] 14 — Implement `in` & `between` ops
+- Implement `in` and `between` with validation and fallbacks (treat non-array in `in` as equality). Pass tests.
 
-- [ ] 15 — Coercion & NaN tests
+- [x] 15 — Coercion & NaN tests
   - Tests for `coerceIfNumeric` behaviour: numeric-like strings vs strings and NaN treated as missing (no match). Include immutability assertions.
 
 - [ ] 16 — Implement coercion handling
