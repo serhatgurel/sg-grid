@@ -28,6 +28,16 @@
         <input v-model="filterValue" placeholder="value" />
       </label>
 
+      <label>
+        Value type:
+        <select v-model="filterValueType">
+          <option value="string">string</option>
+          <option value="number">number</option>
+          <option value="nan">NaN</option>
+          <option value="null">null</option>
+        </select>
+      </label>
+
       <label
         >Sort by:
         <select v-model="sortKey">
@@ -85,6 +95,7 @@ interface Person {
 const filterColumn = ref<'name' | 'age'>('name')
 const filterOp = ref('contains')
 const filterValue = ref('')
+const filterValueType = ref<'string' | 'number' | 'nan' | 'null'>('string')
 const sortKey = ref('')
 const sortDir = ref<'asc' | 'desc'>('asc')
 
@@ -101,11 +112,19 @@ function displayName(p: Person): string {
   return (p.email as string) || p.id
 }
 
-const filtersRef = computed(() =>
-  filterValue.value
-    ? [{ column: filterColumn.value, operator: filterOp.value, value: filterValue.value }]
-    : null,
-)
+const filtersRef = computed(() => {
+  if (!filterValue.value) return null
+  let val: unknown = filterValue.value
+  if (filterValueType.value === 'number') {
+    const n = Number(filterValue.value)
+    val = Number.isNaN(n) ? NaN : n
+  } else if (filterValueType.value === 'nan') {
+    val = NaN
+  } else if (filterValueType.value === 'null') {
+    val = null
+  }
+  return [{ column: filterColumn.value, operator: filterOp.value, value: val }]
+})
 
 const sortRef = computed(() =>
   sortKey.value ? [{ column: sortKey.value, direction: sortDir.value }] : null,
