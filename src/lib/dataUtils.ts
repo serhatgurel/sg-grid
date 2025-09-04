@@ -61,19 +61,28 @@ export function coerceIfNumeric(v: unknown): number | null | unknown {
 // --- Operator helpers (exported for unit testing)
 export function opEq(val: unknown, clauseVal: unknown): boolean {
   if (isMissingValue(val)) return false
-  const aNum = tryCoerceNumber(val)
-  const bNum = tryCoerceNumber(clauseVal)
-  if (aNum !== null && bNum !== null) return aNum === bNum
-  return val === clauseVal
+
+  const a = coerceIfNumeric(val)
+  const b = coerceIfNumeric(clauseVal)
+
+  if (a === null || b === null) return false
+
+  if (typeof a === 'number' && typeof b === 'number') return a === b
+  return a === b
 }
 
 export function opNe(val: unknown, clauseVal: unknown): boolean {
   // per semantics: missing values satisfy `ne`
   if (isMissingValue(val)) return true
-  const aNum = tryCoerceNumber(val)
-  const bNum = tryCoerceNumber(clauseVal)
-  if (aNum !== null && bNum !== null) return aNum !== bNum
-  return val !== clauseVal
+
+  const a = coerceIfNumeric(val)
+  const b = coerceIfNumeric(clauseVal)
+
+  if (a === null && b === null) return true
+  if (a === null || b === null) return true
+
+  if (typeof a === 'number' && typeof b === 'number') return a !== b
+  return a !== b
 }
 
 export function opRelational(
@@ -81,13 +90,14 @@ export function opRelational(
   clauseVal: unknown,
   operator: 'lt' | 'lte' | 'gt' | 'gte',
 ): boolean {
-  const aNum = tryCoerceNumber(val)
-  const bNum = tryCoerceNumber(clauseVal)
-  if (aNum === null || bNum === null) return false
-  if (operator === 'lt') return aNum < bNum
-  if (operator === 'lte') return aNum <= bNum
-  if (operator === 'gt') return aNum > bNum
-  return aNum >= bNum
+  const a = coerceIfNumeric(val)
+  const b = coerceIfNumeric(clauseVal)
+  if (a === null || b === null) return false
+  if (typeof a !== 'number' || typeof b !== 'number') return false
+  if (operator === 'lt') return a < b
+  if (operator === 'lte') return a <= b
+  if (operator === 'gt') return a > b
+  return a >= b
 }
 
 export function opContains(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
@@ -150,11 +160,12 @@ export function opBetween(val: unknown, clauseVal: unknown): boolean {
   // clauseVal must be an array of two values
   if (!Array.isArray(clauseVal) || clauseVal.length !== 2) return false
 
-  const aNum = tryCoerceNumber(val)
-  const low = tryCoerceNumber(clauseVal[0])
-  const high = tryCoerceNumber(clauseVal[1])
-  if (aNum === null || low === null || high === null) return false
-  return aNum >= low && aNum <= high
+  const a = coerceIfNumeric(val)
+  const low = coerceIfNumeric(clauseVal[0])
+  const high = coerceIfNumeric(clauseVal[1])
+  if (a === null || low === null || high === null) return false
+  if (typeof a !== 'number' || typeof low !== 'number' || typeof high !== 'number') return false
+  return a >= low && a <= high
 }
 
 /**
