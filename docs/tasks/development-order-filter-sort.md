@@ -63,7 +63,7 @@ Notes
 - [x] 17 — Column-level hooks tests
   - Unit tests verifying `column.sortFunction` and `column.filterFunction` overrides are invoked by utilities when present.
 
-- [ ] 18 — Implement column-level hook support
+- [x] 18 — Implement column-level hook support
   - Wire support for `column.sortFunction` and `column.filterFunction` in `dataUtils`. Utilities should call overrides when present.
 
 - [ ] 19 — Server-side behaviour tests
