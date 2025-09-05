@@ -72,7 +72,7 @@
 
     <SgGrid
       :columns="columns"
-      :rows="computedRows"
+      :rows="serverSide ? computedRows : visible"
       :rowKey="'id'"
       :serverSide="serverSide"
       :sort="sortRef"
@@ -97,6 +97,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import people from './people.json'
+import { useVisibleRows } from '../composables/useVisibleRows'
 // ...existing code...
 import type { ColumnDef } from '../components/types'
 import SgGrid from '../components/SgGrid.vue'
@@ -188,6 +189,8 @@ const columns = ref<ColumnDef[]>([
   {
     key: 'name',
     field: 'name',
+    sortable: true,
+    filterable: true,
     // demo filterFunction: case-insensitive contains using clause.value
     filterFunction: (cellValue: unknown, clauseValue: unknown) => {
       if (cellValue === null || cellValue === undefined) return false
@@ -198,6 +201,8 @@ const columns = ref<ColumnDef[]>([
   {
     key: 'age',
     field: 'age',
+    sortable: true,
+    filterable: true,
     // demo sortFunction: numeric comparator
     sortFunction: (a: unknown, b: unknown) => {
       const an = typeof a === 'number' ? a : Number(a)
@@ -223,6 +228,15 @@ function onUpdateSort(s: unknown) {
 function onUpdateFilter(f: unknown) {
   lastRequest.value = { type: 'update:filter', payload: f }
 }
+
+// wire client-side visible rows (used when not serverSide)
+const { visible } = useVisibleRows({
+  rows: computedRows as unknown as any,
+  filter: filtersRef,
+  sort: sortRef,
+  columns,
+  caseSensitive,
+})
 </script>
 
 <style scoped>

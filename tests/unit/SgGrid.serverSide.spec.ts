@@ -9,8 +9,13 @@ describe('SgGrid server-side mode', () => {
       { key: 'k2', field: 'age', caption: 'Age' },
     ]
 
+    const data = [
+      { id: 1, name: 'Bob', age: 30 },
+      { id: 2, name: 'Alice', age: 25 },
+    ]
+
     const wrapper = mount(SgGrid, {
-      props: { columns: cols, rows: [], rowKey: 'id', serverSide: true },
+      props: { columns: cols, rows: data, rowKey: 'id', serverSide: true },
     })
 
     // find the sort button and click
@@ -30,13 +35,25 @@ describe('SgGrid server-side mode', () => {
     expect(payload).toHaveProperty('page')
     expect(payload).toHaveProperty('pageSize')
     expect(payload.sort).toEqual([{ column: 'k1', direction: 'asc' }])
+
+    // Important: client-side sorting should NOT have been applied when serverSide=true
+    const rows = wrapper.findAll('tbody tr')
+    expect(rows.length).toBe(2)
+    // initial order should remain unchanged (Bob then Alice)
+    expect(rows[0].text()).toContain('Bob')
+    expect(rows[1].text()).toContain('Alice')
   })
 
   test('when serverSide=true filter input emits update:filter and request:page', async () => {
     const cols = [{ key: 'k1', field: 'name', caption: 'Name', filterable: true }]
 
+    const data = [
+      { id: 1, name: 'Bob' },
+      { id: 2, name: 'Alice' },
+    ]
+
     const wrapper = mount(SgGrid, {
-      props: { columns: cols, rows: [], rowKey: 'id', serverSide: true },
+      props: { columns: cols, rows: data, rowKey: 'id', serverSide: true },
     })
 
     const input = wrapper.find('[data-test-filter-input]')
@@ -51,5 +68,11 @@ describe('SgGrid server-side mode', () => {
     expect(req2).toBeTruthy()
     const payload2 = req2[0][0]
     expect(payload2.filter).toEqual([{ column: 'k1', operator: 'contains', value: 'alice' }])
+
+    // Ensure client-side filtering was NOT applied by the grid when serverSide=true
+    const rows = wrapper.findAll('tbody tr')
+    expect(rows.length).toBe(2)
+    expect(rows[0].text()).toContain('Bob')
+    expect(rows[1].text()).toContain('Alice')
   })
 })

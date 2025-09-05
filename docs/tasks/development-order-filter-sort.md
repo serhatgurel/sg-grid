@@ -66,7 +66,7 @@ Notes
 - [x] 18 — Implement column-level hook support
   - Wire support for `column.sortFunction` and `column.filterFunction` in `dataUtils`. Utilities should call overrides when present.
 
-- [ ] 19 — Server-side behaviour tests
+- [x] 19 — Server-side behaviour tests
   - Component tests asserting that when `serverSide=true` no client filtering/sorting occurs and that `request:page` and `update:sort`/`update:filter` are emitted on user actions.
 
 - [ ] 20 — Implement server-side wiring/events
