@@ -78,10 +78,10 @@ Notes
 - [x] 22 — Header sorting tests (interactions)
   - Tests: header click cycles `none -> asc -> desc -> none`; `shift+click` appends multi-sort. Assert emitted `update:sort` and UI state.
 
-- [ ] 23 — Implement header sort interactions
+- [x] 23 — Implement header sort interactions
   - Implement header click and `shift+click` behaviour in `SgColumn` / `SgGrid`. Emit `update:sort` and update local state when not `serverSide`.
 
-- [ ] 24 — Sort visual affordance tests
+- [x] 24 — Sort visual affordance tests
   - Unit/visual-smoke tests for direction indicators and multi-sort order display (e.g., numeric badge for priority).
 
 - [ ] 25 — Implement sort visual affordances
