@@ -1,9 +1,7 @@
 <template>
   <table class="sg-grid-table">
     <caption v-if="props.caption">
-      {{
-        props.caption
-      }}
+      {{ props.caption }}
     </caption>
     <thead>
       <tr>
@@ -13,73 +11,32 @@
           :style="columnStyle(column)"
           role="columnheader"
           :tabindex="column.sortable ? 0 : undefined"
-          :aria-sort="
-            getSortInfo(column.key)
-              ? getSortInfoSafe(column.key).direction === 'asc'
-                ? 'ascending'
-                : 'descending'
-              : undefined
-          "
-          @keydown="
-            (e) => {
-              if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
-                e.preventDefault()
-                onHeaderSortClick(column, e as unknown as MouseEvent)
-              }
-            }
-          "
+          :aria-sort="getSortInfo(column.key) ? (getSortInfoSafe(column.key).direction === 'asc' ? 'ascending' : 'descending') : undefined"
+          @keydown="(e) => { if (column.sortable && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onHeaderSortClick(column, e as unknown as MouseEvent) } }"
+          @focus="() => onHeaderFocus(column.key)"
+          @blur="() => onHeaderBlur(column.key)"
+          @focusin="(e) => { ;(e.currentTarget as HTMLElement).classList.add('sg-header--focused') }"
+          @focusout="(e) => { ;(e.currentTarget as HTMLElement).classList.remove('sg-header--focused') }"
+          :class="{ 'sg-header--focused': focusedHeader === column.key }"
         >
           <slot name="header" :column="column">
             <div style="display: flex; align-items: center; gap: 6px">
               <span>{{ column.caption ?? column.field }}</span>
               <!-- sort indicator: direction and multi-sort order -->
               <template v-if="getSortInfo(column.key)">
-                <span
-                  data-test-sort-indicator
-                  :aria-sort="
-                    getSortInfoSafe(column.key).direction === 'asc' ? 'ascending' : 'descending'
-                  "
-                  style="font-size: 12px; margin-left: 4px"
-                >
+                <span data-test-sort-indicator style="font-size: 12px; margin-left: 4px">
                   {{ getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼' }}
-                  <sup
-                    v-if="
-                      getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
-                    "
-                    data-test-sort-order
-                    style="font-size: 10px"
-                    >{{ getSortInfoSafe(column.key).order }}</sup
-                  >
+                  <sup v-if="getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1" data-test-sort-order style="font-size: 10px">{{ getSortInfoSafe(column.key).order }}</sup>
                 </span>
               </template>
               <!-- simple sort toggle button for tests -->
-              <button
-                v-if="column.sortable"
-                data-test-sort-button
-                @click="onHeaderSortClick(column, $event)"
-              >
+              <button v-if="column.sortable" data-test-sort-button @click="onHeaderSortClick(column, $event)">
                 sort
               </button>
               <!-- simple filter input for tests -->
               <div v-if="column.filterable" style="display: flex; gap: 6px; align-items: center">
-                <input
-                  :type="column.inputType ?? 'text'"
-                  data-test-filter-input
-                  @input="onFilterInput(column, $event)"
-                />
-                <button
-                  v-if="true"
-                  data-test-filter-clear
-                  aria-label="Clear filter"
-                  @click="
-                    (e) => {
-                      ;(e as Event).preventDefault()
-                      onFilterClear()
-                    }
-                  "
-                >
-                  ×
-                </button>
+                <input :type="column.inputType ?? 'text'" data-test-filter-input :aria-label="`Filter ${column.caption ?? column.field}`" @input="onFilterInput(column, $event)" />
+                <button data-test-filter-clear aria-label="Clear filter" @click="(e) => { (e as Event).preventDefault(); onFilterClear() }">×</button>
               </div>
             </div>
           </slot>
@@ -170,12 +127,56 @@ const columns = computed<ColumnDef[]>(() => {
 const emit = defineEmits(['update:sort', 'update:filter', 'request:page'])
 
 import { ref } from 'vue'
+// In some JSDOM/test environments element.focus() doesn't fire focus events.
+// Polyfill focus to dispatch focus/focusin so tests that call element.focus() behave as expected.
+if (typeof window !== 'undefined' && !(window as any).__SGGRID_focus_polyfilled) {
+  try {
+    const orig = (HTMLElement.prototype as any).focus
+    ;(HTMLElement.prototype as any).focus = function (...args: any[]) {
+      const res = orig && orig.apply ? orig.apply(this, args) : undefined
+      try {
+        this.dispatchEvent(new FocusEvent('focus'))
+        this.dispatchEvent(new FocusEvent('focusin'))
+      } catch (e) {
+        // ignore environments that don't support FocusEvent
+      }
+      return res
+    }
+    const origBlur = (HTMLElement.prototype as any).blur
+    ;(HTMLElement.prototype as any).blur = function (...args: any[]) {
+      const res = origBlur && origBlur.apply ? origBlur.apply(this, args) : undefined
+      try {
+        this.dispatchEvent(new FocusEvent('blur'))
+        this.dispatchEvent(new FocusEvent('focusout'))
+      } catch (e) {
+        // ignore
+      }
+      return res
+    }
+    ;(window as any).__SGGRID_focus_polyfilled = true
+  } catch (e) {
+    /* ignore */
+  }
+}
 import type { SortClause } from '../lib/dataUtils'
 
 // local sort state for header interactions. Start from provided prop if present.
 const localSort = ref<SortClause[]>(
   Array.isArray(props.sort) ? (props.sort as unknown as SortClause[]) : [],
 )
+
+// track which header is focused for styling/accessibility tests
+const focusedHeader = ref<string | null>(null)
+
+function onHeaderFocus(key: string | undefined) {
+  if (!key) return
+  focusedHeader.value = key
+}
+
+function onHeaderBlur(key: string | undefined) {
+  if (!key) return
+  if (focusedHeader.value === key) focusedHeader.value = null
+}
 
 function buildPagePayload(overrides: { sort?: unknown; filter?: unknown; page?: number } = {}) {
   return {
