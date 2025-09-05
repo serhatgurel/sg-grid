@@ -7,7 +7,28 @@
     </caption>
     <thead>
       <tr>
-        <th v-for="column in columns" :key="column.key" :style="columnStyle(column)">
+        <th
+          v-for="column in columns"
+          :key="column.key"
+          :style="columnStyle(column)"
+          role="columnheader"
+          :tabindex="column.sortable ? 0 : undefined"
+          :aria-sort="
+            getSortInfo(column.key)
+              ? getSortInfoSafe(column.key).direction === 'asc'
+                ? 'ascending'
+                : 'descending'
+              : undefined
+          "
+          @keydown="
+            (e) => {
+              if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault()
+                onHeaderSortClick(column, e as unknown as MouseEvent)
+              }
+            }
+          "
+        >
           <slot name="header" :column="column">
             <div style="display: flex; align-items: center; gap: 6px">
               <span>{{ column.caption ?? column.field }}</span>

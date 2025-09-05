@@ -49,12 +49,14 @@ Contact/assumptions
 
 # Progress (session)
 
-- Checklist items completed this session: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
-
-## Resume
+Checklist items completed this session: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+Next task to work on: 29
+Files changed in this session (for reviewer/continuation):
 
 - Branch: `dev-filter-sort`
 - Next task to work on: 28
+  - `src/components/SgGrid.vue` (updated)
+  - `tests/unit/SgGrid.accessibility.spec.ts` (new)
 - Files changed in this session (for reviewer/continuation):
   - `src/components/types.ts`
   - `src/lib/dataUtils.ts`

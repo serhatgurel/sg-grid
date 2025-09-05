@@ -86,6 +86,10 @@
         Server-side demo: check the <strong>serverSide</strong> box, then use the header controls to
         trigger <code>request:page</code> events which the playground will handle and update rows.
       </div>
+      <div style="margin-top: 6px">
+        Keyboard: column headers are focusable when sortable — focus a header and press
+        <kbd>Enter</kbd> or <kbd>Space</kbd> to toggle sort.
+      </div>
       <div v-if="lastRequest" style="margin-top: 6px">
         Last request:
         <pre style="white-space: pre-wrap">{{ JSON.stringify(lastRequest, null, 2) }}</pre>
