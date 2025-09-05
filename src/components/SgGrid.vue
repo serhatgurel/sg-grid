@@ -40,11 +40,26 @@
                 sort
               </button>
               <!-- simple filter input for tests -->
-              <input
-                v-if="column.filterable"
-                data-test-filter-input
-                @input="onFilterInput(column, $event)"
-              />
+              <div v-if="column.filterable" style="display: flex; gap: 6px; align-items: center">
+                <input
+                  :type="column.inputType ?? 'text'"
+                  data-test-filter-input
+                  @input="onFilterInput(column, $event)"
+                />
+                <button
+                  v-if="true"
+                  data-test-filter-clear
+                  aria-label="Clear filter"
+                  @click="
+                    (e) => {
+                      ;(e as Event).preventDefault()
+                      onFilterClear()
+                    }
+                  "
+                >
+                  ×
+                </button>
+              </div>
             </div>
           </slot>
         </th>
@@ -202,6 +217,17 @@ function onFilterInput(column: ColumnDef, ev: Event) {
     }
     filterTimeout.value = null
   }, 250)
+}
+
+function onFilterClear() {
+  // cancel pending debounce
+  if (filterTimeout.value) window.clearTimeout(filterTimeout.value)
+  filterTimeout.value = null
+  // emit cleared filter
+  emit('update:filter', null)
+  if (props.serverSide) {
+    emit('request:page', buildPagePayload({ filter: null }))
+  }
 }
 
 function onPrevPage() {

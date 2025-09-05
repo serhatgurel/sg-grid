@@ -205,6 +205,7 @@ const columns = ref<ColumnDef[]>([
     field: 'age',
     sortable: true,
     filterable: true,
+    inputType: 'number',
     // demo sortFunction: numeric comparator
     sortFunction: (a: unknown, b: unknown) => {
       const an = typeof a === 'number' ? a : Number(a)

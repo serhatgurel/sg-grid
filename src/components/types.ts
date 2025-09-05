@@ -12,6 +12,8 @@ export interface ColumnDef {
   // Optional UI flags
   sortable?: boolean
   filterable?: boolean
+  // Optional input type to control header filter input (e.g. 'text', 'number', 'date')
+  inputType?: string
   // Optional hooks that allow column-level override of filter and sort behaviour.
   // filterFunction should return a boolean (match or not). Signature: (cellValue, clauseValue, row?, clause?) => boolean
   filterFunction?: (

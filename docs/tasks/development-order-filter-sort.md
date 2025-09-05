@@ -90,8 +90,8 @@ Notes
 - [x] 26 — Filter UI tests (header inputs)
 - Tests verifying header filter inputs render when `column.filterable=true`, emit `update:filter` (debounced), and are clearable.
 
-- [ ] 27 — Implement header filter controls
-  - Render simple text input in header (and number/date variants where appropriate). Wire debounced `update:filter` emits and clear behaviour.
+- [x] 27 — Implement header filter controls
+- Render simple text input in header (and number/date variants where appropriate). Wire debounced `update:filter` emits and clear behaviour.
 
 - [ ] 28 — Accessibility tests (ARIA, keyboard)
   - Tests for `aria-sort`, keyboard focus and activation behaviour for header controls.
