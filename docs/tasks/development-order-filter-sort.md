@@ -105,7 +105,7 @@ Notes
 - [x] 31 — Implement validation & warnings
   - Implement filter clause validation and dev-mode console warnings with graceful fallbacks. Pass tests from item 30.
 
-- [ ] 32 — Testing strategy & infra
+- [x] 32 — Testing strategy & infra
   - Confirm `vitest` + `@vue/test-utils` setup, add test helpers and fixtures. Enforce test-first workflow in PRs.
 
 - [ ] 33 — Docs & examples updates
