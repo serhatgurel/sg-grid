@@ -9,18 +9,18 @@ Below is a structured task list created from the PRD. Each user story is a high-
 - [x] 1.4 Tests: smoke render test for the component
 - [x] 1.5 Docs: update README and examples index with minimal example
 
-- [ ] 2.  As a user, I want filter and sort so I can find information quickly.
+- [x] 2.  As a user, I want filter and sort so I can find information quickly.
 - [x] 2.1 Design: define filter & sort API (props/events/edge-cases)
-- [ ] 2.2 Implementation: composable and header UI
-  - [ ] 2.2.1 Implement sorting logic (multi-column, direction)
-  - [ ] 2.2.2 Implement per-column filter controls (string/number/date)
-  - [ ] 2.2.3 Wire sort/filter to data-source adapters (client/server)
-- [ ] 2.3 Tests: unit tests for composables
-- [ ] 2.4 Tests: component tests (header + interaction)
-- [ ] 2.5 Docs: usage examples + API docs
-- [ ] 2.6 Code review
-- [ ] 2.7 Doc review
-- [ ] 2.8 Unit test review
+- [x] 2.2 Implementation: composable and header UI
+  - [x] 2.2.1 Implement sorting logic (multi-column, direction)
+  - [x] 2.2.2 Implement per-column filter controls (string/number/date)
+  - [x] 2.2.3 Wire sort/filter to data-source adapters (client/server)
+- [x] 2.3 Tests: unit tests for composables
+- [x] 2.4 Tests: component tests (header + interaction)
+- [x] 2.5 Docs: usage examples + API docs
+- [x] 2.6 Code review
+- [x] 2.7 Doc review
+- [x] 2.8 Unit test review
 
 - [ ] 3. As a user, I want pagination with configurable page size and client/server paging so I can navigate large datasets.
   - [ ] 3.1 Design: paging adapter interface (client/server)
