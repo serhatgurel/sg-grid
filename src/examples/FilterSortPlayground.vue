@@ -238,12 +238,46 @@ function onRequestPage(payload: unknown) {
 }
 
 function onUpdateSort(s: unknown) {
-  // reflect server-side sort change in UI if desired
+  // reflect sort change in UI and record last request
   lastRequest.value = { type: 'update:sort', payload: s }
+  // if in client-side mode, apply the sort to the playground controls so useVisibleRows updates
+  if (!serverSide.value) {
+    try {
+      const arr = (s as SortClause[] | null) ?? null
+      if (arr && arr.length > 0) {
+        sortKey.value = String(arr[0].column)
+        sortDir.value = (arr[0].direction as 'asc' | 'desc') ?? 'asc'
+      } else {
+        sortKey.value = ''
+      }
+    } catch {
+      /* ignore */
+    }
+  }
 }
 
 function onUpdateFilter(f: unknown) {
   lastRequest.value = { type: 'update:filter', payload: f }
+  // if in client-side mode, reflect the filter in the playground controls so useVisibleRows updates
+  if (!serverSide.value) {
+    try {
+      const arr = (f as FilterClause[] | null) ?? null
+      if (arr && arr.length > 0) {
+        const clause = arr[0]
+        filterColumn.value = clause.column as 'name' | 'age'
+        filterOp.value = String(clause.operator)
+        const v = clause.value
+        if (Array.isArray(v)) filterValue.value = (v as unknown[]).join(',')
+        else if (v === null) filterValue.value = ''
+        else if (typeof v === 'number' && Number.isNaN(v)) filterValue.value = 'NaN'
+        else filterValue.value = String(v)
+      } else {
+        filterValue.value = ''
+      }
+    } catch {
+      /* ignore */
+    }
+  }
 }
 
 // wire client-side visible rows (used when not serverSide)

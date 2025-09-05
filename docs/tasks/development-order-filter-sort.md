@@ -75,7 +75,7 @@ Notes
 - [x] 21 — Example handler for `request:page`
   - Add an example server-side handler in `src/examples` showing how to respond to `request:page` and update grid data.
 
-- [ ] 22 — Header sorting tests (interactions)
+- [x] 22 — Header sorting tests (interactions)
   - Tests: header click cycles `none -> asc -> desc -> none`; `shift+click` appends multi-sort. Assert emitted `update:sort` and UI state.
 
 - [ ] 23 — Implement header sort interactions
