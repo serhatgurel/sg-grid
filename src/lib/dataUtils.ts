@@ -194,6 +194,17 @@ export function applyFilters(
 
   return rows.filter((r) => {
     for (const clause of filter) {
+      // basic clause shape validation: must have a string column and string operator
+      if (!clause || typeof clause.column !== 'string' || typeof clause.operator !== 'string') {
+        if (process && process.env && process.env.NODE_ENV !== 'production') {
+          // eslint-disable-next-line no-console
+          console.warn(
+            `applyFilters: malformed clause detected and ignored: ${JSON.stringify(clause)}`,
+          )
+        }
+        // ignore malformed clause
+        continue
+      }
       const val = (r as Row)[clause.column]
       const op = clause.operator
 

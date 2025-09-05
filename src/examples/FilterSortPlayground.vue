@@ -1,6 +1,22 @@
 <template>
   <div style="padding: 16px; font-family: ui-sans-serif, system-ui">
-    <h2>Filter & Sort Playground</h2>
+    <h2 style="display: inline-flex; align-items: center">
+      Filter & Sort Playground
+      <span
+        v-if="warnings.length"
+        style="
+          margin-left: 8px;
+          background: #fef3c7;
+          color: #92400e;
+          padding: 2px 8px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 600;
+        "
+      >
+        Warnings {{ warnings.length }}
+      </span>
+    </h2>
     <div style="display: flex; gap: 12px; align-items: center; margin: 12px 0">
       <label style="display: flex; align-items: center; gap: 6px">
         <input type="checkbox" v-model="serverSide" />
@@ -94,12 +110,39 @@
         Last request:
         <pre style="white-space: pre-wrap">{{ JSON.stringify(lastRequest, null, 2) }}</pre>
       </div>
+      <div v-if="lastWarning" style="margin-top: 6px; color: #b45309">
+        Last warning:
+        <pre style="white-space: pre-wrap">{{ lastWarning }}</pre>
+      </div>
+      <div v-if="warnings.length" style="margin-top: 6px">
+        <div style="display: flex; align-items: center; gap: 8px">
+          <div style="font-weight: 600; color: #92400e">Warnings (recent first):</div>
+          <button
+            @click="clearWarnings"
+            style="
+              background: #fde68a;
+              border: 1px solid #f59e0b;
+              color: #92400e;
+              padding: 4px 8px;
+              border-radius: 6px;
+              font-size: 12px;
+            "
+          >
+            Clear warnings
+          </button>
+        </div>
+        <ul style="margin: 6px 0 0 12px; color: #92400e">
+          <li v-for="(w, idx) in warnings.slice().reverse()" :key="idx">
+            <pre style="white-space: pre-wrap; margin: 0">{{ w }}</pre>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import people from './people.json'
 import { useVisibleRows } from '../composables/useVisibleRows'
 import { applyFilters, applySort } from '../lib/dataUtils'
@@ -222,6 +265,40 @@ const columns = ref<ColumnDef[]>([
 // server-side demo handling
 const serverSide = ref(false)
 const lastRequest = ref<unknown | null>(null)
+const lastWarning = ref<string | null>(null)
+const warnings = ref<string[]>([])
+
+onMounted(() => {
+  const origWarn = console.warn.bind(console)
+  // preserve original on window for potential inspection
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ;(console as any).__origWarn = origWarn
+  // override console.warn to capture demo warnings while keeping original behavior
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  console.warn = (...args: any[]) => {
+    let msg = ''
+    try {
+      msg = args.map((a) => String(a)).join(' ')
+    } catch {
+      msg = String(args[0] ?? '')
+    }
+    lastWarning.value = msg
+    warnings.value.push(msg)
+    origWarn(...args)
+  }
+})
+
+onUnmounted(() => {
+  // restore original warn implementation
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const orig = (console as any).__origWarn
+  if (orig) console.warn = orig
+})
+
+function clearWarnings() {
+  warnings.value = []
+  lastWarning.value = null
+}
 
 function onRequestPage(payload: unknown) {
   lastRequest.value = payload

@@ -102,7 +102,7 @@ Notes
 - [x] 30 — Validation tests for edge cases
   - Tests: malformed filter clauses are ignored with dev-mode warnings; unknown operator ignored with dev warning; `in` with non-array treated as equality; `between` requires 2-element array; `NaN` treated as missing.
 
-- [ ] 31 — Implement validation & warnings
+- [x] 31 — Implement validation & warnings
   - Implement filter clause validation and dev-mode console warnings with graceful fallbacks. Pass tests from item 30.
 
 - [ ] 32 — Testing strategy & infra
