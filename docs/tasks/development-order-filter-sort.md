@@ -84,7 +84,7 @@ Notes
 - [x] 24 — Sort visual affordance tests
   - Unit/visual-smoke tests for direction indicators and multi-sort order display (e.g., numeric badge for priority).
 
-- [ ] 25 — Implement sort visual affordances
+- [x] 25 — Implement sort visual affordances
   - Render minimal indicators (▲ / ▼ and order number) in column headers. Keep styling minimal and testable.
 
 - [ ] 26 — Filter UI tests (header inputs)
