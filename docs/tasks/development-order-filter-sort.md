@@ -56,6 +56,9 @@ Notes
 - [x] 14 — Implement `in` & `between` ops
 - Implement `in` and `between` with validation and fallbacks (treat non-array in `in` as equality). Pass tests.
 
+- [x] 15 — Coercion & NaN tests
+  - Tests for `coerceIfNumeric` behaviour: numeric-like strings vs strings and NaN treated as missing (no match). Include immutability assertions.
+
 - [x] 16 — Implement coercion handling
   - Implement coercion heuristics and NaN handling used by operators/filters. Ensure pure behaviour and pass tests.
 - Unit tests verifying `column.sortFunction` and `column.filterFunction` overrides are invoked by utilities when present.
