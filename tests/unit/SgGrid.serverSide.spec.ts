@@ -1,8 +1,15 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import SgGrid from '../../src/components/SgGrid.vue'
 
 describe('SgGrid server-side mode', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
   test('when serverSide=true sort click emits update:sort and request:page', async () => {
     const cols = [
       { key: 'k1', field: 'name', caption: 'Name', sortable: true },
@@ -24,14 +31,18 @@ describe('SgGrid server-side mode', () => {
     await btn.trigger('click')
 
     // update:sort should be emitted with payload
-    const sortEmits = wrapper.emitted()['update:sort'] as any
-    expect(sortEmits).toBeTruthy()
-    expect(sortEmits[0][0]).toEqual([{ column: 'k1', direction: 'asc' }])
+    const sortEmitsUnknown = wrapper.emitted()['update:sort'] as unknown
+    expect(sortEmitsUnknown).toBeTruthy()
+    const sortEmits = sortEmitsUnknown as Array<unknown>
+    expect((sortEmits[0] as Array<unknown>)[0]).toEqual([{ column: 'k1', direction: 'asc' }])
 
     // request:page should be emitted with page payload containing sort
-    const req = wrapper.emitted()['request:page'] as any
-    expect(req).toBeTruthy()
-    const payload = req[0][0]
+    const reqUnknown = wrapper.emitted()['request:page'] as unknown
+    expect(reqUnknown).toBeTruthy()
+    const req = reqUnknown as Array<unknown>
+    const payloadUnknown = (req[0] as Array<unknown>)[0]
+    expect(payloadUnknown).toBeTruthy()
+    const payload = payloadUnknown as Record<string, unknown>
     expect(payload).toHaveProperty('page')
     expect(payload).toHaveProperty('pageSize')
     expect(payload.sort).toEqual([{ column: 'k1', direction: 'asc' }])
@@ -59,14 +70,22 @@ describe('SgGrid server-side mode', () => {
     const input = wrapper.find('[data-test-filter-input]')
     expect(input.exists()).toBe(true)
     await input.setValue('alice')
+    // advance debounce
+    vi.advanceTimersByTime(250)
+    await Promise.resolve()
 
-    const filt = wrapper.emitted()['update:filter'] as any
-    expect(filt).toBeTruthy()
-    expect(filt[0][0]).toEqual([{ column: 'k1', operator: 'contains', value: 'alice' }])
+    const filtUnknown = wrapper.emitted()['update:filter'] as unknown
+    expect(filtUnknown).toBeTruthy()
 
-    const req2 = wrapper.emitted()['request:page'] as any
-    expect(req2).toBeTruthy()
-    const payload2 = req2[0][0]
+    const filt = filtUnknown as Array<unknown>
+    expect((filt[0] as Array<unknown>)[0] as unknown).toEqual([
+      { column: 'k1', operator: 'contains', value: 'alice' },
+    ])
+
+    const req2Unknown = wrapper.emitted()['request:page'] as unknown
+    expect(req2Unknown).toBeTruthy()
+    const req2 = req2Unknown as Array<unknown>
+    const payload2 = (req2[0] as Array<unknown>)[0] as Record<string, unknown>
     expect(payload2.filter).toEqual([{ column: 'k1', operator: 'contains', value: 'alice' }])
 
     // Ensure client-side filtering was NOT applied by the grid when serverSide=true

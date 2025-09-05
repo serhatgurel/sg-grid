@@ -1,8 +1,15 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import SgGrid from '../../src/components/SgGrid.vue'
 
 describe('SgGrid header emits (client-side)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
   test('clicking header sort emits update:sort with correct payload', async () => {
     const cols = [{ key: 'k1', field: 'name', caption: 'Name', sortable: true }]
 
@@ -43,6 +50,10 @@ describe('SgGrid header emits (client-side)', () => {
     const input = wrapper.find('[data-test-filter-input]')
     expect(input.exists()).toBe(true)
     await input.setValue('alice')
+
+    // advance debounce
+    vi.advanceTimersByTime(250)
+    await Promise.resolve()
 
     const emitted = wrapper.emitted()['update:filter'] as unknown[][]
     expect(emitted).toBeTruthy()

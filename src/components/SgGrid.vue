@@ -184,14 +184,24 @@ function onHeaderSortClick(column: ColumnDef, ev?: MouseEvent) {
   }
 }
 
+// debounced filter input handling
+const filterTimeout = ref<number | null>(null)
 function onFilterInput(column: ColumnDef, ev: Event) {
   const input = ev.target as HTMLInputElement
   const value = input.value
-  const payload = [{ column: column.key, operator: 'contains', value }]
-  emit('update:filter', payload)
-  if (props.serverSide) {
-    emit('request:page', buildPagePayload({ filter: payload }))
-  }
+
+  // clear existing timeout
+  if (filterTimeout.value) window.clearTimeout(filterTimeout.value)
+
+  // schedule emit after debounce
+  filterTimeout.value = window.setTimeout(() => {
+    const payload = value ? [{ column: column.key, operator: 'contains', value }] : null
+    emit('update:filter', payload)
+    if (props.serverSide) {
+      emit('request:page', buildPagePayload({ filter: payload }))
+    }
+    filterTimeout.value = null
+  }, 250)
 }
 
 function onPrevPage() {

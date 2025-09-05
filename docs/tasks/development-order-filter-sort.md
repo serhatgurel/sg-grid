@@ -87,8 +87,8 @@ Notes
 - [x] 25 — Implement sort visual affordances
   - Render minimal indicators (▲ / ▼ and order number) in column headers. Keep styling minimal and testable.
 
-- [ ] 26 — Filter UI tests (header inputs)
-  - Tests verifying header filter inputs render when `column.filterable=true`, emit `update:filter` (debounced), and are clearable.
+- [x] 26 — Filter UI tests (header inputs)
+- Tests verifying header filter inputs render when `column.filterable=true`, emit `update:filter` (debounced), and are clearable.
 
 - [ ] 27 — Implement header filter controls
   - Render simple text input in header (and number/date variants where appropriate). Wire debounced `update:filter` emits and clear behaviour.
