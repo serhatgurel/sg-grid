@@ -97,6 +97,12 @@
       @update:sort="onUpdateSort"
       @update:filter="onUpdateFilter"
     />
+    <div style="margin-top: 16px; padding: 12px; border: 1px dashed #e5e7eb; background: #ffffff">
+      <h3 style="margin: 0 0 8px 0">Changelog (draft)</h3>
+      <div style="font-size: 13px; color: #374151">
+        <pre style="white-space: pre-wrap; margin: 0">{{ changelogPreview }}</pre>
+      </div>
+    </div>
     <div style="margin-top: 12px; font-size: 13px; color: #374151">
       <div>
         Server-side demo: check the <strong>serverSide</strong> box, then use the header controls to
@@ -143,10 +149,12 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import type { Ref } from 'vue'
+import type { Row } from '../lib/dataUtils'
 import people from './people.json'
 import { useVisibleRows } from '../composables/useVisibleRows'
 import { applyFilters, applySort } from '../lib/dataUtils'
-import type { FilterClause, SortClause } from '../lib/dataUtils'
+import type { FilterClause, SortClause } from '../components/types'
 // ...existing code...
 import type { ColumnDef } from '../components/types'
 import SgGrid from '../components/SgGrid.vue'
@@ -232,6 +240,12 @@ const sortRef = computed(() =>
 // visible rows to expose a `name` property used by filter/sort when `column==='name'`.
 const computedRows = computed(() => rows.value.map((r) => ({ ...r, name: displayName(r) })))
 const caseSensitive = ref(false)
+
+const changelogPreview = ref<string>('')
+
+// Vite raw import for markdown content (works in dev/build)
+import changelogRaw from '../../docs/changelog-draft.md?raw'
+if (typeof changelogRaw === 'string') changelogPreview.value = changelogRaw
 
 // Demonstration columns with column-level hooks for filter/sort overrides
 const columns = ref<ColumnDef[]>([
@@ -364,12 +378,14 @@ function onUpdateFilter(f: unknown) {
 
 // wire client-side visible rows (used when not serverSide)
 const { visible } = useVisibleRows({
-  rows: computedRows as unknown as any,
+  rows: computedRows as unknown as Ref<ReadonlyArray<Row>>,
   filter: filtersRef,
   sort: sortRef,
   columns,
   caseSensitive,
 })
+
+// (no-op) changelog already loaded via raw import when available
 </script>
 
 <style scoped>

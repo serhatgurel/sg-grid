@@ -117,7 +117,7 @@ Notes
 - [x] 35 — Types & exports
   - Export TypeScript types for `applyFilters` / `applySort`, the operator helpers, and extend Column props to include `sortFunction` / `filterFunction`. Add type tests if helpful.
 
-- [ ] 36 — Changelog entry draft
+- [x] 36 — Changelog entry draft
   - Add a draft changelog entry describing the new filter & sort features and API.
 
 - [ ] 37 — Code, docs & test review
