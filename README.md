@@ -65,4 +65,6 @@ Please read the notes in `docs/` before working on features. Keep changes small 
 - `docs/tasks.md` — derived task list and roadmap
 - `src/main.ts` — app bootstrap
 
+See `docs/examples-filter-sort.md` for runnable example descriptions (playground and minimal examples).
+
 If you'd like, I can add a short development checklist, PR template, or CI workflow next.
