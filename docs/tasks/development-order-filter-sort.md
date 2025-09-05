@@ -96,7 +96,7 @@ Notes
 - [x] 28 — Accessibility tests (ARIA, keyboard)
   - Tests for `aria-sort`, keyboard focus and activation behaviour for header controls.
 
-- [ ] 29 — Implement accessibility features
+- [x] 29 — Implement accessibility features
   - Add `aria-sort`, keyboard handlers, and focus styles to header controls to satisfy accessibility tests.
 
 - [ ] 30 — Validation tests for edge cases
