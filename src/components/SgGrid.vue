@@ -11,6 +11,26 @@
           <slot name="header" :column="column">
             <div style="display: flex; align-items: center; gap: 6px">
               <span>{{ column.caption ?? column.field }}</span>
+              <!-- sort indicator: direction and multi-sort order -->
+              <template v-if="getSortInfo(column.key)">
+                <span
+                  data-test-sort-indicator
+                  :aria-sort="
+                    getSortInfoSafe(column.key).direction === 'asc' ? 'ascending' : 'descending'
+                  "
+                  style="font-size: 12px; margin-left: 4px"
+                >
+                  {{ getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼' }}
+                  <sup
+                    v-if="
+                      getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
+                    "
+                    data-test-sort-order
+                    style="font-size: 10px"
+                    >{{ getSortInfoSafe(column.key).order }}</sup
+                  >
+                </span>
+              </template>
               <!-- simple sort toggle button for tests -->
               <button
                 v-if="column.sortable"
@@ -211,6 +231,27 @@ function columnStyle(col: ColumnDef | undefined) {
   }
   if (col.align) style.textAlign = col.align
   return style
+}
+
+// Return sort info for a column using either server-side provided sort (props.sort)
+// or localSort for client-side interactions.
+function getSortInfo(key: string | undefined) {
+  if (!key) return null
+  const arr: SortClause[] = props.serverSide
+    ? Array.isArray(props.sort)
+      ? (props.sort as SortClause[])
+      : []
+    : localSort.value || []
+
+  const idx = arr.findIndex((s) => s && s.column === key)
+  if (idx === -1) return null
+  return { direction: arr[idx].direction, order: idx + 1 }
+}
+
+function getSortInfoSafe(key: string | undefined) {
+  const info = getSortInfo(key)
+  if (!info) return { direction: 'asc' as 'asc' | 'desc', order: 0 }
+  return info
 }
 
 function getRowKey(row: RowData) {
