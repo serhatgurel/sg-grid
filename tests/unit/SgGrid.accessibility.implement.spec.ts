@@ -4,7 +4,9 @@ import SgGrid from '../../src/components/SgGrid.vue'
 
 describe('SgGrid accessibility - implement', () => {
   it('focus adds focus class and blur removes it for sortable headers', async () => {
-    const columns = [{ key: 'name', field: 'name', caption: 'Name', sortable: true, filterable: true }]
+    const columns = [
+      { key: 'name', field: 'name', caption: 'Name', sortable: true, filterable: true },
+    ]
     const rows = [{ id: '1', name: 'Alice' }]
     const wrapper = mount(SgGrid, { props: { columns, rows, rowKey: 'id' } })
 
@@ -23,7 +25,9 @@ describe('SgGrid accessibility - implement', () => {
   })
 
   it('filter input has aria-label describing the column', async () => {
-    const columns = [{ key: 'name', field: 'name', caption: 'Full Name', sortable: true, filterable: true }]
+    const columns = [
+      { key: 'name', field: 'name', caption: 'Full Name', sortable: true, filterable: true },
+    ]
     const rows = [{ id: '1', name: 'Alice' }]
     const wrapper = mount(SgGrid, { props: { columns, rows, rowKey: 'id' } })
 

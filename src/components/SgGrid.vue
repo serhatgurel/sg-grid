@@ -1,7 +1,9 @@
 <template>
   <table class="sg-grid-table">
     <caption v-if="props.caption">
-      {{ props.caption }}
+      {{
+        props.caption
+      }}
     </caption>
     <thead>
       <tr>
@@ -11,12 +13,33 @@
           :style="columnStyle(column)"
           role="columnheader"
           :tabindex="column.sortable ? 0 : undefined"
-          :aria-sort="getSortInfo(column.key) ? (getSortInfoSafe(column.key).direction === 'asc' ? 'ascending' : 'descending') : undefined"
-          @keydown="(e) => { if (column.sortable && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onHeaderSortClick(column, e as unknown as MouseEvent) } }"
+          :aria-sort="
+            getSortInfo(column.key)
+              ? getSortInfoSafe(column.key).direction === 'asc'
+                ? 'ascending'
+                : 'descending'
+              : undefined
+          "
+          @keydown="
+            (e) => {
+              if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault()
+                onHeaderSortClick(column, e as unknown as MouseEvent)
+              }
+            }
+          "
           @focus="() => onHeaderFocus(column.key)"
           @blur="() => onHeaderBlur(column.key)"
-          @focusin="(e) => { ;(e.currentTarget as HTMLElement).classList.add('sg-header--focused') }"
-          @focusout="(e) => { ;(e.currentTarget as HTMLElement).classList.remove('sg-header--focused') }"
+          @focusin="
+            (e) => {
+              ;(e.currentTarget as HTMLElement).classList.add('sg-header--focused')
+            }
+          "
+          @focusout="
+            (e) => {
+              ;(e.currentTarget as HTMLElement).classList.remove('sg-header--focused')
+            }
+          "
           :class="{ 'sg-header--focused': focusedHeader === column.key }"
         >
           <slot name="header" :column="column">
@@ -26,17 +49,44 @@
               <template v-if="getSortInfo(column.key)">
                 <span data-test-sort-indicator style="font-size: 12px; margin-left: 4px">
                   {{ getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼' }}
-                  <sup v-if="getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1" data-test-sort-order style="font-size: 10px">{{ getSortInfoSafe(column.key).order }}</sup>
+                  <sup
+                    v-if="
+                      getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
+                    "
+                    data-test-sort-order
+                    style="font-size: 10px"
+                    >{{ getSortInfoSafe(column.key).order }}</sup
+                  >
                 </span>
               </template>
               <!-- simple sort toggle button for tests -->
-              <button v-if="column.sortable" data-test-sort-button @click="onHeaderSortClick(column, $event)">
+              <button
+                v-if="column.sortable"
+                data-test-sort-button
+                @click="onHeaderSortClick(column, $event)"
+              >
                 sort
               </button>
               <!-- simple filter input for tests -->
               <div v-if="column.filterable" style="display: flex; gap: 6px; align-items: center">
-                <input :type="column.inputType ?? 'text'" data-test-filter-input :aria-label="`Filter ${column.caption ?? column.field}`" @input="onFilterInput(column, $event)" />
-                <button data-test-filter-clear aria-label="Clear filter" @click="(e) => { (e as Event).preventDefault(); onFilterClear() }">×</button>
+                <input
+                  :type="column.inputType ?? 'text'"
+                  data-test-filter-input
+                  :aria-label="`Filter ${column.caption ?? column.field}`"
+                  @input="onFilterInput(column, $event)"
+                />
+                <button
+                  data-test-filter-clear
+                  aria-label="Clear filter"
+                  @click="
+                    (e) => {
+                      ;(e as Event).preventDefault()
+                      onFilterClear()
+                    }
+                  "
+                >
+                  ×
+                </button>
               </div>
             </div>
           </slot>
