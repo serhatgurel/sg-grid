@@ -220,6 +220,8 @@ export function applyFilters(
         continue
       }
 
+      // validate common operator shapes and emit dev warnings for malformed clauses
+      // unknown operators are ignored (clause treated as no-op) and warn in dev
       if (op === 'eq') {
         if (!opEq(val, clause.value)) return false
         continue
@@ -229,7 +231,6 @@ export function applyFilters(
         continue
       }
       if (op === 'lt' || op === 'lte' || op === 'gt' || op === 'gte') {
-        // relational helpers expect one of the four operators
         const relOp = op as 'lt' | 'lte' | 'gt' | 'gte'
         if (!opRelational(val, clause.value, relOp)) return false
         continue
@@ -247,8 +248,36 @@ export function applyFilters(
         continue
       }
 
-      // unknown operator -> row doesn't match
-      return false
+      if (op === 'in') {
+        // opIn already treats non-array clauseVal as equality; no warnings
+        if (!opIn(val, clause.value)) return false
+        continue
+      }
+
+      if (op === 'between') {
+        // must be an array of length 2
+        if (!Array.isArray(clause.value) || clause.value.length !== 2) {
+          if (process && process.env && process.env.NODE_ENV !== 'production') {
+            // warn in dev when clauses are malformed
+            // eslint-disable-next-line no-console
+            console.warn(`applyFilters: malformed 'between' clause for column "${clause.column}"`)
+          }
+          // ignore malformed clause (treat as no-op)
+          continue
+        }
+        if (!opBetween(val, clause.value)) return false
+        continue
+      }
+
+      // Unknown operator: warn in dev and ignore the clause
+      if (process && process.env && process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `applyFilters: unknown operator '${op}' on column "${clause.column}" - clause ignored`,
+        )
+      }
+      // treat unknown operator as no-op
+      continue
     }
     return true
   })

@@ -99,7 +99,7 @@ Notes
 - [x] 29 — Implement accessibility features
   - Add `aria-sort`, keyboard handlers, and focus styles to header controls to satisfy accessibility tests.
 
-- [ ] 30 — Validation tests for edge cases
+- [x] 30 — Validation tests for edge cases
   - Tests: malformed filter clauses are ignored with dev-mode warnings; unknown operator ignored with dev warning; `in` with non-array treated as equality; `between` requires 2-element array; `NaN` treated as missing.
 
 - [ ] 31 — Implement validation & warnings
