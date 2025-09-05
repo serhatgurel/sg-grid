@@ -15,7 +15,7 @@
               <button
                 v-if="column.sortable"
                 data-test-sort-button
-                @click="onHeaderSortClick(column)"
+                @click="onHeaderSortClick(column, $event)"
               >
                 sort
               </button>
@@ -44,6 +44,11 @@
       </tr>
     </tbody>
   </table>
+  <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center">
+    <button data-test-prev-btn @click="onPrevPage">Prev</button>
+    <span data-test-page-indicator>Page: {{ props.page ?? 1 }}</span>
+    <button data-test-next-btn @click="onNextPage">Next</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -106,20 +111,19 @@ const columns = computed<ColumnDef[]>(() => {
   return inferredColumns.value
 })
 
-function emitEvent(name: string, payload: unknown) {
-  // @ts-ignore - use global $emit via getCurrentInstance if needed; we'll call defineEmits instead
-}
-
 const emit = defineEmits(['update:sort', 'update:filter', 'request:page'])
 
 import { ref } from 'vue'
+import type { SortClause } from '../lib/dataUtils'
 
 // local sort state for header interactions. Start from provided prop if present.
-const localSort = ref<any[]>(Array.isArray(props.sort) ? (props.sort as any[]) : [])
+const localSort = ref<SortClause[]>(
+  Array.isArray(props.sort) ? (props.sort as unknown as SortClause[]) : [],
+)
 
-function buildPagePayload(overrides: { sort?: unknown; filter?: unknown } = {}) {
+function buildPagePayload(overrides: { sort?: unknown; filter?: unknown; page?: number } = {}) {
   return {
-    page: props.page ?? 1,
+    page: overrides.page ?? props.page ?? 1,
     pageSize: props.pageSize ?? 50,
     sort: overrides.sort ?? props.sort ?? localSort.value ?? null,
     filter: overrides.filter ?? props.filter ?? null,
@@ -167,6 +171,28 @@ function onFilterInput(column: ColumnDef, ev: Event) {
   emit('update:filter', payload)
   if (props.serverSide) {
     emit('request:page', buildPagePayload({ filter: payload }))
+  }
+}
+
+function onPrevPage() {
+  const cur = props.page ?? 1
+  const next = Math.max(1, cur - 1)
+  if (props.serverSide) {
+    emit(
+      'request:page',
+      buildPagePayload({ ...{}, sort: localSort.value, filter: props.filter ?? null, page: next }),
+    )
+  }
+}
+
+function onNextPage() {
+  const cur = props.page ?? 1
+  const next = cur + 1
+  if (props.serverSide) {
+    emit(
+      'request:page',
+      buildPagePayload({ ...{}, sort: localSort.value, filter: props.filter ?? null, page: next }),
+    )
   }
 }
 

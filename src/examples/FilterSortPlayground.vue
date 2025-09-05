@@ -98,6 +98,8 @@
 import { ref, computed } from 'vue'
 import people from './people.json'
 import { useVisibleRows } from '../composables/useVisibleRows'
+import { applyFilters, applySort } from '../lib/dataUtils'
+import type { FilterClause, SortClause } from '../lib/dataUtils'
 // ...existing code...
 import type { ColumnDef } from '../components/types'
 import SgGrid from '../components/SgGrid.vue'
@@ -218,6 +220,21 @@ const lastRequest = ref<unknown | null>(null)
 
 function onRequestPage(payload: unknown) {
   lastRequest.value = payload
+  // simulate a server response: apply filters/sort on the server and replace rows
+  try {
+    const p = payload as unknown as { filter?: unknown; sort?: unknown }
+    const serverFilter = (p.filter ?? null) as FilterClause[] | null
+    const serverSort = (p.sort ?? null) as SortClause[] | null
+    const base = rows.value.map((r) => ({ ...r, name: displayName(r) }))
+    const filtered = serverFilter
+      ? applyFilters(base, serverFilter, columns.value, { caseSensitive: caseSensitive.value })
+      : base
+    const sorted = serverSort ? applySort(filtered, serverSort, columns.value) : filtered
+    // replace rows with server-provided page (no real pagination slicing for simplicity)
+    rows.value = sorted as Person[]
+  } catch {
+    // ignore errors in demo
+  }
 }
 
 function onUpdateSort(s: unknown) {

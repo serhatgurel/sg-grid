@@ -47,12 +47,12 @@ Contact/assumptions
 
 # Progress (session)
 
-- Checklist items completed this session: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+- Checklist items completed this session: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
 
 ## Resume
 
 - Branch: `dev-filter-sort`
-- Next task to work on: 19
+- Next task to work on: 22
 - Files changed in this session (for reviewer/continuation):
   - `src/components/types.ts`
   - `src/lib/dataUtils.ts`
@@ -61,3 +61,6 @@ Contact/assumptions
   - `tests/unit/dataUtils.hooks.spec.ts`
   - `docs/tasks/development-order-filter-sort.md`
   - `.github/instructions/memory.instructions.md`
+  - `tests/unit/SgGrid.pagination.spec.ts`
+  - `tests/unit/SgGrid.headerEmits.spec.ts`
+  - `docs/server-side-playground.md`
