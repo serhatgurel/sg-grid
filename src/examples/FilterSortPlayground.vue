@@ -2,6 +2,11 @@
   <div style="padding: 16px; font-family: ui-sans-serif, system-ui">
     <h2>Filter & Sort Playground</h2>
     <div style="display: flex; gap: 12px; align-items: center; margin: 12px 0">
+      <label style="display: flex; align-items: center; gap: 6px">
+        <input type="checkbox" v-model="serverSide" />
+        <span>serverSide</span>
+      </label>
+
       <label>
         Column:
         <select v-model="filterColumn">
@@ -65,30 +70,36 @@
       </label>
     </div>
 
-    <table class="playground-table" border="1" cellpadding="6" cellspacing="0">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>age</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="r in visible" :key="r.id">
-          <td>{{ r.id }}</td>
-          <td>{{ r.name }}</td>
-          <td>{{ r.age }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <SgGrid
+      :columns="columns"
+      :rows="computedRows"
+      :rowKey="'id'"
+      :serverSide="serverSide"
+      :sort="sortRef"
+      :filter="filtersRef"
+      @request:page="onRequestPage"
+      @update:sort="onUpdateSort"
+      @update:filter="onUpdateFilter"
+    />
+    <div style="margin-top: 12px; font-size: 13px; color: #374151">
+      <div>
+        Server-side demo: check the <strong>serverSide</strong> box, then use the header controls to
+        trigger <code>request:page</code> events which the playground will handle and update rows.
+      </div>
+      <div v-if="lastRequest" style="margin-top: 6px">
+        Last request:
+        <pre style="white-space: pre-wrap">{{ JSON.stringify(lastRequest, null, 2) }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, Ref } from 'vue'
+import { ref, computed } from 'vue'
 import people from './people.json'
-import { useVisibleRows } from '../composables/useVisibleRows'
+// ...existing code...
 import type { ColumnDef } from '../components/types'
+import SgGrid from '../components/SgGrid.vue'
 
 // Minimal local type for the demo dataset so SFC type-checking is happy
 interface Person {
@@ -196,13 +207,22 @@ const columns = ref<ColumnDef[]>([
   },
 ])
 
-const { visible } = useVisibleRows({
-  rows: computedRows as unknown as Ref<ReadonlyArray<Record<string, unknown>>>,
-  filter: filtersRef,
-  sort: sortRef,
-  columns,
-  caseSensitive,
-})
+// server-side demo handling
+const serverSide = ref(false)
+const lastRequest = ref<unknown | null>(null)
+
+function onRequestPage(payload: unknown) {
+  lastRequest.value = payload
+}
+
+function onUpdateSort(s: unknown) {
+  // reflect server-side sort change in UI if desired
+  lastRequest.value = { type: 'update:sort', payload: s }
+}
+
+function onUpdateFilter(f: unknown) {
+  lastRequest.value = { type: 'update:filter', payload: f }
+}
 </script>
 
 <style scoped>

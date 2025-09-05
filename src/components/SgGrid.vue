@@ -9,7 +9,23 @@
       <tr>
         <th v-for="column in columns" :key="column.key" :style="columnStyle(column)">
           <slot name="header" :column="column">
-            {{ column.caption ?? column.field }}
+            <div style="display: flex; align-items: center; gap: 6px">
+              <span>{{ column.caption ?? column.field }}</span>
+              <!-- simple sort toggle button for tests -->
+              <button
+                v-if="column.sortable"
+                data-test-sort-button
+                @click="onHeaderSortClick(column)"
+              >
+                sort
+              </button>
+              <!-- simple filter input for tests -->
+              <input
+                v-if="column.filterable"
+                data-test-filter-input
+                @input="onFilterInput(column, $event)"
+              />
+            </div>
           </slot>
         </th>
       </tr>
@@ -89,6 +105,70 @@ const columns = computed<ColumnDef[]>(() => {
   if (declared.length > 0) return declared
   return inferredColumns.value
 })
+
+function emitEvent(name: string, payload: unknown) {
+  // @ts-ignore - use global $emit via getCurrentInstance if needed; we'll call defineEmits instead
+}
+
+const emit = defineEmits(['update:sort', 'update:filter', 'request:page'])
+
+import { ref } from 'vue'
+
+// local sort state for header interactions. Start from provided prop if present.
+const localSort = ref<any[]>(Array.isArray(props.sort) ? (props.sort as any[]) : [])
+
+function buildPagePayload(overrides: { sort?: unknown; filter?: unknown } = {}) {
+  return {
+    page: props.page ?? 1,
+    pageSize: props.pageSize ?? 50,
+    sort: overrides.sort ?? props.sort ?? localSort.value ?? null,
+    filter: overrides.filter ?? props.filter ?? null,
+  }
+}
+
+function onHeaderSortClick(column: ColumnDef, ev?: MouseEvent) {
+  const key = column.key
+  const shift = !!ev?.shiftKey
+
+  // find existing index
+  const idx = localSort.value.findIndex((s) => s && s.column === key)
+
+  if (!shift) {
+    // non-shift: replace with single-column toggled state
+    if (idx === -1) {
+      localSort.value = [{ column: key, direction: 'asc' }]
+    } else {
+      const cur = localSort.value[idx]
+      if (cur.direction === 'asc') localSort.value = [{ column: key, direction: 'desc' }]
+      else localSort.value = []
+    }
+  } else {
+    // shift: modify multi-sort array
+    if (idx === -1) {
+      localSort.value.push({ column: key, direction: 'asc' })
+    } else {
+      const cur = localSort.value[idx]
+      if (cur.direction === 'asc') localSort.value[idx] = { column: key, direction: 'desc' }
+      else localSort.value.splice(idx, 1)
+    }
+  }
+
+  emit('update:sort', JSON.parse(JSON.stringify(localSort.value)))
+
+  if (props.serverSide) {
+    emit('request:page', buildPagePayload({ sort: localSort.value }))
+  }
+}
+
+function onFilterInput(column: ColumnDef, ev: Event) {
+  const input = ev.target as HTMLInputElement
+  const value = input.value
+  const payload = [{ column: column.key, operator: 'contains', value }]
+  emit('update:filter', payload)
+  if (props.serverSide) {
+    emit('request:page', buildPagePayload({ filter: payload }))
+  }
+}
 
 function columnStyle(col: ColumnDef | undefined) {
   if (!col) return undefined

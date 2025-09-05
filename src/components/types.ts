@@ -9,6 +9,9 @@ export interface ColumnDef {
   caption?: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
+  // Optional UI flags
+  sortable?: boolean
+  filterable?: boolean
   // Optional hooks that allow column-level override of filter and sort behaviour.
   // filterFunction should return a boolean (match or not). Signature: (cellValue, clauseValue, row?, clause?) => boolean
   filterFunction?: (
@@ -40,6 +43,14 @@ export interface SgColumnProps {
 export const SgGridProps = {
   columns: { type: Array as PropType<ColumnDef[]>, required: false },
   rows: { type: Array as PropType<Record<string, unknown>[]>, required: false },
+  // Server-side mode: when true the grid emits requests and does not perform
+  // client-side filtering/sorting. (Behavior implemented minimally in SgGrid)
+  serverSide: { type: Boolean, required: false },
+  // optional current sort/filter/page props that host app may pass
+  sort: { type: [Array, Object] as PropType<unknown>, required: false },
+  filter: { type: Array as PropType<unknown[]>, required: false },
+  page: { type: Number as PropType<number>, required: false },
+  pageSize: { type: Number as PropType<number>, required: false },
   rowKey: {
     type: [String, Function] as PropType<string | ((row: unknown) => string)>,
     required: true,
@@ -54,4 +65,9 @@ export interface SgGridPropTypes {
   rows?: RowData[]
   rowKey: string | ((row: unknown) => string)
   caption?: string
+  serverSide?: boolean
+  sort?: unknown
+  filter?: unknown[]
+  page?: number
+  pageSize?: number
 }
