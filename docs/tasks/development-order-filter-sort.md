@@ -120,7 +120,7 @@ Notes
 - [x] 36 — Changelog entry draft
   - Add a draft changelog entry describing the new filter & sort features and API.
 
-- [ ] 37 — Code, docs & test review
+- [x] 37 — Code, docs & test review
   - Conduct reviews: code review, docs review, and unit test review. Address feedback and finalize feature.
 
 - Start at item 2. Mark tests in source control first. Implement and run tests, iterate until green. Move to next item.
