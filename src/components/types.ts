@@ -32,6 +32,50 @@ export interface ColumnDef {
   ) => number
 }
 
+// Reusable filter/sort clause shapes used by dataUtils and SgGrid props
+export type FilterClause = {
+  column: string
+  operator: string
+  value: unknown
+}
+
+export type SortClause = {
+  column: string
+  direction: 'asc' | 'desc'
+}
+
+// Optional exported helper types for consumer functions
+export type FilterFunction = (
+  cellValue: unknown,
+  clauseValue: unknown,
+  row?: Record<string, unknown>,
+  clause?: FilterClause,
+) => boolean
+
+export type SortFunction = (
+  aValue: unknown,
+  bValue: unknown,
+  aRow?: Record<string, unknown>,
+  bRow?: Record<string, unknown>,
+) => number
+
+// Operator function signature used by individual operator helpers (eq/ne/contains/etc)
+export type OperatorFn = (val: unknown, clauseVal: unknown, caseSensitive?: boolean) => boolean
+
+// Signatures for the core utilities so they can be imported as types by consumers/tests
+export type ApplyFiltersFn = (
+  rows: ReadonlyArray<Record<string, unknown>>,
+  filter: FilterClause[] | null,
+  columns?: ColumnDef[] | Record<string, ColumnDef>,
+  options?: { caseSensitive?: boolean },
+) => Record<string, unknown>[]
+
+export type ApplySortFn = (
+  rows: ReadonlyArray<Record<string, unknown>>,
+  sort: SortClause[] | null,
+  columns?: ColumnDef[] | Record<string, ColumnDef>,
+) => Record<string, unknown>[]
+
 // Props for declarative <sg-column>
 export interface SgColumnProps {
   dataField: FieldPath

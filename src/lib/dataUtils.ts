@@ -1,16 +1,5 @@
 export type Row = Record<string, unknown>
 
-export type FilterClause = {
-  column: string
-  operator: string
-  value: unknown
-}
-
-export type SortClause = {
-  column: string
-  direction: 'asc' | 'desc'
-}
-
 /**
  * Small utility: returns true for null or undefined
  */
@@ -178,7 +167,7 @@ export function opBetween(val: unknown, clauseVal: unknown): boolean {
  * @param filter - array of filter clauses or null
  * @returns new array of rows matching the filter
  */
-import type { ColumnDef } from '../components/types'
+import type { ColumnDef, FilterClause, SortClause } from '../components/types'
 
 export function applyFilters(
   rows: ReadonlyArray<Row>,

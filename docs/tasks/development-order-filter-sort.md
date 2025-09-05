@@ -111,10 +111,10 @@ Notes
 - [x] 33 — Docs & examples updates
   - Add usage examples in `docs/` and `src/examples/MinimalExample.vue` and `src/examples/FilterSortPlayground.vue`: single-column sort, multi-column sort, simple `contains` filter, server-side example. Update `README.md` and docs index links.
 
-- [ ] 34 — Performance docs & fast-fail
+- [x] 34 — Performance docs & fast-fail
   - Document thresholds and recommend `serverSide=true` for large datasets (e.g., >5k rows). Ensure utilities and composable fast-fail on empty filter/sort.
 
-- [ ] 35 — Types & exports
+- [x] 35 — Types & exports
   - Export TypeScript types for `applyFilters` / `applySort`, the operator helpers, and extend Column props to include `sortFunction` / `filterFunction`. Add type tests if helpful.
 
 - [ ] 36 — Changelog entry draft
