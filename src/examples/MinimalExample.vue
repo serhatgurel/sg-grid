@@ -42,7 +42,6 @@ const columns = [
     width: '120px',
   },
 ]
-
 </script>
 
 <template>
@@ -52,7 +51,17 @@ const columns = [
   -->
 
   <SgGrid
-    :rows="rows.slice(0, 5).map((r) => ({id: r.id, title: r.title, firstName: r.firstName, lastName: r.lastName, email: r.email, }))"
+    :rows="
+      rows
+        .slice(0, 5)
+        .map((r) => ({
+          id: r.id,
+          title: r.title,
+          firstName: r.firstName,
+          lastName: r.lastName,
+          email: r.email,
+        }))
+    "
     rowKey="id"
     caption="NO COLUMNS EXAMPLE"
   />
@@ -104,4 +113,20 @@ const columns = [
   </SgGrid>
 
   <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" caption="PROPS BASED EXAMPLE" />
+
+  <!-- Simple server-side demo: grid emits request:page which the host can handle -->
+  <SgGrid
+    :columns="columns"
+    :rows="rows.slice(0, 5)"
+    rowKey="id"
+    caption="SERVER-SIDE DEMO"
+    :serverSide="true"
+    @request:page="onRequestPage"
+  />
 </template>
+
+function onRequestPage(payload: unknown) { // Demo handler: in a real app you would query a server
+using payload.page/pageSize/sort/filter // For this minimal example we do nothing (playground shows
+a richer server-side demo). // Keeping a no-op handler ensures the template reference type-checks.
+// eslint-disable-next-line no-console console.debug('MinimalExample: request:page payload',
+payload) }

@@ -108,7 +108,7 @@ Notes
 - [x] 32 — Testing strategy & infra
   - Confirm `vitest` + `@vue/test-utils` setup, add test helpers and fixtures. Enforce test-first workflow in PRs.
 
-- [ ] 33 — Docs & examples updates
+- [x] 33 — Docs & examples updates
   - Add usage examples in `docs/` and `src/examples/MinimalExample.vue` and `src/examples/FilterSortPlayground.vue`: single-column sort, multi-column sort, simple `contains` filter, server-side example. Update `README.md` and docs index links.
 
 - [ ] 34 — Performance docs & fast-fail

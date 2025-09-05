@@ -20,6 +20,10 @@ This page points to the in-repo examples and explains what each demo shows.
   - Passing `columns` array via props
   - Examples that render no rows and no columns to show safe defaults
 
+## Quick usage snippets
+
+See `docs/usage-examples.md` for copyable snippets showing single-column sort, multi-column sort, filters and a server-side example.
+
 ## How to run the examples locally
 
 Start the dev server:
