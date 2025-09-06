@@ -1,3 +1,6 @@
+// Tests for column-level hook overrides in dataUtils (filterFunction, sortFunction)
+// Validates that column-provided hooks take precedence over default operators.
+
 import { describe, it, expect } from 'vitest'
 import { applyFilters, applySort } from '../../src/lib/dataUtils'
 import type { ColumnDef } from '../../src/components/types'

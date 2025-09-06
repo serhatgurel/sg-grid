@@ -1,9 +1,13 @@
+// Implementation-specific accessibility tests for SgGrid to validate focus/blur polyfill and focus styling
+
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
 import SgGrid from '../../src/components/SgGrid.vue'
 
-describe('SgGrid accessibility - implement', () => {
-  it('focus adds focus class and blur removes it for sortable headers', async () => {
+// Implementation-specific accessibility tests: verify focus class behavior and aria labeling
+// These tests exercise concrete DOM side-effects expected by the styling and accessibility layers.
+describe('SgGrid accessibility - implementation details', () => {
+  it('focusing a sortable header adds a focus CSS class; blurring removes it', async () => {
     const columns = [
       { key: 'name', field: 'name', caption: 'Name', sortable: true, filterable: true },
     ]
@@ -13,18 +17,16 @@ describe('SgGrid accessibility - implement', () => {
     const th = wrapper.find('th')
     expect(th.attributes('tabindex')).toBe('0')
 
-    // focus programmatically
+    // focus programmatically and assert class toggles
     ;(th.element as HTMLElement).focus()
     await wrapper.vm.$nextTick()
     expect(th.classes()).toContain('sg-header--focused')
-
-    // blur removes class
     ;(th.element as HTMLElement).blur()
     await wrapper.vm.$nextTick()
     expect(th.classes()).not.toContain('sg-header--focused')
   })
 
-  it('filter input has aria-label describing the column', async () => {
+  it('filter input includes an aria-label describing the column for screen readers', async () => {
     const columns = [
       { key: 'name', field: 'name', caption: 'Full Name', sortable: true, filterable: true },
     ]
@@ -32,6 +34,7 @@ describe('SgGrid accessibility - implement', () => {
     const wrapper = mount(SgGrid, { props: { columns, rows, rowKey: 'id' } })
 
     const input = wrapper.find('[data-test-filter-input]')
+    // intent: ensure accessible labeling is present so assistive tech can announce the input purpose
     expect(input.attributes('aria-label')).toBe('Filter Full Name')
   })
 })

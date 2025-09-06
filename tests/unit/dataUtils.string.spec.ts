@@ -1,3 +1,6 @@
+// Tests for string-related operator behavior in dataUtils (contains, startsWith, endsWith)
+// These are small, focused unit tests exercising string operator correctness and edge-cases.
+
 import { describe, it, expect } from 'vitest'
 import { opContains, opStartsWith, opEndsWith } from '../../src/lib/dataUtils'
 

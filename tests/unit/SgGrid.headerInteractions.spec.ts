@@ -1,9 +1,13 @@
+// Tests for header interactions: keyboard toggles, focus handling, and aria updates
+
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import SgGrid from '../../src/components/SgGrid.vue'
 
+// Header interaction tests: document how clicks and modifier-clicks alter sort state
+// and what events are emitted so junior devs can map UI actions to behavior.
 describe('SgGrid header interactions (sorting)', () => {
-  test('header click cycles none -> asc -> desc -> none', async () => {
+  test('clicking a sortable header cycles through asc -> desc -> none and emits the corresponding payloads', async () => {
     const cols = [{ key: 'k1', field: 'name', caption: 'Name', sortable: true }]
 
     const data = [
@@ -47,7 +51,7 @@ describe('SgGrid header interactions (sorting)', () => {
     expect(a3.length).toBe(0)
   })
 
-  test('shift+click appends multi-sort clauses', async () => {
+  test('shift+click appends a secondary sort clause instead of replacing primary sort', async () => {
     const cols = [
       { key: 'k1', field: 'name', caption: 'Name', sortable: true },
       { key: 'k2', field: 'age', caption: 'Age', sortable: true },

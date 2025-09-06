@@ -1,3 +1,5 @@
+// Additional validation tests for applyFilters targeting Task 31 scenarios
+
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { applyFilters } from '../../src/lib/dataUtils'
 

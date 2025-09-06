@@ -1,3 +1,5 @@
+// Validation tests for applyFilters: malformed clauses, warnings, and 'in' behavior
+
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { applyFilters } from '../../src/lib/dataUtils'
 

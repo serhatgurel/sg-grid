@@ -1,7 +1,11 @@
+// Tests to verify emitted events from header interactions (update:sort, update:filter, request:page)
+
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import SgGrid from '../../src/components/SgGrid.vue'
 
+// Header emits tests: ensure user interactions on the header produce the correct events.
+// Comments explain what the UI action corresponds to in emitted payloads.
 describe('SgGrid header emits (client-side)', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -10,7 +14,9 @@ describe('SgGrid header emits (client-side)', () => {
   afterEach(() => {
     vi.useRealTimers()
   })
-  test('clicking header sort emits update:sort with correct payload', async () => {
+
+  test('clicking a sortable header emits update:sort with the expected sort clause', async () => {
+    // intent: clicking toggles sort state and emits the current sort clauses
     const cols = [{ key: 'k1', field: 'name', caption: 'Name', sortable: true }]
 
     const data = [
@@ -35,7 +41,8 @@ describe('SgGrid header emits (client-side)', () => {
     expect(arr[0].direction).toBe('asc')
   })
 
-  test('typing in header filter emits update:filter with clause payload', async () => {
+  test('typing into a header filter emits update:filter after debounce with clause payload', async () => {
+    // intent: ensure typing results in a filter clause being emitted once debounce completes
     const cols = [{ key: 'k1', field: 'name', caption: 'Name', filterable: true }]
 
     const data = [

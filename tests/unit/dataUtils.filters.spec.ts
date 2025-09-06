@@ -1,6 +1,10 @@
+// Unit tests for applyFilters: verifies operator handling, malformed clauses, and dev warnings
+
 import { describe, it, expect } from 'vitest'
 import { applyFilters } from '../../src/lib/dataUtils'
 
+// applyFilters tests: clarify how filtering behaves with coercion, NaN, null and immutability.
+// These tests help junior developers understand expected matching rules.
 const rows = [
   { id: 1, val: '10' },
   { id: 2, val: 10 },
@@ -9,20 +13,20 @@ const rows = [
   { id: 5, val: NaN },
 ]
 
-describe('applyFilters - relational, coercion, NaN & immutability', () => {
-  it('eq should match numeric-like strings when compared to numbers (coercion)', () => {
+describe('applyFilters behavior and edge-cases', () => {
+  it('eq: numeric-like strings should match numeric values (coercion applied)', () => {
+    // intent: demonstrate that '10' (string) matches 10 (number) when using eq
     const res = applyFilters(rows, [{ column: 'val', operator: 'eq', value: 10 }])
-    // Expect both '10' (string) and 10 (number) to match when coercion is applied
     expect(res.map((r) => r.id).sort()).toEqual([1, 2])
   })
 
-  it('ne should exclude numeric-like matches (coercion)', () => {
+  it('ne: excludes values equal to the clause (after coercion)', () => {
+    // intent: show that ne removes both numeric-string and numeric matches
     const res = applyFilters(rows, [{ column: 'val', operator: 'ne', value: 10 }])
-    // Expect rows 1 and 2 to be excluded
     expect(res.map((r) => r.id).sort()).toEqual([3, 4, 5])
   })
 
-  it('lt / gt should work with coercion for numeric-like strings', () => {
+  it('lt/gt: relational comparisons coerce numeric-like strings', () => {
     const lt = applyFilters(rows, [{ column: 'val', operator: 'lt', value: 15 }])
     expect(lt.map((r) => r.id).sort()).toEqual([1, 2])
 
@@ -30,21 +34,21 @@ describe('applyFilters - relational, coercion, NaN & immutability', () => {
     expect(gt.map((r) => r.id).sort()).toEqual([1, 2])
   })
 
-  it('NaN values should be treated as missing and not match relational ops', () => {
+  it('NaN in cells is treated as missing and should not match relational eq', () => {
+    // intent: NaN is an absent value for filtering semantics
     const res = applyFilters(rows, [{ column: 'val', operator: 'eq', value: NaN }])
     expect(res).toHaveLength(0)
   })
 
-  it('null/undefined cell values should not match relational ops or contains', () => {
+  it('null/undefined cell values do not match relational or contains clauses', () => {
     const eqNull = applyFilters(rows, [{ column: 'val', operator: 'eq', value: null }])
     expect(eqNull).toHaveLength(0)
   })
 
-  it('applyFilters should be immutable and return a new array without mutating input', () => {
+  it('immutability: applyFilters returns a new array and does not mutate input', () => {
     const copy = rows.slice()
     const res = applyFilters(rows, [{ column: 'val', operator: 'contains', value: 'a' }])
     expect(res).not.toBe(rows)
-    // original input must remain identical in contents
     expect(rows).toEqual(copy)
   })
 })
