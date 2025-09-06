@@ -50,6 +50,13 @@
         >
           <slot name="header" :column="column">
             <div style="display: flex; align-items: center; gap: 6px">
+              <!-- left-aligned filter indicator (shows when column is filterable) -->
+              <span data-test-filter-indicator v-if="column.filterable" class="sg-filter-indicator">
+                <span class="sg-indicator-neutral" aria-hidden="true">
+                  <span class="material-symbols-outlined">filter_alt</span>
+                </span>
+                <span class="visually-hidden">Filterable</span>
+              </span>
               <span>{{ column.caption ?? column.field }}</span>
               <!-- put sort indicator absolutely at the far right edge of the header cell -->
               <span data-test-sort-indicator class="sg-sort-indicator">
@@ -544,8 +551,33 @@ const rowsToRender = computed(() => {
   min-width: 0; /* allow icon to occupy minimal space */
 }
 
-/* ensure filter controls don't overlap the absolutely positioned indicator */
+/* ensure filter and sort controls don't overlap the absolutely positioned indicators */
 .sg-header-cell > div {
-  padding-right: 28px; /* leave room for indicator and possible order badge */
+  padding-right: 28px; /* leave room for right-side sort indicator and possible order badge */
+  padding-left: 28px; /* leave room for left-side filter indicator */
+}
+
+/* left-aligned filter indicator styles (mirror sort indicator design) */
+.sg-filter-indicator {
+  position: absolute;
+  left: 2px; /* move indicator very close to the left border */
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 12px;
+  height: 18px;
+  font-size: 12px;
+  padding: 0 2px;
+}
+.sg-filter-indicator .material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 20;
+  font-size: 16px;
+  color: #9ca3af; /* neutral gray when inactive */
 }
 </style>

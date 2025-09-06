@@ -12,32 +12,132 @@
 
     <div>
       <SgGrid :rows="rows.slice(0, 8)" rowKey="id" caption="Declarative Full Columns Example">
-        <SgColumn data-field="id" caption="Id" width="60px" />
-        <SgColumn data-field="title" caption="Title" width="60px" :sortable="true" />
-        <SgColumn data-field="firstName" caption="First Name" width="120px" :sortable="true" />
-        <SgColumn data-field="middleName" caption="Middle" width="100px" :sortable="true" />
-        <SgColumn data-field="lastName" caption="Last Name" width="140px" />
-        <SgColumn data-field="nickname" caption="Nickname" width="120px" :sortable="true" />
-        <SgColumn data-field="suffix" caption="Suffix" width="60px" />
-        <SgColumn data-field="gender" caption="Gender" width="60px" :sortable="true" />
-        <SgColumn data-field="age" caption="Age" width="60px" />
-        <SgColumn data-field="birthdate" caption="Birthdate" width="110px" :sortable="true" />
-        <SgColumn data-field="married" caption="Marital" width="100px" />
-        <SgColumn data-field="spouse" caption="Spouse" width="160px" :sortable="true" />
-        <SgColumn data-field="phone[0].number" caption="Phone" width="140px" :sortable="true" />
-        <SgColumn data-field="phone[0].type" caption="Phone Type" width="90px" :sortable="true" />
-        <SgColumn data-field="address[0].street" caption="Street" width="180px" />
-        <SgColumn data-field="address[0].city" caption="City" width="120px" :sortable="true" />
-        <SgColumn data-field="address[0].state" caption="State" width="100px" />
-        <SgColumn data-field="address[0].zip" caption="Zip" width="100px" :sortable="true" />
-        <SgColumn data-field="address[0].country.name" caption="Country" width="140px" />
-        <SgColumn data-field="email" caption="Email" width="220px" :sortable="true" />
-        <SgColumn data-field="job" caption="Job" width="200px" />
-        <SgColumn data-field="salary" caption="Salary" width="110px" :sortable="true" />
-        <SgColumn data-field="hobbies" caption="Hobbies" width="220px" />
-        <SgColumn data-field="skills" caption="Skills" width="160px" :sortable="true" />
-        <SgColumn data-field="languages" caption="Languages" width="140px" />
-        <SgColumn data-field="pets[0].name" caption="Pet" width="110px" :sortable="true" />
+        <SgColumn data-field="id" caption="Id" width="60px" :filterable="true" />
+        <SgColumn
+          data-field="title"
+          caption="Title"
+          width="60px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="firstName"
+          caption="First Name"
+          width="120px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="middleName"
+          caption="Middle"
+          width="100px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="lastName" caption="Last Name" width="140px" :filterable="true" />
+        <SgColumn
+          data-field="nickname"
+          caption="Nickname"
+          width="120px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="suffix" caption="Suffix" width="60px" :filterable="true" />
+        <SgColumn
+          data-field="gender"
+          caption="Gender"
+          width="60px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="age" caption="Age" width="60px" :filterable="true" />
+        <SgColumn
+          data-field="birthdate"
+          caption="Birthdate"
+          width="110px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="married" caption="Marital" width="100px" :filterable="true" />
+        <SgColumn
+          data-field="spouse"
+          caption="Spouse"
+          width="160px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="phone[0].number"
+          caption="Phone"
+          width="140px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="phone[0].type"
+          caption="Phone Type"
+          width="90px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="address[0].street"
+          caption="Street"
+          width="180px"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="address[0].city"
+          caption="City"
+          width="120px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="address[0].state" caption="State" width="100px" :filterable="true" />
+        <SgColumn
+          data-field="address[0].zip"
+          caption="Zip"
+          width="100px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="address[0].country.name"
+          caption="Country"
+          width="140px"
+          :filterable="true"
+        />
+        <SgColumn
+          data-field="email"
+          caption="Email"
+          width="220px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="job" caption="Job" width="200px" :filterable="true" />
+        <SgColumn
+          data-field="salary"
+          caption="Salary"
+          width="110px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="hobbies" caption="Hobbies" width="220px" :filterable="true" />
+        <SgColumn
+          data-field="skills"
+          caption="Skills"
+          width="160px"
+          :sortable="true"
+          :filterable="true"
+        />
+        <SgColumn data-field="languages" caption="Languages" width="140px" :filterable="true" />
+        <SgColumn
+          data-field="pets[0].name"
+          caption="Pet"
+          width="110px"
+          :sortable="true"
+          :filterable="true"
+        />
         <SgColumn
           :data-field="
             (row) =>
@@ -51,9 +151,14 @@
           caption="Kids"
           width="140px"
         />
-        <SgColumn data-field="personalityType" caption="Personality" width="110px" />
-        <SgColumn data-field="certifications" caption="Certs" width="140px" />
-        <SgColumn data-field="memberships" caption="Memberships" width="180px" />
+        <SgColumn
+          data-field="personalityType"
+          caption="Personality"
+          width="110px"
+          :filterable="true"
+        />
+        <SgColumn data-field="certifications" caption="Certs" width="140px" :filterable="true" />
+        <SgColumn data-field="memberships" caption="Memberships" width="180px" :filterable="true" />
       </SgGrid>
     </div>
 
@@ -108,7 +213,7 @@ function joinArrayField(key: string) {
 }
 
 const columns = [
-  { key: 'id', field: 'id', caption: 'Id', width: '60px' },
+  { key: 'id', field: 'id', caption: 'Id', width: '60px', filterable: true },
   {
     key: 'name',
     field: (r: Record<string, unknown>) =>
@@ -118,31 +223,82 @@ const columns = [
     caption: 'Name',
     width: '180px',
     sortable: true,
+    filterable: true,
   },
-  { key: 'title', field: 'title', caption: 'Title', width: '60px', sortable: true },
-  { key: 'age', field: 'age', caption: 'Age', width: '60px', inputType: 'number', sortable: true },
-  { key: 'birthdate', field: 'birthdate', caption: 'Birthdate', width: '110px' },
-  { key: 'email', field: 'email', caption: 'Email', width: '220px', sortable: true },
-  { key: 'phone', field: 'phone[0].number', caption: 'Phone', width: '140px' },
+  {
+    key: 'title',
+    field: 'title',
+    caption: 'Title',
+    width: '60px',
+    sortable: true,
+    filterable: true,
+  },
+  {
+    key: 'age',
+    field: 'age',
+    caption: 'Age',
+    width: '60px',
+    inputType: 'number',
+    sortable: true,
+    filterable: true,
+  },
+  { key: 'birthdate', field: 'birthdate', caption: 'Birthdate', width: '110px', filterable: true },
+  {
+    key: 'email',
+    field: 'email',
+    caption: 'Email',
+    width: '220px',
+    sortable: true,
+    filterable: true,
+  },
+  { key: 'phone', field: 'phone[0].number', caption: 'Phone', width: '140px', filterable: true },
   {
     key: 'country',
     field: 'address[0].country.code',
     caption: 'Country',
     width: '80px',
     sortable: true,
+    filterable: true,
   },
-  { key: 'job', field: 'job', caption: 'Job', width: '200px' },
-  { key: 'salary', field: 'salary', caption: 'Salary', width: '110px', sortable: true },
-  { key: 'hobbies', field: joinArrayField('hobbies'), caption: 'Hobbies', width: '220px' },
+  { key: 'job', field: 'job', caption: 'Job', width: '200px', filterable: true },
+  {
+    key: 'salary',
+    field: 'salary',
+    caption: 'Salary',
+    width: '110px',
+    sortable: true,
+    filterable: true,
+  },
+  {
+    key: 'hobbies',
+    field: joinArrayField('hobbies'),
+    caption: 'Hobbies',
+    width: '220px',
+    filterable: true,
+  },
   {
     key: 'skills',
     field: joinArrayField('skills'),
     caption: 'Skills',
     width: '160px',
     sortable: true,
+    filterable: true,
   },
-  { key: 'languages', field: joinArrayField('languages'), caption: 'Languages', width: '140px' },
-  { key: 'pets', field: 'pets[0].name', caption: 'Pet', width: '110px', sortable: true },
+  {
+    key: 'languages',
+    field: joinArrayField('languages'),
+    caption: 'Languages',
+    width: '140px',
+    filterable: true,
+  },
+  {
+    key: 'pets',
+    field: 'pets[0].name',
+    caption: 'Pet',
+    width: '110px',
+    sortable: true,
+    filterable: true,
+  },
   {
     key: 'kids',
     field: (r: Record<string, unknown>) => {
@@ -160,19 +316,28 @@ const columns = [
     },
     caption: 'Kids',
     width: '140px',
+    filterable: true,
   },
-  { key: 'personalityType', field: 'personalityType', caption: 'Personality', width: '110px' },
+  {
+    key: 'personalityType',
+    field: 'personalityType',
+    caption: 'Personality',
+    width: '110px',
+    filterable: true,
+  },
   {
     key: 'certifications',
     field: joinArrayField('certifications'),
     caption: 'Certs',
     width: '140px',
+    filterable: true,
   },
   {
     key: 'memberships',
     field: joinArrayField('memberships'),
     caption: 'Memberships',
     width: '180px',
+    filterable: true,
   },
 ]
 </script>
