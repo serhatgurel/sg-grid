@@ -4,19 +4,19 @@ This lightweight checklist documents the quick review steps performed for the fi
 
 Code review
 
-- [ ] Confirm `src/lib/dataUtils.ts` is pure and immutable (returns new arrays).
-- [ ] Verify `applyFilters`/`applySort` respect `column.filterFunction` / `column.sortFunction` overrides.
-- [ ] Ensure fast-fail behaviour in `useVisibleRows` and utilities when filter/sort are empty.
+- [x] Confirm `src/lib/dataUtils.ts` is pure and immutable (returns new arrays).
+- [x] Verify `applyFilters`/`applySort` respect `column.filterFunction` / `column.sortFunction` overrides.
+- [x] Ensure fast-fail behaviour in `useVisibleRows` and utilities when filter/sort are empty.
 
 Docs review
 
-- [ ] Ensure `docs/changelog-draft.md` accurately summarizes developer-facing changes.
-- [ ] Playground (`src/examples/FilterSortPlayground.vue`) surfaces warnings and the changelog preview.
+- [x] Ensure `docs/changelog-draft.md` accurately summarizes developer-facing changes.
+- [x] Playground (`src/examples/FilterSortPlayground.vue`) surfaces warnings and the changelog preview.
 
 Tests review
 
-- [ ] All unit tests pass (`npm run test:run --silent`).
-- [ ] Type-level test (`tests/unit/types.export.spec.ts`) enforces exported types.
+- [x] All unit tests pass (`npm run test:run --silent`).
+- [x] Type-level test (`tests/unit/types.export.spec.ts`) enforces exported types.
 
 Notes
 
