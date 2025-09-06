@@ -167,9 +167,43 @@ export function opBetween(val: unknown, clauseVal: unknown): boolean {
  * @param filter - array of filter clauses or null
  * @returns new array of rows matching the filter
  */
-import type { ColumnDef, FilterClause, SortClause } from '../components/types'
+import type { ColumnDef, FilterClause, SortClause, FieldPath } from '../components/types'
 // Re-export clause types for consumers that import from dataUtils
 export type { FilterClause, SortClause }
+
+// Helper: resolve a ColumnDef.field (string path like 'address[0].country.code' or a function)
+const resolveFieldValue = (row: Row, field: string | ((r: Row) => unknown)) => {
+  if (typeof field === 'function') {
+    try {
+      return (field as (r: Row) => unknown)(row)
+    } catch {
+      return undefined
+    }
+  }
+  if (typeof field !== 'string') return undefined
+  const parts: Array<string | number> = []
+  // match either dot/key segments, bracket numeric indices, or quoted bracket keys
+  // groups: 1 = plain key, 2 = quoted key, 3 = numeric index
+  const re = /([^.[\]]+)|\[['"]([^'"]+)['"]\]|\[(\d+)\]/g
+  let m: RegExpExecArray | null = null
+  while ((m = re.exec(field))) {
+    if (m[1]) parts.push(m[1])
+    else if (m[2]) parts.push(m[2])
+    else if (m[3]) parts.push(Number(m[3]))
+  }
+  let cur: unknown = row
+  for (const p of parts) {
+    if (cur == null) return undefined
+    if (typeof p === 'number') {
+      if (!Array.isArray(cur)) return undefined
+      cur = (cur as unknown[])[p]
+    } else {
+      if (typeof cur !== 'object') return undefined
+      cur = (cur as Record<string, unknown>)[String(p)]
+    }
+  }
+  return cur
+}
 
 export function applyFilters(
   rows: ReadonlyArray<Row>,
@@ -195,16 +229,20 @@ export function applyFilters(
         // ignore malformed clause
         continue
       }
-      const val = (r as Row)[clause.column]
-      const op = clause.operator
-
-      // column-level filterFunction override
+      // If a columns map/array is provided, prefer the ColumnDef.field to resolve the value
+      let val: unknown = (r as Row)[clause.column]
       let colDef: ColumnDef | undefined = undefined
       if (Array.isArray(columns)) {
         colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
       } else if (columns && typeof columns === 'object') {
         colDef = (columns as Record<string, ColumnDef>)[clause.column]
       }
+      if (colDef && colDef.field !== undefined) {
+        val = resolveFieldValue(r as Row, colDef.field as FieldPath)
+      }
+      const op = clause.operator
+
+      // column-level filterFunction override
       if (colDef && typeof colDef.filterFunction === 'function') {
         // filterFunction returns boolean
         if (
@@ -300,8 +338,22 @@ export function applySort(
   const copy = rows.slice()
   copy.sort((a, b) => {
     for (const clause of sort) {
-      const av = (a as Row)[clause.column]
-      const bv = (b as Row)[clause.column]
+      // resolve values using ColumnDef.field when columns mapping is available
+      let colDef: ColumnDef | undefined = undefined
+      if (Array.isArray(columns)) {
+        colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
+      } else if (columns && typeof columns === 'object') {
+        colDef = (columns as Record<string, ColumnDef>)[clause.column]
+      }
+
+      const av =
+        colDef && colDef.field !== undefined
+          ? resolveFieldValue(a as Row, colDef.field as FieldPath)
+          : (a as Row)[clause.column]
+      const bv =
+        colDef && colDef.field !== undefined
+          ? resolveFieldValue(b as Row, colDef.field as FieldPath)
+          : (b as Row)[clause.column]
 
       // both missing -> continue to next clause
       if (isMissingValue(av) && isMissingValue(bv)) continue
@@ -312,12 +364,7 @@ export function applySort(
       const bNum = tryCoerceNumber(bv)
 
       // column-level sortFunction support: if present, use it to compare
-      let colDef: ColumnDef | undefined = undefined
-      if (Array.isArray(columns)) {
-        colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
-      } else if (columns && typeof columns === 'object') {
-        colDef = (columns as Record<string, ColumnDef>)[clause.column]
-      }
+      // colDef already computed above
       if (colDef && typeof colDef.sortFunction === 'function') {
         const cmp = (
           colDef.sortFunction as unknown as (x: unknown, y: unknown, xr?: Row, yr?: Row) => number
