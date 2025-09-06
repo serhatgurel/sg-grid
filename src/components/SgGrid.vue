@@ -41,31 +41,48 @@
             }
           "
           :class="{ 'sg-header--focused': focusedHeader === column.key }"
+          @click="
+            (e) => {
+              if (column.sortable) onHeaderSortClick(column, e as unknown as MouseEvent)
+            }
+          "
         >
           <slot name="header" :column="column">
             <div style="display: flex; align-items: center; gap: 6px">
               <span>{{ column.caption ?? column.field }}</span>
-              <!-- sort indicator: direction and multi-sort order -->
-              <template v-if="getSortInfo(column.key)">
-                <span data-test-sort-indicator style="font-size: 12px; margin-left: 4px">
-                  {{ getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼' }}
-                  <sup
-                    v-if="
-                      getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
-                    "
-                    data-test-sort-order
-                    style="font-size: 10px"
-                    >{{ getSortInfoSafe(column.key).order }}</sup
-                  >
-                </span>
-              </template>
-              <!-- simple sort toggle button for tests -->
+              <!-- consolidated sort indicator: reserved space; render chevrons only when column.sortable -->
+              <span data-test-sort-indicator class="sg-sort-indicator" style="margin-left: 6px">
+                <template v-if="column.sortable">
+                  <!-- when sorted: show single active arrow and optional order badge -->
+                  <template v-if="getSortInfo(column.key)">
+                    <span class="sg-indicator-active" aria-hidden="true">
+                      {{ getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼' }}
+                    </span>
+                    <sup
+                      v-if="
+                        getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
+                      "
+                      data-test-sort-order
+                      class="sg-sort-order"
+                      >{{ getSortInfoSafe(column.key).order }}</sup
+                    >
+                  </template>
+                  <!-- when not sorted: show neutral stacked chevrons to indicate sortable affordance -->
+                  <template v-else>
+                    <span class="sg-indicator-neutral" aria-hidden="true"></span>
+                  </template>
+                </template>
+                <!-- when not sortable: empty placeholder preserved for layout -->
+              </span>
+              <!-- simple sort toggle button for tests (keeps keyboard and click targets) -->
               <button
                 v-if="column.sortable"
                 data-test-sort-button
-                @click="onHeaderSortClick(column, $event)"
+                class="sg-sort-button"
+                @click.stop="onHeaderSortClick(column, $event)"
+                :aria-label="`Sort ${column.caption ?? column.field}`"
               >
-                sort
+                <span class="visually-hidden">Toggle sort</span>
               </button>
               <!-- simple filter input for tests -->
               <div v-if="column.filterable" style="display: flex; gap: 6px; align-items: center">
@@ -94,7 +111,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in props.rows || []" :key="getRowKey(row)">
+      <tr v-for="row in rowsToRender || []" :key="getRowKey(row)">
         <sg-column
           v-for="column in columns"
           :key="`${getRowKey(row)}-${column.key}`"
@@ -135,7 +152,25 @@ const declaredColumns = computed<ColumnDef[]>(() => {
     // try to read width and align from the declared <SgColumn> vnode props
     const width = p.width ?? p['data-width']
     const align = p.align
-    cols.push({ key, field, caption, width, align })
+    // Read common additional flags/hooks from vnode props when declared
+    const sortable = p.sortable === true || p.sortable === 'true' || p['sortable'] === true
+    const filterable = p.filterable === true || p.filterable === 'true' || p['filterable'] === true
+    const inputType = p.inputType ?? p['input-type'] ?? undefined
+    const sortFunction = p.sortFunction ?? p['sort-function']
+    const filterFunction = p.filterFunction ?? p['filter-function']
+
+    cols.push({
+      key,
+      field,
+      caption,
+      width,
+      align,
+      sortable: !!sortable,
+      filterable: !!filterable,
+      inputType,
+      sortFunction,
+      filterFunction,
+    })
   }
   return cols
 })
@@ -229,6 +264,7 @@ if (
   }
 }
 import type { SortClause } from '../lib/dataUtils'
+import { applySort } from '../lib/dataUtils'
 
 // local sort state for header interactions. Start from provided prop if present.
 const localSort = ref<SortClause[]>(
@@ -387,6 +423,14 @@ function getRowKey(row: RowData) {
   if (typeof props.rowKey === 'function') return String(props.rowKey(row))
   return String(row[props.rowKey as string])
 }
+
+const rowsToRender = computed(() => {
+  const base = props.rows || []
+  // if server side, the host manages sorting; render rows as-is
+  if (props.serverSide) return base
+  // client-side: apply localSort if present
+  return applySort(base, localSort.value.length ? localSort.value : null, columns.value)
+})
 </script>
 
 <style scoped>
@@ -395,5 +439,74 @@ function getRowKey(row: RowData) {
   text-align: left;
   font-weight: 600;
   padding-bottom: 8px;
+}
+
+.sg-sort-button {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0 4px;
+  line-height: 10px;
+  cursor: pointer;
+}
+.sg-sort-button .sg-sort-up,
+.sg-sort-button .sg-sort-down {
+  font-size: 10px;
+  color: #9ca3af; /* neutral gray when inactive */
+  display: block;
+  height: 10px;
+}
+.sg-sort-button .active {
+  color: #111827; /* darker when active */
+}
+.sg-sort-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; /* fixed width to prevent layout shift */
+  height: 18px;
+  font-size: 12px;
+}
+.sg-indicator-neutral {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: #9ca3af; /* neutral color */
+  line-height: 10px;
+}
+.sg-indicator-neutral::before,
+.sg-indicator-neutral::after {
+  display: block;
+  content: '▲';
+  font-size: 10px;
+  line-height: 10px;
+}
+.sg-indicator-neutral::after {
+  content: '▼';
+}
+.sg-indicator-active {
+  color: #111827;
+  font-size: 12px;
+}
+.sg-sort-order {
+  font-size: 10px;
+  margin-left: 3px;
+}
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+.sg-header--focused {
+  outline: 2px solid #60a5fa33;
+}
+.sg-grid-table th[tabindex] {
+  cursor: pointer;
 }
 </style>
