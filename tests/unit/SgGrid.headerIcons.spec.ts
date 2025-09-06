@@ -97,4 +97,26 @@ describe('SgGrid header icons and caption rendering', () => {
     expect(label.exists()).toBe(true)
     expect(label.text()).toBe('Filterable')
   })
+
+  // The following tests describe desired behaviors from docs/filter-sort/icons.md
+  // They are skipped as TODOs until the component implements layout truncation/tooltip
+  // and deterministic geometry in JSDOM. Keeping them as skipped tests documents
+  // the expectations and provides a ready-to-run spec once implementation exists.
+  test.skip('header text does not overlap icons (geometry check)', () => {
+    // Intent: compute boundingClientRect for header text and icon elements and assert no intersection.
+    // Implementation note: in JSDOM you may need to mock getBoundingClientRect values to simulate layout.
+  })
+
+  test.skip('long captions use ellipsis (text-overflow) and expose full caption via tooltip/title', () => {
+    // Intent: when header text overflows available space the UI should apply CSS truncation
+    // (text-overflow: ellipsis) and expose the full caption in a tooltip (title attribute)
+    // This test should assert computed style or element.style contains text-overflow and that
+    // the element has a title or aria-label with the full caption.
+  })
+
+  test.skip('width exception: explicit narrow width may prevent ellipsis and is allowed', () => {
+    // Intent: when the author explicitly sets a column width that makes ellipsis impossible
+    // the truncation rule may be violated; the test should verify the provided width is respected
+    // and record that ellipsis was not applied intentionally.
+  })
 })
