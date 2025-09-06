@@ -655,7 +655,6 @@ const vTruncateTooltip = truncateTooltip
   width: 100%;
   min-width: 0; /* allow children to shrink */
   gap: 4px;
-  outline: 1px dashed #f59e0b; /* debug border */
   position: relative; /* allow absolutely positioned sort button to not take layout space */
 }
 .sg-filter-indicator,
