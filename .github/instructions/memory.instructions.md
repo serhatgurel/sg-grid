@@ -48,4 +48,4 @@ applyTo: '**'
 
 # Progress (session)
 
-- Checklist items completed this session: 1, 2
+- Checklist items completed this session: 1, 2, 3

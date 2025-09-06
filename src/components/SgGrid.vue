@@ -149,7 +149,7 @@
                     }
                   "
                 >
-                  ×
+                  <CloseIcon class="sg-icon-inline" size="14" />
                 </button>
               </div>
             </div>
@@ -186,6 +186,7 @@ import SortIcon from './icons/SortIcon.vue'
 import ArrowUpIcon from './icons/ArrowUpIcon.vue'
 import ArrowDownIcon from './icons/ArrowDownIcon.vue'
 import SearchIcon from './icons/SearchIcon.vue'
+import CloseIcon from './icons/CloseIcon.vue'
 import type { SgGridPropTypes, ColumnDef, RowData } from './types'
 import SgColumn from './SgColumn.vue'
 
@@ -713,6 +714,25 @@ const vTruncateTooltip = truncateTooltip
   color: #6b7280; /* neutral gray */
   flex: 0 0 auto;
 }
+/* Clear button should visually match the search icon */
+.sg-header-filter-ui [data-test-filter-clear] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: #6b7280; /* neutral gray */
+  background: transparent;
+  border: none;
+  padding: 0;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+.sg-header-filter-ui [data-test-filter-clear] .sg-icon-inline svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
 .sg-header-filter-ui input[data-test-filter-input] {
   flex: 1 1 auto;
   width: 100%;
@@ -720,6 +740,7 @@ const vTruncateTooltip = truncateTooltip
   outline: none;
   background: transparent;
   padding: 0 4px;
+  font-weight: 400; /* normal weight for editor text */
   min-width: 0;
 }
 .sg-header-filter-ui input[data-test-filter-input]:focus {
