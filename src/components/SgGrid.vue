@@ -49,23 +49,33 @@
           class="sg-header-cell"
         >
           <slot name="header" :column="column">
-            <div style="display: flex; align-items: center; gap: 6px">
-              <!-- left-aligned filter indicator (shows when column is filterable) -->
-              <span data-test-filter-indicator v-if="column.filterable" class="sg-filter-indicator">
-                <span class="sg-indicator-neutral" aria-hidden="true">
-                  <FilterIcon
-                    class="sg-icon-inline"
-                    size="16"
-                    :color="getComputedIconColor('neutral')"
-                  />
+            <div class="sg-header-wrapper">
+              <div class="sg-header-inner">
+                <!-- Filter icon (left) -->
+                <span
+                  v-if="column.filterable"
+                  data-test-filter-indicator
+                  class="sg-filter-indicator"
+                >
+                  <span class="sg-indicator-neutral" aria-hidden="true">
+                    <FilterIcon
+                      class="sg-icon-inline"
+                      size="16"
+                      :color="getComputedIconColor('neutral')"
+                    />
+                  </span>
+                  <span class="visually-hidden">Filterable</span>
                 </span>
-                <span class="visually-hidden">Filterable</span>
-              </span>
-              <span>{{ column.caption ?? column.field }}</span>
-              <!-- put sort indicator absolutely at the far right edge of the header cell -->
-              <span data-test-sort-indicator class="sg-sort-indicator">
-                <template v-if="column.sortable">
-                  <!-- when sorted: show single active arrow and optional order badge -->
+                <!-- Header text with ellipsis. Always between icons. -->
+                <span
+                  class="sg-header-text"
+                  :class="isNumericColumn(column) ? 'align-right' : 'align-left'"
+                  v-truncate-tooltip="String(column.caption ?? column.field)"
+                >
+                  {{ column.caption ?? column.field }}
+                </span>
+                <!-- Sort icon (right) -->
+                <span v-if="column.sortable" data-test-sort-indicator class="sg-sort-indicator">
                   <template v-if="getSortInfo(column.key)">
                     <span class="sg-indicator-active" aria-hidden="true">
                       <component
@@ -91,7 +101,6 @@
                       >{{ getSortInfoSafe(column.key).order }}</sup
                     >
                   </template>
-                  <!-- when not sorted: show neutral stacked chevrons to indicate sortable affordance -->
                   <template v-else>
                     <span class="sg-indicator-neutral" aria-hidden="true">
                       <SortIcon
@@ -101,25 +110,32 @@
                       />
                     </span>
                   </template>
-                </template>
-                <!-- when not sortable: empty placeholder preserved for layout -->
-              </span>
-              <!-- simple sort toggle button for tests (keeps keyboard and click targets) -->
-              <button
-                v-if="column.sortable"
-                data-test-sort-button
-                class="sg-sort-button"
-                @click.stop="onHeaderSortClick(column, $event)"
-                :aria-label="`Sort ${column.caption ?? column.field}`"
+                </span>
+                <!-- Sort button (for tests / keyboard) placed after sort icon -->
+                <button
+                  v-if="column.sortable"
+                  data-test-sort-button
+                  class="sg-sort-button"
+                  @click.stop="onHeaderSortClick(column, $event)"
+                  :aria-label="`Sort ${column.caption ?? column.field}`"
+                >
+                  <span class="visually-hidden">Toggle sort</span>
+                </button>
+              </div>
+              <!-- Filter input row sits below icons/text so text always remains between icons -->
+              <div
+                v-if="column.filterable"
+                class="sg-header-filter-ui"
+                :class="{ 'is-empty': !(filterValues[column.key] ?? '') }"
               >
-                <span class="visually-hidden">Toggle sort</span>
-              </button>
-              <!-- simple filter input for tests -->
-              <div v-if="column.filterable" style="display: flex; gap: 6px; align-items: center">
+                <span class="sg-filter-search-icon" aria-hidden="true">
+                  <SearchIcon size="14" />
+                </span>
                 <input
                   :type="column.inputType ?? 'text'"
                   data-test-filter-input
                   :aria-label="`Filter ${column.caption ?? column.field}`"
+                  :value="filterValues[column.key] || ''"
                   @input="onFilterInput(column, $event)"
                 />
                 <button
@@ -168,6 +184,7 @@ import FilterIcon from './icons/FilterIcon.vue'
 import SortIcon from './icons/SortIcon.vue'
 import ArrowUpIcon from './icons/ArrowUpIcon.vue'
 import ArrowDownIcon from './icons/ArrowDownIcon.vue'
+import SearchIcon from './icons/SearchIcon.vue'
 import type { SgGridPropTypes, ColumnDef, RowData } from './types'
 import SgColumn from './SgColumn.vue'
 
@@ -368,11 +385,17 @@ function onHeaderSortClick(column: ColumnDef, ev?: MouseEvent) {
   }
 }
 
+// Track per-column current filter input values for UI state (e.g., empty styling)
+const filterValues = ref<Record<string, string>>({})
+
 // debounced filter input handling
 const filterTimeout = ref<number | null>(null)
 function onFilterInput(column: ColumnDef, ev: Event) {
   const input = ev.target as HTMLInputElement
   const value = input.value
+
+  // update local value for styling (empty vs non-empty)
+  filterValues.value[column.key] = value
 
   // clear existing timeout
   if (filterTimeout.value) window.clearTimeout(filterTimeout.value)
@@ -394,6 +417,8 @@ function onFilterClear() {
   filterTimeout.value = null
   // emit cleared filter
   emit('update:filter', null)
+  // clear all tracked filter inputs (single global clear semantics)
+  filterValues.value = {}
   if (props.serverSide) {
     emit('request:page', buildPagePayload({ filter: null }))
   }
@@ -465,6 +490,37 @@ function getRowKey(row: RowData) {
   return String(row[props.rowKey as string])
 }
 
+// Determine if a column should be treated as numeric for header alignment.
+// Heuristic: inputType === 'number' OR column key/name includes common numeric terms
+// OR all sampled row values (first 10) are numbers.
+function isNumericColumn(col: ColumnDef | undefined): boolean {
+  if (!col) return false
+  // access inputType using loose typing since ColumnDef allows optional inputType
+  if ((col as unknown as { inputType?: string }).inputType === 'number') return true
+  const name = String(col.caption ?? col.key ?? '').toLowerCase()
+  if (/^(age|id|count|total|qty|quantity|price|amount|score|rank|index)$/i.test(name)) return true
+  const rows = props.rows || []
+  if (!rows.length) return false
+  const sample = rows.slice(0, 10)
+  let numericCount = 0
+  for (const r of sample) {
+    let v: unknown
+    if (typeof col.field === 'function') v = col.field(r)
+    else {
+      // simple path resolution (reuse minimal logic rather than importing util used elsewhere)
+      try {
+        const path = String(col.field)
+        // only support simple direct property for heuristic to avoid overhead
+        v = (r as Record<string, unknown>)[path as keyof typeof r]
+      } catch {
+        v = undefined
+      }
+    }
+    if (typeof v === 'number' && !Number.isNaN(v)) numericCount++
+  }
+  return numericCount > 0 && numericCount === sample.length
+}
+
 const rowsToRender = computed(() => {
   const base = props.rows || []
   // if server side, the host manages sorting; render rows as-is
@@ -472,6 +528,50 @@ const rowsToRender = computed(() => {
   // client-side: apply localSort if present
   return applySort(base, localSort.value.length ? localSort.value : null, columns.value)
 })
+
+// Directive: v-truncate-tooltip adds a title attribute only when the element's
+// rendered text is actually truncated (scrollWidth > clientWidth). This avoids
+// redundant tooltips while ensuring full caption is accessible.
+const truncateTooltip = {
+  mounted(el: HTMLElement, binding: { value: string }) {
+    const raf: typeof requestAnimationFrame | undefined =
+      typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame : undefined
+    const timeouts: number[] = []
+    const applyNow = () => {
+      const truncated = el.scrollWidth > el.clientWidth + 1
+      if (truncated) el.setAttribute('title', binding.value || '')
+      else el.removeAttribute('title')
+    }
+    const schedule = (delay = 0) => {
+      if (raf && delay === 0) raf(() => applyNow())
+      else timeouts.push(window.setTimeout(applyNow, delay))
+    }
+    schedule() // initial
+    schedule(50) // small delay after potential font load
+    schedule(250) // fallback after more layout stabilization
+    const onResize = () => applyNow()
+    window.addEventListener('resize', onResize)
+    ;(el as unknown as { __ttCleanup?: () => void }).__ttCleanup = () => {
+      window.removeEventListener('resize', onResize)
+      timeouts.forEach((t) => window.clearTimeout(t))
+    }
+  },
+  updated(el: HTMLElement, binding: { value: string }) {
+    const truncated = el.scrollWidth > el.clientWidth + 1
+    if (truncated) el.setAttribute('title', binding.value || '')
+    else el.removeAttribute('title')
+  },
+  unmounted(el: HTMLElement) {
+    const anyEl = el as unknown as { __ttCleanup?: () => void }
+    if (anyEl.__ttCleanup) anyEl.__ttCleanup()
+  },
+}
+
+// Provide alias starting with v* for <script setup> directive auto registration patterns
+const vTruncateTooltip = truncateTooltip
+
+// expose directive to template via variable name (v-truncate-tooltip => truncateTooltip)
+// No extra export needed; <script setup> auto-exposes top-level consts.
 </script>
 
 <style scoped>
@@ -482,27 +582,7 @@ const rowsToRender = computed(() => {
   padding-bottom: 8px;
 }
 
-.sg-sort-button {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background: transparent;
-  padding: 0 4px;
-  line-height: 10px;
-  cursor: pointer;
-}
-.sg-sort-button .sg-sort-up,
-.sg-sort-button .sg-sort-down {
-  font-size: 10px;
-  color: #9ca3af; /* neutral gray when inactive */
-  display: block;
-  height: 10px;
-}
-.sg-sort-button .active {
-  color: #111827; /* darker when active */
-}
+/* Removed old inline .sg-sort-button layout styles; replaced later with absolute positioning */
 .sg-sort-indicator {
   display: inline-flex;
   align-items: center;
@@ -558,54 +638,120 @@ const rowsToRender = computed(() => {
   cursor: pointer;
 }
 
-/* position header as relative so the indicator can sit at the extreme right */
+/* New header layout */
 .sg-header-cell {
-  position: relative;
-  padding-right: 6px; /* small padding to keep icon off the absolute edge */
+  padding: 4px 6px;
 }
-
-.sg-header-cell .sg-sort-indicator {
-  position: absolute;
-  right: 2px; /* move indicator very close to the border */
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0 1px;
-  min-width: 0; /* allow icon to occupy minimal space */
+.sg-header-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
 }
-
-/* ensure filter and sort controls don't overlap the absolutely positioned indicators */
-.sg-header-cell > div {
-  padding-right: 28px; /* leave room for right-side sort indicator and possible order badge */
-  padding-left: 28px; /* leave room for left-side filter indicator */
+.sg-header-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0; /* allow children to shrink */
+  gap: 4px;
+  outline: 1px dashed #f59e0b; /* debug border */
+  position: relative; /* allow absolutely positioned sort button to not take layout space */
 }
-
-/* left-aligned filter indicator styles (mirror sort indicator design) */
-.sg-filter-indicator {
-  position: absolute;
-  left: 2px; /* move indicator very close to the left border */
-  top: 50%;
-  transform: translateY(-50%);
+.sg-filter-indicator,
+.sg-sort-indicator {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 12px;
+  flex: 0 0 auto;
+  width: 18px;
   height: 18px;
-  font-size: 12px;
-  padding: 0 2px;
 }
-.sg-filter-indicator .sg-icon-inline svg {
-  color: inherit;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-  opacity: 0.7;
+.sg-header-text {
+  flex: 1 1 auto;
+  min-width: 0; /* enable ellipsis */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+/* Absolute-positioned sort button overlapping sort icon without adding extra spacing */
+.sg-sort-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
 }
 
-/* SVG icon sizing to match material icon glyphs */
+.sg-header-filter-ui {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #000; /* thin black border */
+  background: #fff; /* base white background when not empty */
+  padding: 2px 4px;
+  position: relative;
+  transition: background-color 120ms ease-in-out;
+}
+.sg-header-filter-ui.is-empty {
+  background: #f5f5f5; /* light gray when input is empty (lighter than header) */
+}
+.sg-filter-search-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: #6b7280; /* neutral gray */
+  flex: 0 0 auto;
+}
+.sg-header-filter-ui input[data-test-filter-input] {
+  flex: 1 1 auto;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 4px;
+  min-width: 0;
+}
+.sg-header-filter-ui input[data-test-filter-input]:focus {
+  box-shadow: none; /* remove inner focus box */
+  border-radius: 0;
+}
+.sg-header-filter-ui:focus-within .sg-filter-search-icon {
+  display: none;
+}
+.sg-header-filter-ui:focus-within input[data-test-filter-input] {
+  padding-left: 0; /* start at left debug border */
+  padding-right: 0; /* extend to right debug border */
+}
+.sg-header-filter-ui:focus-within [data-test-filter-clear] {
+  display: none;
+}
+/* Hide container border/outline while editing so only caret shows */
+.sg-header-filter-ui:focus-within {
+  border-color: transparent;
+  outline: none;
+  background: #fff; /* on focus always white even if empty */
+}
 .sg-icon-inline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
+}
+.sg-filter-indicator .sg-icon-inline svg,
+.sg-sort-indicator .sg-icon-inline svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 </style>

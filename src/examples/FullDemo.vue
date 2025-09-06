@@ -56,7 +56,7 @@
           :sortable="true"
           :filterable="true"
         />
-        <SgColumn data-field="email" caption="Email" :sortable="true" :filterable="true" />
+        <!-- <SgColumn data-field="email" caption="Email" :sortable="true" :filterable="true" />
         <SgColumn data-field="job" caption="Job" :sortable="true" :filterable="true" />
         <SgColumn data-field="salary" caption="Salary" :sortable="true" :filterable="true" />
         <SgColumn data-field="hobbies" caption="Hobbies" :sortable="true" :filterable="true" />
@@ -88,7 +88,7 @@
           caption="Memberships"
           :sortable="true"
           :filterable="true"
-        />
+        /> -->
       </SgGrid>
     </div>
 
