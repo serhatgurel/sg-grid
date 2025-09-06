@@ -61,6 +61,16 @@ expect(wrapper.emitted('update:sort')).toBeTruthy()
 
 - For components that emit accessibility-related events or aria changes, prefer asserting emitted payloads and ARIA attributes rather than implementation details (DOM structure) so tests remain robust to small markup changes.
 
+New / recent tests
+
+- `tests/unit/SgGrid.headerIcons.spec.ts` — small unit tests that assert header UI elements are rendered and accessible:
+  - verifies the filter icon indicator (`[data-test-filter-indicator]`) and its accessible label
+  - verifies the sort affordance (`[data-test-sort-indicator]`) in neutral and active states
+  - verifies combined filter+sort presence for columns that are both filterable and sortable
+  - verifies long header captions render intact (sanity on length/truncation)
+
+When adding similar UI tests prefer querying by data-test attributes (e.g., `data-test-filter-indicator`, `data-test-sort-indicator`, `data-test-sort-button`) and assert behavior (emits/ARIA) rather than fragile DOM structure.
+
 Common patterns
 
 - Use fixtures for deterministic row/column data (`tests/utils/fixtures.ts`).
