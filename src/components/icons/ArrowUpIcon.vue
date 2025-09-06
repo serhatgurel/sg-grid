@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ size?: string | number; color?: string }>()
-const size = props.size ?? '16'
+const props = defineProps<{ size?: number | string; color?: string }>()
+const size = props.size ?? 16
 const color = props.color ?? 'currentColor'
 </script>
