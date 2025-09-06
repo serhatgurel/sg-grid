@@ -10,7 +10,7 @@ Code review
 
 Docs review
 
-- [x] Ensure `docs/changelog-draft.md` accurately summarizes developer-facing changes.
+- [x] Ensure `changelog-draft.md` accurately summarizes developer-facing changes.
 - [x] Playground (`src/examples/FilterSortPlayground.vue`) surfaces warnings and the changelog preview.
 
 Tests review

@@ -244,7 +244,7 @@ const caseSensitive = ref(false)
 const changelogPreview = ref<string>('')
 
 // Vite raw import for markdown content (works in dev/build)
-import changelogRaw from '../../docs/changelog-draft.md?raw'
+import changelogRaw from '../../docs/filter-sort/changelog-draft.md?raw'
 if (typeof changelogRaw === 'string') changelogPreview.value = changelogRaw
 
 // Demonstration columns with column-level hooks for filter/sort overrides

@@ -65,9 +65,9 @@ Please read the notes in `docs/` before working on features. Keep changes small 
 - `docs/tasks.md` — derived task list and roadmap
 - `src/main.ts` — app bootstrap
 
-See `docs/examples-filter-sort.md` for runnable example descriptions (playground and minimal examples).
+See `docs/filter-sort/README.md` and `docs/filter-sort/GUIDE.md` for runnable example descriptions, usage notes and developer guidance (playground and minimal examples).
 
-- `docs/changelog-draft.md` — draft changelog entry for the filter & sort feature (dev notes)
-- `docs/review-checklist.md` — quick review checklist for the filter & sort feature
+- `docs/filter-sort/changelog-draft.md` — draft changelog entry for the filter & sort feature (dev notes)
+- `docs/filter-sort/review-checklist.md` — quick review checklist for the filter & sort feature
 
 If you'd like, I can add a short development checklist, PR template, or CI workflow next.

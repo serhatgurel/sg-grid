@@ -15,7 +15,7 @@ Notes
 ## Development-ordered checklist
 
 - [x] 1 — Design: finalize API
-  - Confirm and document filter & sort API (props, events, edge-cases). Source: `docs/feature-filter-sort.md`.
+  - Confirm and document filter & sort API (props, events, edge-cases). Source: `feature-filter-sort.md`.
 
 - [x] 2 — Create dataUtils tests (filters)
   - Write Vitest unit tests for `applyFilters` covering operator behaviours, null/NaN/coercion and immutability. Commit tests before implementation.

@@ -22,7 +22,7 @@ This page points to the in-repo examples and explains what each demo shows.
 
 ## Quick usage snippets
 
-See `docs/usage-examples.md` for copyable snippets showing single-column sort, multi-column sort, filters and a server-side example.
+See `usage-examples.md` for copyable snippets showing single-column sort, multi-column sort, filters and a server-side example.
 
 ## How to run the examples locally
 
