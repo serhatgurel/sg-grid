@@ -3,6 +3,10 @@ import { computed } from 'vue'
 import rowsJson from './people.json'
 import SgGrid from '@/components/SgGrid.vue'
 import SgColumn from '@/components/SgColumn.vue'
+import ExampleTabs from '@/components/ExampleTabs.vue'
+// load the changelog and notes kept alongside the minimal example (safe fallback)
+import minimalChangelogRaw from './MinimalExample.changelog.md?raw'
+import minimalNotesRaw from './MinimalExample.notes.md?raw'
 
 interface RowDef {
   id?: string
@@ -43,6 +47,12 @@ const columns = [
   },
 ]
 
+const minimalChangelog =
+  (typeof minimalChangelogRaw === 'string' && minimalChangelogRaw) || 'No changelog available.'
+const minimalNotes =
+  (typeof minimalNotesRaw === 'string' && minimalNotesRaw) || 'No notes available.'
+
+// ExampleTabs manages its own selection; no example-level selectedView needed.
 </script>
 
 <template>
@@ -52,7 +62,15 @@ const columns = [
   -->
 
   <SgGrid
-    :rows="rows.slice(0, 5).map((r) => ({id: r.id, title: r.title, firstName: r.firstName, lastName: r.lastName, email: r.email, }))"
+    :rows="
+      rows.slice(0, 5).map((r) => ({
+        id: r.id,
+        title: r.title,
+        firstName: r.firstName,
+        lastName: r.lastName,
+        email: r.email,
+      }))
+    "
     rowKey="id"
     caption="NO COLUMNS EXAMPLE"
   />
@@ -104,4 +122,36 @@ const columns = [
   </SgGrid>
 
   <SgGrid :columns="columns" :rows="rows.slice(0, 8)" rowKey="id" caption="PROPS BASED EXAMPLE" />
+
+  <!-- Simple server-side demo: grid emits request:page which the host can handle -->
+  <SgGrid
+    :columns="columns"
+    :rows="rows.slice(0, 5)"
+    rowKey="id"
+    caption="SERVER-SIDE DEMO"
+    :serverSide="true"
+    @request:page="onRequestPage"
+  />
+
+  <div style="margin-top: 16px">
+    <ExampleTabs
+      :notes="minimalNotes"
+      :changelog="minimalChangelog"
+      title="Changelog"
+      aria-label="Minimal example views"
+    />
+  </div>
 </template>
+
+<style scoped>
+/* MinimalExample uses shared ExampleTabs styles via the component */
+</style>
+
+<script lang="ts">
+// Minimal example handler to satisfy template reference
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export function onRequestPage(_payload: unknown) {
+  // no-op in the minimal example
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+</script>

@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { reactive, nextTick, defineComponent, getCurrentInstance, h } from 'vue'
+import { reactive, nextTick, defineComponent, h } from 'vue'
 import SgGrid from '../../src/components/SgGrid.vue'
 import SgColumn from '../../src/components/SgColumn.vue'
 
@@ -367,6 +367,7 @@ describe('SgGrid.vue', () => {
     const rows = [{ id: 1, name: 'Z' }]
 
     // Mounting should not throw and should render only the valid column(s)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const wrapper = mount(SgGrid, { props: { columns: cols as any, rows, rowKey: 'id' } })
     const ths = wrapper.findAll('thead th')
     // Only the valid 'name' column should be rendered as a header

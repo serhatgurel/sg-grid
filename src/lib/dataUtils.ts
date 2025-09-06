@@ -1,21 +1,160 @@
 export type Row = Record<string, unknown>
 
-export type FilterClause = {
-  column: string
-  operator: string
-  value: unknown
-}
-
-export type SortClause = {
-  column: string
-  direction: 'asc' | 'desc'
-}
-
 /**
  * Small utility: returns true for null or undefined
  */
 function isNil(v: unknown): v is null | undefined {
   return v === null || v === undefined
+}
+
+function isMissingValue(v: unknown): boolean {
+  // treat null, undefined and numeric NaN as missing
+  return isNil(v) || (typeof v === 'number' && Number.isNaN(v))
+}
+
+function tryCoerceNumber(v: unknown): number | null {
+  if (typeof v === 'number') {
+    if (Number.isNaN(v)) return null
+    return v
+  }
+  if (typeof v === 'string') {
+    const n = Number(v)
+    if (!Number.isNaN(n)) return n
+    return null
+  }
+  return null
+}
+
+/**
+ * coerceIfNumeric - returns a number when the input is numeric or a numeric-like string;
+ * returns null for missing/NaN inputs; otherwise returns the original value unchanged.
+ */
+export function coerceIfNumeric(v: unknown): number | null | unknown {
+  if (isMissingValue(v)) return null
+
+  if (typeof v === 'number') {
+    // already handled NaN above
+    return v as number
+  }
+
+  if (typeof v === 'string') {
+    const trimmed = v.trim()
+    const n = Number(trimmed)
+    if (!Number.isNaN(n)) return n
+    return v
+  }
+
+  return v
+}
+
+// --- Operator helpers (exported for unit testing)
+export function opEq(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val)) return false
+
+  const a = coerceIfNumeric(val)
+  const b = coerceIfNumeric(clauseVal)
+
+  if (a === null || b === null) return false
+
+  if (typeof a === 'number' && typeof b === 'number') return a === b
+  return a === b
+}
+
+export function opNe(val: unknown, clauseVal: unknown): boolean {
+  // per semantics: missing values satisfy `ne`
+  if (isMissingValue(val)) return true
+
+  const a = coerceIfNumeric(val)
+  const b = coerceIfNumeric(clauseVal)
+
+  if (a === null && b === null) return true
+  if (a === null || b === null) return true
+
+  if (typeof a === 'number' && typeof b === 'number') return a !== b
+  return a !== b
+}
+
+export function opRelational(
+  val: unknown,
+  clauseVal: unknown,
+  operator: 'lt' | 'lte' | 'gt' | 'gte',
+): boolean {
+  const a = coerceIfNumeric(val)
+  const b = coerceIfNumeric(clauseVal)
+  if (a === null || b === null) return false
+  if (typeof a !== 'number' || typeof b !== 'number') return false
+  if (operator === 'lt') return a < b
+  if (operator === 'lte') return a <= b
+  if (operator === 'gt') return a > b
+  return a >= b
+}
+
+export function opContains(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  const aStr = String(val)
+  const bStr = String(clauseVal)
+
+  if (!caseSensitive) {
+    return aStr.toLowerCase().includes(bStr.toLowerCase())
+  }
+  return aStr.includes(bStr)
+}
+
+// --- String operator stubs (to be implemented in task 12)
+export function opStartsWith(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
+  // treat null/undefined and numeric NaN as missing
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  // coerce both values to strings
+  const aStr = String(val)
+  const bStr = String(clauseVal)
+
+  if (!caseSensitive) {
+    return aStr.toLowerCase().startsWith(bStr.toLowerCase())
+  }
+  return aStr.startsWith(bStr)
+}
+
+export function opEndsWith(val: unknown, clauseVal: unknown, caseSensitive = false): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  const aStr = String(val)
+  const bStr = String(clauseVal)
+
+  if (!caseSensitive) {
+    return aStr.toLowerCase().endsWith(bStr.toLowerCase())
+  }
+  return aStr.endsWith(bStr)
+}
+
+export function opIn(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  // if clauseVal is an array, check membership (with numeric coercion)
+  if (Array.isArray(clauseVal)) {
+    for (const item of clauseVal) {
+      if (opEq(val, item)) return true
+    }
+    return false
+  }
+
+  // fallback: treat clauseVal as single value equality
+  return opEq(val, clauseVal)
+}
+
+export function opBetween(val: unknown, clauseVal: unknown): boolean {
+  if (isMissingValue(val) || isMissingValue(clauseVal)) return false
+
+  // clauseVal must be an array of two values
+  if (!Array.isArray(clauseVal) || clauseVal.length !== 2) return false
+
+  const a = coerceIfNumeric(val)
+  const low = coerceIfNumeric(clauseVal[0])
+  const high = coerceIfNumeric(clauseVal[1])
+  if (a === null || low === null || high === null) return false
+  if (typeof a !== 'number' || typeof low !== 'number' || typeof high !== 'number') return false
+  return a >= low && a <= high
 }
 
 /**
@@ -28,22 +167,155 @@ function isNil(v: unknown): v is null | undefined {
  * @param filter - array of filter clauses or null
  * @returns new array of rows matching the filter
  */
-export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | null): Row[] {
+import type { ColumnDef, FilterClause, SortClause, FieldPath } from '../components/types'
+// Re-export clause types for consumers that import from dataUtils
+export type { FilterClause, SortClause }
+
+// Helper: resolve a ColumnDef.field (string path like 'address[0].country.code' or a function)
+const resolveFieldValue = (row: Row, field: string | ((r: Row) => unknown)) => {
+  if (typeof field === 'function') {
+    try {
+      return (field as (r: Row) => unknown)(row)
+    } catch {
+      return undefined
+    }
+  }
+  if (typeof field !== 'string') return undefined
+  const parts: Array<string | number> = []
+  // match either dot/key segments, bracket numeric indices, or quoted bracket keys
+  // groups: 1 = plain key, 2 = quoted key, 3 = numeric index
+  const re = /([^.[\]]+)|\[['"]([^'"]+)['"]\]|\[(\d+)\]/g
+  let m: RegExpExecArray | null = null
+  while ((m = re.exec(field))) {
+    if (m[1]) parts.push(m[1])
+    else if (m[2]) parts.push(m[2])
+    else if (m[3]) parts.push(Number(m[3]))
+  }
+  let cur: unknown = row
+  for (const p of parts) {
+    if (cur == null) return undefined
+    if (typeof p === 'number') {
+      if (!Array.isArray(cur)) return undefined
+      cur = (cur as unknown[])[p]
+    } else {
+      if (typeof cur !== 'object') return undefined
+      cur = (cur as Record<string, unknown>)[String(p)]
+    }
+  }
+  return cur
+}
+
+export function applyFilters(
+  rows: ReadonlyArray<Row>,
+  filter: FilterClause[] | null,
+  // optional columns map/array to lookup column-level hooks. Accepts either array of ColumnDef or a map from key->ColumnDef
+  columns?: ColumnDef[] | Record<string, ColumnDef>,
+  options?: { caseSensitive?: boolean },
+): Row[] {
   // fast-fail: return a shallow copy when there's no filter
   if (!filter || filter.length === 0) return rows.slice()
 
+  const caseSensitive = options?.caseSensitive ?? false
+
   return rows.filter((r) => {
     for (const clause of filter) {
-      const val = (r as Row)[clause.column]
-      if (clause.operator === 'eq') {
-        if (val !== clause.value) return false
-      } else if (clause.operator === 'contains') {
-        if (isNil(val) || typeof val !== 'string') return false
-        if (!val.includes(String(clause.value))) return false
-      } else {
-        // unknown operator: treat as non-matching for the minimal slice
-        return false
+      // basic clause shape validation: must have a string column and string operator
+      if (!clause || typeof clause.column !== 'string' || typeof clause.operator !== 'string') {
+        if (process && process.env && process.env.NODE_ENV !== 'production') {
+          console.warn(
+            `applyFilters: malformed clause detected and ignored: ${JSON.stringify(clause)}`,
+          )
+        }
+        // ignore malformed clause
+        continue
       }
+      // If a columns map/array is provided, prefer the ColumnDef.field to resolve the value
+      let val: unknown = (r as Row)[clause.column]
+      let colDef: ColumnDef | undefined = undefined
+      if (Array.isArray(columns)) {
+        colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
+      } else if (columns && typeof columns === 'object') {
+        colDef = (columns as Record<string, ColumnDef>)[clause.column]
+      }
+      if (colDef && colDef.field !== undefined) {
+        val = resolveFieldValue(r as Row, colDef.field as FieldPath)
+      }
+      const op = clause.operator
+
+      // column-level filterFunction override
+      if (colDef && typeof colDef.filterFunction === 'function') {
+        // filterFunction returns boolean
+        if (
+          !(
+            colDef.filterFunction as unknown as (
+              v: unknown,
+              clauseVal: unknown,
+              row?: Row,
+              clause?: FilterClause,
+            ) => boolean
+          )(val, clause.value, r, clause)
+        )
+          return false
+        continue
+      }
+
+      // validate common operator shapes and emit dev warnings for malformed clauses
+      // unknown operators are ignored (clause treated as no-op) and warn in dev
+      if (op === 'eq') {
+        if (!opEq(val, clause.value)) return false
+        continue
+      }
+      if (op === 'ne') {
+        if (!opNe(val, clause.value)) return false
+        continue
+      }
+      if (op === 'lt' || op === 'lte' || op === 'gt' || op === 'gte') {
+        const relOp = op as 'lt' | 'lte' | 'gt' | 'gte'
+        if (!opRelational(val, clause.value, relOp)) return false
+        continue
+      }
+      if (op === 'contains') {
+        if (!opContains(val, clause.value, caseSensitive)) return false
+        continue
+      }
+      if (op === 'startsWith') {
+        if (!opStartsWith(val, clause.value, caseSensitive)) return false
+        continue
+      }
+      if (op === 'endsWith') {
+        if (!opEndsWith(val, clause.value, caseSensitive)) return false
+        continue
+      }
+
+      if (op === 'in') {
+        // opIn already treats non-array clauseVal as equality; no warnings
+        if (!opIn(val, clause.value)) return false
+        continue
+      }
+
+      if (op === 'between') {
+        // must be an array of length 2
+        if (!Array.isArray(clause.value) || clause.value.length !== 2) {
+          if (process && process.env && process.env.NODE_ENV !== 'production') {
+            // warn in dev when clauses are malformed
+
+            console.warn(`applyFilters: malformed 'between' clause for column "${clause.column}"`)
+          }
+          // ignore malformed clause (treat as no-op)
+          continue
+        }
+        if (!opBetween(val, clause.value)) return false
+        continue
+      }
+
+      // Unknown operator: warn in dev and ignore the clause
+      if (process && process.env && process.env.NODE_ENV !== 'production') {
+        console.warn(
+          `applyFilters: unknown operator '${op}' on column "${clause.column}" - clause ignored`,
+        )
+      }
+      // treat unknown operator as no-op
+      continue
     }
     return true
   })
@@ -57,20 +329,64 @@ export function applyFilters(rows: ReadonlyArray<Row>, filter: FilterClause[] | 
  * @param sort - array of sort clauses or null
  * @returns new sorted array
  */
-export function applySort(rows: ReadonlyArray<Row>, sort: SortClause[] | null): Row[] {
+export function applySort(
+  rows: ReadonlyArray<Row>,
+  sort: SortClause[] | null,
+  columns?: ColumnDef[] | Record<string, ColumnDef>,
+): Row[] {
   if (!sort || sort.length === 0) return rows.slice()
-
-  const primary = sort[0]
   const copy = rows.slice()
   copy.sort((a, b) => {
-    const av = (a as Row)[primary.column]
-    const bv = (b as Row)[primary.column]
-    if (isNil(av) && isNil(bv)) return 0
-    if (isNil(av)) return -1
-    if (isNil(bv)) return 1
-    // rely on JS ordering for primitives; keep minimal and explicit
-    if (av < bv) return primary.direction === 'asc' ? -1 : 1
-    if (av > bv) return primary.direction === 'asc' ? 1 : -1
+    for (const clause of sort) {
+      // resolve values using ColumnDef.field when columns mapping is available
+      let colDef: ColumnDef | undefined = undefined
+      if (Array.isArray(columns)) {
+        colDef = (columns as ColumnDef[]).find((c) => c.key === clause.column)
+      } else if (columns && typeof columns === 'object') {
+        colDef = (columns as Record<string, ColumnDef>)[clause.column]
+      }
+
+      const av =
+        colDef && colDef.field !== undefined
+          ? resolveFieldValue(a as Row, colDef.field as FieldPath)
+          : (a as Row)[clause.column]
+      const bv =
+        colDef && colDef.field !== undefined
+          ? resolveFieldValue(b as Row, colDef.field as FieldPath)
+          : (b as Row)[clause.column]
+
+      // both missing -> continue to next clause
+      if (isMissingValue(av) && isMissingValue(bv)) continue
+      if (isMissingValue(av)) return -1
+      if (isMissingValue(bv)) return 1
+
+      const aNum = tryCoerceNumber(av)
+      const bNum = tryCoerceNumber(bv)
+
+      // column-level sortFunction support: if present, use it to compare
+      // colDef already computed above
+      if (colDef && typeof colDef.sortFunction === 'function') {
+        const cmp = (
+          colDef.sortFunction as unknown as (x: unknown, y: unknown, xr?: Row, yr?: Row) => number
+        )(av, bv, a, b)
+        if (cmp !== 0) return clause.direction === 'asc' ? (cmp < 0 ? -1 : 1) : cmp < 0 ? 1 : -1
+        continue
+      }
+
+      let cmp = 0
+      if (aNum !== null && bNum !== null) {
+        cmp = aNum < bNum ? -1 : aNum > bNum ? 1 : 0
+      } else {
+        const aStr = String(av)
+        const bStr = String(bv)
+        if (aStr < bStr) cmp = -1
+        else if (aStr > bStr) cmp = 1
+        else cmp = 0
+      }
+
+      if (cmp !== 0) return clause.direction === 'asc' ? cmp : -cmp
+      // else continue to next clause for tie-breaker
+    }
     return 0
   })
   return copy

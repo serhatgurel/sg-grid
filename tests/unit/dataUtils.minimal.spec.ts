@@ -1,3 +1,6 @@
+// Minimal integration tests for dataUtils covering basic filter/sort combinations
+// Intended to validate core behavior with simple data shapes.
+
 import { describe, it, expect } from 'vitest'
 import { applyFilters, applySort } from '../../src/lib/dataUtils'
 
