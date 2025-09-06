@@ -12,12 +12,15 @@ describe('SgGrid filter UI extras', () => {
     const cols = [{ key: 'k1', field: 'name', caption: 'Name', filterable: true }]
     const wrapper = mount(SgGrid, { props: { columns: cols, rows: [], rowKey: 'id' } })
     const input = wrapper.find('[data-test-filter-input]')
-    const clear = wrapper.find('[data-test-filter-clear]')
+    // clear button is hidden until there is text
+    let clear = wrapper.find('[data-test-filter-clear]')
     expect(input.exists()).toBe(true)
-    expect(clear.exists()).toBe(true)
+    expect(clear.exists()).toBe(false)
 
-    // simulate typing and immediately pressing clear
+    // simulate typing, the clear button should appear, then pressing clear
     await input.setValue('test')
+    clear = wrapper.find('[data-test-filter-clear]')
+    expect(clear.exists()).toBe(true)
     await clear.trigger('click')
 
     const emittedUnknown = wrapper.emitted()['update:filter'] as unknown

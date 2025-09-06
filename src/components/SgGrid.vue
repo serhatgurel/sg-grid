@@ -139,6 +139,7 @@
                   @input="onFilterInput(column, $event)"
                 />
                 <button
+                  v-if="filterValues[column.key]"
                   data-test-filter-clear
                   aria-label="Clear filter"
                   @click="
@@ -695,7 +696,7 @@ const vTruncateTooltip = truncateTooltip
   display: flex;
   align-items: center;
   gap: 4px;
-  border: 1px solid #000; /* thin black border */
+  border: none; /* hide border per design */
   background: #fff; /* base white background when not empty */
   padding: 2px 4px;
   position: relative;
