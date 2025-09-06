@@ -22,7 +22,8 @@ export function mountWithDefaults<T extends ComponentPublicInstance>(
     ...options,
   }
 
-  return mount<T>(component, defaultOptions)
+  // `mount` has complex generics; cast to any here to keep the helper flexible for tests
+  return mount<T>(component as any, defaultOptions as any)
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
