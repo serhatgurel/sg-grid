@@ -53,7 +53,11 @@
               <!-- left-aligned filter indicator (shows when column is filterable) -->
               <span data-test-filter-indicator v-if="column.filterable" class="sg-filter-indicator">
                 <span class="sg-indicator-neutral" aria-hidden="true">
-                  <span class="material-symbols-outlined">filter_alt</span>
+                  <FilterIcon
+                    class="sg-icon-inline"
+                    size="16"
+                    :color="getComputedIconColor('neutral')"
+                  />
                 </span>
                 <span class="visually-hidden">Filterable</span>
               </span>
@@ -64,11 +68,16 @@
                   <!-- when sorted: show single active arrow and optional order badge -->
                   <template v-if="getSortInfo(column.key)">
                     <span class="sg-indicator-active" aria-hidden="true">
-                      <span class="material-symbols-outlined">{{
-                        getSortInfoSafe(column.key).direction === 'asc'
-                          ? 'arrow_upward'
-                          : 'arrow_downward'
-                      }}</span>
+                      <component
+                        :is="
+                          getSortInfoSafe(column.key).direction === 'asc'
+                            ? ArrowUpIcon
+                            : ArrowDownIcon
+                        "
+                        class="sg-icon-inline"
+                        size="16"
+                        :color="getComputedIconColor('active')"
+                      />
                       <span class="visually-hidden">{{
                         getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼'
                       }}</span>
@@ -85,7 +94,11 @@
                   <!-- when not sorted: show neutral stacked chevrons to indicate sortable affordance -->
                   <template v-else>
                     <span class="sg-indicator-neutral" aria-hidden="true">
-                      <span class="material-symbols-outlined">sort</span>
+                      <SortIcon
+                        class="sg-icon-inline"
+                        size="16"
+                        :color="getComputedIconColor('neutral')"
+                      />
                     </span>
                   </template>
                 </template>
@@ -150,12 +163,23 @@
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
+// inline SVG imports (raw) so we can embed and style via CSS/fill/currentColor
+import FilterIcon from './icons/FilterIcon.vue'
+import SortIcon from './icons/SortIcon.vue'
+import ArrowUpIcon from './icons/ArrowUpIcon.vue'
+import ArrowDownIcon from './icons/ArrowDownIcon.vue'
 import type { SgGridPropTypes, ColumnDef, RowData } from './types'
 import SgColumn from './SgColumn.vue'
 
 const props = defineProps<SgGridPropTypes>()
 
 const slots = useSlots()
+
+// helper to determine icon color by state; returns CSS color string (uses currentColor by default)
+function getComputedIconColor(state: 'neutral' | 'active') {
+  // keep icons using currentColor from their container; we can override here if desired
+  return state === 'active' ? 'currentColor' : 'currentColor'
+}
 
 const declaredColumns = computed<ColumnDef[]>(() => {
   const nodes = slots.default ? slots.default() : []
@@ -494,24 +518,22 @@ const rowsToRender = computed(() => {
   justify-content: center;
   color: #9ca3af; /* neutral color */
 }
-.sg-indicator-neutral .material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 20;
-  font-size: 16px;
+.sg-indicator-neutral .sg-icon-inline svg {
+  color: inherit;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  opacity: 0.7; /* neutral look */
 }
 .sg-indicator-active {
   color: #111827;
 }
-.sg-indicator-active .material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 600,
-    'GRAD' 0,
-    'opsz' 20;
-  font-size: 16px;
+.sg-indicator-active .sg-icon-inline svg {
+  color: inherit;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  opacity: 1;
 }
 /* tighten header padding so content (including icons) sits closer to cell edge */
 .sg-grid-table th {
@@ -571,13 +593,19 @@ const rowsToRender = computed(() => {
   font-size: 12px;
   padding: 0 2px;
 }
-.sg-filter-indicator .material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 20;
-  font-size: 16px;
-  color: #9ca3af; /* neutral gray when inactive */
+.sg-filter-indicator .sg-icon-inline svg {
+  color: inherit;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  opacity: 0.7;
+}
+
+/* SVG icon sizing to match material icon glyphs */
+.sg-icon-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
 }
 </style>

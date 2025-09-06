@@ -10,10 +10,13 @@ describe('SgGrid header icons and caption rendering', () => {
 
     const indicator = wrapper.find('[data-test-filter-indicator]')
     expect(indicator.exists()).toBe(true)
-    // verify the symbol text is present (material icon glyph text)
-    const icon = indicator.find('.material-symbols-outlined')
-    expect(icon.exists()).toBe(true)
-    expect(icon.text()).toBe('filter_alt')
+    // verify the filter icon is present as an SVG image
+    const iconWrapper = indicator.find('.sg-icon-inline')
+    expect(iconWrapper.exists()).toBe(true)
+    // the icon component may render the SVG as the root element
+    expect(
+      iconWrapper.element.tagName.toLowerCase() === 'svg' || iconWrapper.find('svg').exists(),
+    ).toBe(true)
   })
 
   test('renders sort affordance when column is sortable (neutral state)', () => {
@@ -24,9 +27,11 @@ describe('SgGrid header icons and caption rendering', () => {
     expect(indicator.exists()).toBe(true)
 
     // neutral sort affordance should show the generic 'sort' symbol when not actively sorted
-    const neutral = indicator.find('.sg-indicator-neutral .material-symbols-outlined')
-    expect(neutral.exists()).toBe(true)
-    expect(neutral.text()).toBe('sort')
+    const neutralWrapper = indicator.find('.sg-indicator-neutral .sg-icon-inline')
+    expect(neutralWrapper.exists()).toBe(true)
+    expect(
+      neutralWrapper.element.tagName.toLowerCase() === 'svg' || neutralWrapper.find('svg').exists(),
+    ).toBe(true)
   })
 
   test('renders both filter and sort indicators when column is filterable and sortable', () => {
@@ -37,8 +42,16 @@ describe('SgGrid header icons and caption rendering', () => {
     const sort = wrapper.find('[data-test-sort-indicator]')
     expect(filter.exists()).toBe(true)
     expect(sort.exists()).toBe(true)
-    expect(filter.find('.material-symbols-outlined').text()).toBe('filter_alt')
-    expect(sort.find('.sg-indicator-neutral .material-symbols-outlined').text()).toBe('sort')
+    const fwrapper = filter.find('.sg-icon-inline')
+    const swrapper = sort.find('.sg-indicator-neutral .sg-icon-inline')
+    expect(fwrapper.exists()).toBe(true)
+    expect(swrapper.exists()).toBe(true)
+    expect(fwrapper.element.tagName.toLowerCase() === 'svg' || fwrapper.find('svg').exists()).toBe(
+      true,
+    )
+    expect(swrapper.element.tagName.toLowerCase() === 'svg' || swrapper.find('svg').exists()).toBe(
+      true,
+    )
   })
 
   test('long captions render intact (no truncation by component)', () => {
