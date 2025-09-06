@@ -1,8 +1,14 @@
+---
+applyTo: '**/*.md'
+description: 'Guidance for writing short, conventional commit messages (cheat-sheet).'
+---
+
 # Commit Message Cheat Sheet
 
 TL;DR: Keep the subject short (<=50 chars), use imperative mood, separate header/body, explain why (not how), and use common types (see **Common types** below) when helpful.
 
 ## Common types (Conventional Commits - quick)
+
 - feat – a new feature is introduced with the changes
 - fix – a bug fix has occurred
 - chore – changes that do not relate to a fix or feature and don't modify src or test files (for example updating dependencies)
@@ -26,6 +32,7 @@ Optional body (one or more paragraphs)
 Optional footer (references, breaking changes)
 
 ## Header rules
+
 - Format: `type(scope): short subject`
   - `type` examples: feat, fix, docs, style, refactor, perf, test, chore
   - `scope` is optional and describes the area (e.g., `ui`, `api`)
@@ -38,8 +45,9 @@ Good: `feat(auth): add JWT refresh endpoint`
 Bad: `Added a refresh token endpoint.`
 
 ## Body (optional)
+
 - Leave a blank line between header and body
-- Explain *what* and *why*, not *how*
+- Explain _what_ and _why_, not _how_
 - Wrap lines at ~72 characters
 - Use bullet points for lists or to explain tradeoffs
 
@@ -54,11 +62,13 @@ refresh tokens for session continuity. The change introduces a new
 ```
 
 ## Footer (optional)
+
 - Reference issues: `Refs #123` or `Closes #123` (use `Closes` to auto-close)
 - Mention breaking changes: `BREAKING CHANGE: description`
 
 ## Quick pre-commit checklist
-- [ ] Is the subject <= 50 chars and imperative? 
+
+- [ ] Is the subject <= 50 chars and imperative?
 - [ ] Did I include a scope if it clarifies the change?
 - [ ] Did I write a body only when it helps explain _why_?
 - [ ] Did I reference relevant issues or breaking changes?
