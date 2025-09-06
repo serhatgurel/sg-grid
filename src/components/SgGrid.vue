@@ -46,17 +46,25 @@
               if (column.sortable) onHeaderSortClick(column, e as unknown as MouseEvent)
             }
           "
+          class="sg-header-cell"
         >
           <slot name="header" :column="column">
             <div style="display: flex; align-items: center; gap: 6px">
               <span>{{ column.caption ?? column.field }}</span>
-              <!-- consolidated sort indicator: reserved space; render chevrons only when column.sortable -->
-              <span data-test-sort-indicator class="sg-sort-indicator" style="margin-left: 6px">
+              <!-- put sort indicator absolutely at the far right edge of the header cell -->
+              <span data-test-sort-indicator class="sg-sort-indicator">
                 <template v-if="column.sortable">
                   <!-- when sorted: show single active arrow and optional order badge -->
                   <template v-if="getSortInfo(column.key)">
                     <span class="sg-indicator-active" aria-hidden="true">
-                      {{ getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼' }}
+                      <span class="material-symbols-outlined">{{
+                        getSortInfoSafe(column.key).direction === 'asc'
+                          ? 'arrow_upward'
+                          : 'arrow_downward'
+                      }}</span>
+                      <span class="visually-hidden">{{
+                        getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼'
+                      }}</span>
                     </span>
                     <sup
                       v-if="
@@ -69,7 +77,9 @@
                   </template>
                   <!-- when not sorted: show neutral stacked chevrons to indicate sortable affordance -->
                   <template v-else>
-                    <span class="sg-indicator-neutral" aria-hidden="true"></span>
+                    <span class="sg-indicator-neutral" aria-hidden="true">
+                      <span class="material-symbols-outlined">sort</span>
+                    </span>
                   </template>
                 </template>
                 <!-- when not sortable: empty placeholder preserved for layout -->
@@ -466,30 +476,39 @@ const rowsToRender = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px; /* fixed width to prevent layout shift */
+  min-width: 12px; /* minimal reserved space to prevent layout shift */
   height: 18px;
   font-size: 12px;
+  padding: 0 2px;
 }
 .sg-indicator-neutral {
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: #9ca3af; /* neutral color */
-  line-height: 10px;
 }
-.sg-indicator-neutral::before,
-.sg-indicator-neutral::after {
-  display: block;
-  content: '▲';
-  font-size: 10px;
-  line-height: 10px;
-}
-.sg-indicator-neutral::after {
-  content: '▼';
+.sg-indicator-neutral .material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 20;
+  font-size: 16px;
 }
 .sg-indicator-active {
   color: #111827;
-  font-size: 12px;
+}
+.sg-indicator-active .material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 20;
+  font-size: 16px;
+}
+/* tighten header padding so content (including icons) sits closer to cell edge */
+.sg-grid-table th {
+  padding: 4px 6px;
 }
 .sg-sort-order {
   font-size: 10px;
@@ -508,5 +527,25 @@ const rowsToRender = computed(() => {
 }
 .sg-grid-table th[tabindex] {
   cursor: pointer;
+}
+
+/* position header as relative so the indicator can sit at the extreme right */
+.sg-header-cell {
+  position: relative;
+  padding-right: 6px; /* small padding to keep icon off the absolute edge */
+}
+
+.sg-header-cell .sg-sort-indicator {
+  position: absolute;
+  right: 2px; /* move indicator very close to the border */
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 1px;
+  min-width: 0; /* allow icon to occupy minimal space */
+}
+
+/* ensure filter controls don't overlap the absolutely positioned indicator */
+.sg-header-cell > div {
+  padding-right: 28px; /* leave room for indicator and possible order badge */
 }
 </style>
