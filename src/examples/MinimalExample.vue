@@ -3,6 +3,10 @@ import { computed } from 'vue'
 import rowsJson from './people.json'
 import SgGrid from '@/components/SgGrid.vue'
 import SgColumn from '@/components/SgColumn.vue'
+import ExampleTabs from '@/components/ExampleTabs.vue'
+// load the changelog and notes kept alongside the minimal example (safe fallback)
+import minimalChangelogRaw from './MinimalExample.changelog.md?raw'
+import minimalNotesRaw from './MinimalExample.notes.md?raw'
 
 interface RowDef {
   id?: string
@@ -42,6 +46,13 @@ const columns = [
     width: '120px',
   },
 ]
+
+const minimalChangelog =
+  (typeof minimalChangelogRaw === 'string' && minimalChangelogRaw) || 'No changelog available.'
+const minimalNotes =
+  (typeof minimalNotesRaw === 'string' && minimalNotesRaw) || 'No notes available.'
+
+// ExampleTabs manages its own selection; no example-level selectedView needed.
 </script>
 
 <template>
@@ -121,7 +132,20 @@ const columns = [
     :serverSide="true"
     @request:page="onRequestPage"
   />
+
+  <div style="margin-top: 16px">
+    <ExampleTabs
+      :notes="minimalNotes"
+      :changelog="minimalChangelog"
+      title="Changelog"
+      aria-label="Minimal example views"
+    />
+  </div>
 </template>
+
+<style scoped>
+/* MinimalExample uses shared ExampleTabs styles via the component */
+</style>
 
 <script lang="ts">
 // Minimal example handler to satisfy template reference

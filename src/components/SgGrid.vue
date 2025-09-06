@@ -1,6 +1,6 @@
 <template>
   <table class="sg-grid-table">
-    <caption v-if="props.caption">
+    <caption v-if="props.caption" class="sg-grid-caption">
       {{
         props.caption
       }}
@@ -388,3 +388,12 @@ function getRowKey(row: RowData) {
   return String(row[props.rowKey as string])
 }
 </script>
+
+<style scoped>
+.sg-grid-caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+</style>
