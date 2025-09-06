@@ -323,8 +323,8 @@ if (
     /* ignore */
   }
 }
-import type { SortClause } from '../lib/dataUtils'
-import { applySort } from '../lib/dataUtils'
+import type { SortClause, FilterClause } from '../lib/dataUtils'
+import { applySort, applyFilters } from '../lib/dataUtils'
 
 // local sort state for header interactions. Start from provided prop if present.
 const localSort = ref<SortClause[]>(
@@ -525,10 +525,29 @@ function isNumericColumn(col: ColumnDef | undefined): boolean {
 
 const rowsToRender = computed(() => {
   const base = props.rows || []
-  // if server side, the host manages sorting; render rows as-is
+  // if server side, the host manages sorting/filtering; render rows as-is
   if (props.serverSide) return base
-  // client-side: apply localSort if present
-  return applySort(base, localSort.value.length ? localSort.value : null, columns.value)
+
+  // Determine filter clauses: prefer externally controlled `props.filter`.
+  // If none provided, derive clauses from local `filterValues` UI state.
+  let clauses: FilterClause[] | null = (props.filter as FilterClause[] | null) ?? null
+  if (!clauses) {
+    const derived: { column: string; operator: string; value: unknown }[] = []
+    for (const k of Object.keys(filterValues.value || {})) {
+      const v = (filterValues.value as Record<string, string>)[k]
+      if (v !== undefined && v !== null && String(v).trim() !== '') {
+        derived.push({ column: k, operator: 'contains', value: v })
+      }
+    }
+    clauses = derived.length ? (derived as unknown as FilterClause[]) : null
+  }
+
+  // apply filters client-side when present
+  const filtered =
+    clauses && clauses.length ? applyFilters(base, clauses, columns.value) : base.slice()
+
+  // then apply client-side sort if present
+  return applySort(filtered, localSort.value.length ? localSort.value : null, columns.value)
 })
 
 // Directive: v-truncate-tooltip adds a title attribute only when the element's

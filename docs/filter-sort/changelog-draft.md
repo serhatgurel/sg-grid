@@ -11,6 +11,14 @@ Summary
 - Accessibility: keyboard activation and `aria-sort` attributes for headers.
 - Types: exported TypeScript types for filter/sort clauses and operator signatures; added a small type-level test to keep typings correct.
 
+- UI & UX refinements (headers / filter editors):
+	- Reworked header layout so filter icon, truncated caption, and sort icon order is consistent and visually compact.
+	- Added a robust truncation tooltip directive that sets a title only when header text is actually truncated.
+	- Header filter editors now show a left-aligned search icon and a right-side clear/close icon; the close icon is only visible when the input contains text.
+	- Filter editor styling: empty state shows a light-gray background; on focus the editor becomes white and icons hide so the caret is the primary focus.
+	- Filter inputs emit debounced `update:filter` events and client-side filtering is applied when `serverSide` is false; when `serverSide` is true, filters only emit events and the host handles filtering.
+
+
 Notes
 
 - This is a draft changelog entry intended for review. It lists major user-facing changes and developer notes. Adjust wording for release notes as needed.
