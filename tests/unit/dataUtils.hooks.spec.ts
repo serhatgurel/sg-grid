@@ -14,7 +14,7 @@ describe('dataUtils - column-level hook overrides', () => {
       key: 'name',
       field: 'name',
       // only match rows whose name starts with 'B'
-      filterFunction: (cellValue: unknown, clauseValue: unknown) => {
+      filterFunction: (cellValue: unknown) => {
         // ignore clauseValue and implement custom logic for test
         return String(cellValue).startsWith('B')
       },

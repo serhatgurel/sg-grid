@@ -3,8 +3,7 @@
 // Requires: npm install faker@5.5.3 @types/node ts-node typescript
 
 import fs from 'fs'
-import { faker } from '@faker-js/faker';
-
+import { faker } from '@faker-js/faker'
 
 interface Address {
   street: string
@@ -47,13 +46,15 @@ interface Education {
   year: number
 }
 
-interface Certification {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+interface _Certification {
   name: string
 }
 
-interface Membership {
+interface _Membership {
   name: string
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 interface EmergencyContact {
   name: string
@@ -197,8 +198,7 @@ function randomSocialProfiles(): SocialProfile[] {
   const platforms = ['Twitter', 'Facebook', 'Instagram', 'LinkedIn', 'VK']
   return randomArray(
     () => ({
-      platform: faker.helpers.arrayElement
-(platforms),
+      platform: faker.helpers.arrayElement(platforms),
       handle: faker.internet.username(),
     }),
     0,
@@ -315,8 +315,7 @@ function randomPets(): Pet[] {
   const types = ['dog', 'cat', 'bird', 'fish', 'hamster', 'rabbit', 'turtle']
   return randomArray(
     () => ({
-      type: faker.helpers.arrayElement
-(types),
+      type: faker.helpers.arrayElement(types),
       name: faker.person.firstName(),
       age: randomInt(1, 15),
     }),
@@ -345,10 +344,8 @@ function randomEducation(): Education[] {
   ]
   return randomArray(
     () => ({
-      degree: faker.helpers.arrayElement
-(degrees),
-      field: faker.helpers.arrayElement
-(fields),
+      degree: faker.helpers.arrayElement(degrees),
+      field: faker.helpers.arrayElement(fields),
       institution: faker.company.name(),
       year: randomInt(1980, 2023),
     }),
@@ -415,16 +412,14 @@ function randomPersonalityType(): string {
     'INFP',
     'ISFJ',
   ]
-  return faker.helpers.arrayElement
-(types)
+  return faker.helpers.arrayElement(types)
 }
 
 function randomEmergencyContacts(): EmergencyContact[] {
   return randomArray(
     () => ({
       name: faker.person.fullName(),
-      relation: faker.helpers.arrayElement
-([
+      relation: faker.helpers.arrayElement([
         'father',
         'mother',
         'wife',
@@ -461,14 +456,15 @@ function makePerson(id: number): Person {
   return {
     id: `r${id + 1}`,
     title: faker.person.prefix(),
-    gender: faker.helpers.arrayElement
-(['M', 'F', 'O']),
+    gender: faker.helpers.arrayElement(['M', 'F', 'O']),
     ...names,
     phone: randomPhones(),
     age: randomInt(18, 65),
-    birthdate: faker.date.past({ years: 65, refDate: new Date('2007-01-01') }).toISOString().slice(0, 10),
-    married: faker.helpers.arrayElement
-(['single', 'married', 'de-facto']),
+    birthdate: faker.date
+      .past({ years: 65, refDate: new Date('2007-01-01') })
+      .toISOString()
+      .slice(0, 10),
+    married: faker.helpers.arrayElement(['single', 'married', 'de-facto']),
     spouse: Math.random() < 0.5 ? faker.person.fullName() : '',
     address: randomAddresses(),
     hobbies: randomHobbies(),

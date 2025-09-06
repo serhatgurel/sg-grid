@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { mount } from '@vue/test-utils'
 import type { MountingOptions, VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
@@ -12,7 +13,7 @@ export function mountWithSgGrid(
     rows?: Row[]
     columns?: Column[]
     props?: Record<string, unknown>
-    mountOptions?: MountingOptions<ComponentPublicInstance>
+    mountOptions?: MountingOptions<any>
   } = {},
 ) {
   const rows = (options.rows ?? sampleRows) as Row[]
@@ -50,5 +51,6 @@ export function mountWithSgGrid(
 
   return { wrapper, headerCells, findHeaderByKey, clickHeaderSort, cellText }
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default mountWithSgGrid

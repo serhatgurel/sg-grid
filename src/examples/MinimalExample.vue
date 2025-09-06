@@ -52,15 +52,13 @@ const columns = [
 
   <SgGrid
     :rows="
-      rows
-        .slice(0, 5)
-        .map((r) => ({
-          id: r.id,
-          title: r.title,
-          firstName: r.firstName,
-          lastName: r.lastName,
-          email: r.email,
-        }))
+      rows.slice(0, 5).map((r) => ({
+        id: r.id,
+        title: r.title,
+        firstName: r.firstName,
+        lastName: r.lastName,
+        email: r.email,
+      }))
     "
     rowKey="id"
     caption="NO COLUMNS EXAMPLE"
@@ -125,8 +123,11 @@ const columns = [
   />
 </template>
 
-function onRequestPage(payload: unknown) { // Demo handler: in a real app you would query a server
-using payload.page/pageSize/sort/filter // For this minimal example we do nothing (playground shows
-a richer server-side demo). // Keeping a no-op handler ensures the template reference type-checks.
-// eslint-disable-next-line no-console console.debug('MinimalExample: request:page payload',
-payload) }
+<script lang="ts">
+// Minimal example handler to satisfy template reference
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export function onRequestPage(_payload: unknown) {
+  // no-op in the minimal example
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+</script>

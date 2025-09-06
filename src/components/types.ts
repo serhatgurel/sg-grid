@@ -113,7 +113,7 @@ export interface SgGridPropTypes {
   caption?: string
   serverSide?: boolean
   sort?: unknown
-  filter?: unknown[]
+  filter?: unknown[] | null
   page?: number
   pageSize?: number
 }

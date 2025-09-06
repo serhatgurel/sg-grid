@@ -179,32 +179,52 @@ const emit = defineEmits(['update:sort', 'update:filter', 'request:page'])
 import { ref } from 'vue'
 // In some JSDOM/test environments element.focus() doesn't fire focus events.
 // Polyfill focus to dispatch focus/focusin so tests that call element.focus() behave as expected.
-if (typeof window !== 'undefined' && !(window as any).__SGGRID_focus_polyfilled) {
+if (
+  typeof window !== 'undefined' &&
+  !(window as unknown as Record<string, unknown>).__SGGRID_focus_polyfilled
+) {
   try {
-    const orig = (HTMLElement.prototype as any).focus
-    ;(HTMLElement.prototype as any).focus = function (...args: any[]) {
-      const res = orig && orig.apply ? orig.apply(this, args) : undefined
+    const orig = (HTMLElement.prototype as unknown as { focus?: (...args: unknown[]) => unknown })
+      .focus
+    ;(
+      HTMLElement.prototype as unknown as {
+        focus?: (this: HTMLElement, ...args: unknown[]) => unknown
+      }
+    ).focus = function (this: HTMLElement, ...args: unknown[]) {
+      const res =
+        orig && typeof orig === 'function'
+          ? (orig as (...a: unknown[]) => unknown).apply(this, args)
+          : undefined
       try {
         this.dispatchEvent(new FocusEvent('focus'))
         this.dispatchEvent(new FocusEvent('focusin'))
-      } catch (e) {
+      } catch {
         // ignore environments that don't support FocusEvent
       }
       return res
     }
-    const origBlur = (HTMLElement.prototype as any).blur
-    ;(HTMLElement.prototype as any).blur = function (...args: any[]) {
-      const res = origBlur && origBlur.apply ? origBlur.apply(this, args) : undefined
+    const origBlur = (
+      HTMLElement.prototype as unknown as { blur?: (...args: unknown[]) => unknown }
+    ).blur
+    ;(
+      HTMLElement.prototype as unknown as {
+        blur?: (this: HTMLElement, ...args: unknown[]) => unknown
+      }
+    ).blur = function (this: HTMLElement, ...args: unknown[]) {
+      const res =
+        origBlur && typeof origBlur === 'function'
+          ? (origBlur as (...a: unknown[]) => unknown).apply(this, args)
+          : undefined
       try {
         this.dispatchEvent(new FocusEvent('blur'))
         this.dispatchEvent(new FocusEvent('focusout'))
-      } catch (e) {
+      } catch {
         // ignore
       }
       return res
     }
-    ;(window as any).__SGGRID_focus_polyfilled = true
-  } catch (e) {
+    ;(window as unknown as Record<string, unknown>).__SGGRID_focus_polyfilled = true
+  } catch {
     /* ignore */
   }
 }
@@ -242,7 +262,7 @@ function onHeaderSortClick(column: ColumnDef, ev?: MouseEvent) {
   const shift = !!ev?.shiftKey
 
   // find existing index
-  const idx = localSort.value.findIndex((s) => s && s.column === key)
+  const idx = localSort.value.findIndex((s: SortClause | undefined) => s && s.column === key)
 
   if (!shift) {
     // non-shift: replace with single-column toggled state

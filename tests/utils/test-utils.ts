@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { mount, MountingOptions } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -24,4 +25,4 @@ export function mountWithDefaults<T extends ComponentPublicInstance>(
   return mount<T>(component, defaultOptions)
 }
 
-export default mountWithDefaults
+/* eslint-enable @typescript-eslint/no-explicit-any */

@@ -3,7 +3,7 @@ import { applyFilters } from '../../src/lib/dataUtils'
 
 describe('dataUtils validation (Task 30)', () => {
   let rows: Array<Record<string, unknown>>
-  let warnSpy: any
+  let warnSpy: ReturnType<typeof vi.spyOn>
 
   beforeEach(() => {
     rows = [

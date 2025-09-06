@@ -168,6 +168,8 @@ export function opBetween(val: unknown, clauseVal: unknown): boolean {
  * @returns new array of rows matching the filter
  */
 import type { ColumnDef, FilterClause, SortClause } from '../components/types'
+// Re-export clause types for consumers that import from dataUtils
+export type { FilterClause, SortClause }
 
 export function applyFilters(
   rows: ReadonlyArray<Row>,
@@ -186,7 +188,6 @@ export function applyFilters(
       // basic clause shape validation: must have a string column and string operator
       if (!clause || typeof clause.column !== 'string' || typeof clause.operator !== 'string') {
         if (process && process.env && process.env.NODE_ENV !== 'production') {
-          // eslint-disable-next-line no-console
           console.warn(
             `applyFilters: malformed clause detected and ignored: ${JSON.stringify(clause)}`,
           )
@@ -259,7 +260,7 @@ export function applyFilters(
         if (!Array.isArray(clause.value) || clause.value.length !== 2) {
           if (process && process.env && process.env.NODE_ENV !== 'production') {
             // warn in dev when clauses are malformed
-            // eslint-disable-next-line no-console
+
             console.warn(`applyFilters: malformed 'between' clause for column "${clause.column}"`)
           }
           // ignore malformed clause (treat as no-op)
@@ -271,7 +272,6 @@ export function applyFilters(
 
       // Unknown operator: warn in dev and ignore the clause
       if (process && process.env && process.env.NODE_ENV !== 'production') {
-        // eslint-disable-next-line no-console
         console.warn(
           `applyFilters: unknown operator '${op}' on column "${clause.column}" - clause ignored`,
         )
