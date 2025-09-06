@@ -24,7 +24,7 @@ const currentComponent = computed(() => {
       <div class="menubar-left">
         <div class="brand">SG-Grid</div>
         <nav class="nav">
-          <a href="#" @click.prevent="selected = 'full'">All Feature</a>
+          <a href="#" @click.prevent="selected = 'full'">All Features</a>
           <a href="#" @click.prevent="selected = 'minimal'">Minimal Example</a>
           <a href="#" @click.prevent="selected = 'playground'">Filter & Sort Playground</a>
         </nav>
