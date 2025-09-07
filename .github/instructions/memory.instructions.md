@@ -47,3 +47,5 @@ applyTo: '**'
 - Assume node/npm are available and tests run locally. If the runtime fails, report the exact failing command and error.
 
 # Progress (session)
+
+- Checklist items completed this session: 1
