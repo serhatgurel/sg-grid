@@ -1,176 +1,178 @@
 <template>
-  <table class="sg-grid-table">
-    <caption v-if="props.caption" class="sg-grid-caption">
-      {{
-        props.caption
-      }}
-    </caption>
-    <thead>
-      <tr>
-        <th
-          v-for="column in columns"
-          :key="column.key"
-          :style="columnStyle(column)"
-          role="columnheader"
-          :tabindex="column.sortable ? 0 : undefined"
-          :aria-sort="
-            getSortInfo(column.key)
-              ? getSortInfoSafe(column.key).direction === 'asc'
-                ? 'ascending'
-                : 'descending'
-              : undefined
-          "
-          @keydown="
-            (e) => {
-              if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
-                e.preventDefault()
-                onHeaderSortClick(column, e as unknown as MouseEvent)
+  <div class="sg-grid-shell">
+    <table class="sg-grid-table">
+      <caption v-if="props.caption" class="sg-grid-caption">
+        {{
+          props.caption
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th
+            v-for="column in columns"
+            :key="column.key"
+            :style="columnStyle(column)"
+            role="columnheader"
+            :tabindex="column.sortable ? 0 : undefined"
+            :aria-sort="
+              getSortInfo(column.key)
+                ? getSortInfoSafe(column.key).direction === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : undefined
+            "
+            @keydown="
+              (e) => {
+                if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault()
+                  onHeaderSortClick(column, e as unknown as MouseEvent)
+                }
               }
-            }
-          "
-          @focus="() => onHeaderFocus(column.key)"
-          @blur="() => onHeaderBlur(column.key)"
-          @focusin="
-            (e) => {
-              ;(e.currentTarget as HTMLElement).classList.add('sg-header--focused')
-            }
-          "
-          @focusout="
-            (e) => {
-              ;(e.currentTarget as HTMLElement).classList.remove('sg-header--focused')
-            }
-          "
-          :class="{ 'sg-header--focused': focusedHeader === column.key }"
-          @click="
-            (e) => {
-              if (column.sortable) onHeaderSortClick(column, e as unknown as MouseEvent)
-            }
-          "
-          class="sg-header-cell"
-        >
-          <slot name="header" :column="column">
-            <div class="sg-header-wrapper">
-              <div class="sg-header-inner">
-                <!-- Filter icon (left) -->
-                <span
-                  v-if="column.filterable"
-                  data-test-filter-indicator
-                  class="sg-filter-indicator"
-                >
-                  <span class="sg-indicator-neutral" aria-hidden="true">
-                    <FilterIcon
-                      class="sg-icon-inline"
-                      size="16"
-                      :color="getComputedIconColor('neutral')"
-                    />
-                  </span>
-                  <span class="visually-hidden">Filterable</span>
-                </span>
-                <!-- Header text with ellipsis. Always between icons. -->
-                <span
-                  class="sg-header-text"
-                  :class="isNumericColumn(column) ? 'align-right' : 'align-left'"
-                  v-truncate-tooltip="String(column.caption ?? column.field)"
-                >
-                  {{ column.caption ?? column.field }}
-                </span>
-                <!-- Sort icon (right) -->
-                <span v-if="column.sortable" data-test-sort-indicator class="sg-sort-indicator">
-                  <template v-if="getSortInfo(column.key)">
-                    <span class="sg-indicator-active" aria-hidden="true">
-                      <component
-                        :is="
-                          getSortInfoSafe(column.key).direction === 'asc'
-                            ? ArrowUpIcon
-                            : ArrowDownIcon
-                        "
-                        class="sg-icon-inline"
-                        size="16"
-                        :color="getComputedIconColor('active')"
-                      />
-                      <span class="visually-hidden">{{
-                        getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼'
-                      }}</span>
-                    </span>
-                    <sup
-                      v-if="
-                        getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
-                      "
-                      data-test-sort-order
-                      class="sg-sort-order"
-                      >{{ getSortInfoSafe(column.key).order }}</sup
-                    >
-                  </template>
-                  <template v-else>
+            "
+            @focus="() => onHeaderFocus(column.key)"
+            @blur="() => onHeaderBlur(column.key)"
+            @focusin="
+              (e) => {
+                ;(e.currentTarget as HTMLElement).classList.add('sg-header--focused')
+              }
+            "
+            @focusout="
+              (e) => {
+                ;(e.currentTarget as HTMLElement).classList.remove('sg-header--focused')
+              }
+            "
+            :class="{ 'sg-header--focused': focusedHeader === column.key }"
+            @click="
+              (e) => {
+                if (column.sortable) onHeaderSortClick(column, e as unknown as MouseEvent)
+              }
+            "
+            class="sg-header-cell"
+          >
+            <slot name="header" :column="column">
+              <div class="sg-header-wrapper">
+                <div class="sg-header-inner">
+                  <!-- Filter icon (left) -->
+                  <span
+                    v-if="column.filterable"
+                    data-test-filter-indicator
+                    class="sg-filter-indicator"
+                  >
                     <span class="sg-indicator-neutral" aria-hidden="true">
-                      <SortIcon
+                      <FilterIcon
                         class="sg-icon-inline"
                         size="16"
                         :color="getComputedIconColor('neutral')"
                       />
                     </span>
-                  </template>
-                </span>
-                <!-- Sort button (for tests / keyboard) placed after sort icon -->
-                <button
-                  v-if="column.sortable"
-                  data-test-sort-button
-                  class="sg-sort-button"
-                  @click.stop="onHeaderSortClick(column, $event)"
-                  :aria-label="`Sort ${column.caption ?? column.field}`"
+                    <span class="visually-hidden">Filterable</span>
+                  </span>
+                  <!-- Header text with ellipsis. Always between icons. -->
+                  <span
+                    class="sg-header-text"
+                    :class="isNumericColumn(column) ? 'align-right' : 'align-left'"
+                    v-truncate-tooltip="String(column.caption ?? column.field)"
+                  >
+                    {{ column.caption ?? column.field }}
+                  </span>
+                  <!-- Sort icon (right) -->
+                  <span v-if="column.sortable" data-test-sort-indicator class="sg-sort-indicator">
+                    <template v-if="getSortInfo(column.key)">
+                      <span class="sg-indicator-active" aria-hidden="true">
+                        <component
+                          :is="
+                            getSortInfoSafe(column.key).direction === 'asc'
+                              ? ArrowUpIcon
+                              : ArrowDownIcon
+                          "
+                          class="sg-icon-inline"
+                          size="16"
+                          :color="getComputedIconColor('active')"
+                        />
+                        <span class="visually-hidden">{{
+                          getSortInfoSafe(column.key).direction === 'asc' ? '▲' : '▼'
+                        }}</span>
+                      </span>
+                      <sup
+                        v-if="
+                          getSortInfoSafe(column.key).order && getSortInfoSafe(column.key).order > 1
+                        "
+                        data-test-sort-order
+                        class="sg-sort-order"
+                        >{{ getSortInfoSafe(column.key).order }}</sup
+                      >
+                    </template>
+                    <template v-else>
+                      <span class="sg-indicator-neutral" aria-hidden="true">
+                        <SortIcon
+                          class="sg-icon-inline"
+                          size="16"
+                          :color="getComputedIconColor('neutral')"
+                        />
+                      </span>
+                    </template>
+                  </span>
+                  <!-- Sort button (for tests / keyboard) placed after sort icon -->
+                  <button
+                    v-if="column.sortable"
+                    data-test-sort-button
+                    class="sg-sort-button"
+                    @click.stop="onHeaderSortClick(column, $event)"
+                    :aria-label="`Sort ${column.caption ?? column.field}`"
+                  >
+                    <span class="visually-hidden">Toggle sort</span>
+                  </button>
+                </div>
+                <!-- Filter input row sits below icons/text so text always remains between icons -->
+                <div
+                  v-if="column.filterable"
+                  class="sg-header-filter-ui"
+                  :class="{ 'is-empty': !(filterValues[column.key] ?? '') }"
                 >
-                  <span class="visually-hidden">Toggle sort</span>
-                </button>
+                  <span class="sg-filter-search-icon" aria-hidden="true">
+                    <SearchIcon size="14" />
+                  </span>
+                  <input
+                    :type="column.inputType ?? 'text'"
+                    data-test-filter-input
+                    :aria-label="`Filter ${column.caption ?? column.field}`"
+                    :value="filterValues[column.key] || ''"
+                    @input="onFilterInput(column, $event)"
+                  />
+                  <button
+                    v-if="filterValues[column.key]"
+                    data-test-filter-clear
+                    aria-label="Clear filter"
+                    @click="
+                      (e) => {
+                        ;(e as Event).preventDefault()
+                        onFilterClear()
+                      }
+                    "
+                  >
+                    <CloseIcon class="sg-icon-inline" size="14" />
+                  </button>
+                </div>
               </div>
-              <!-- Filter input row sits below icons/text so text always remains between icons -->
-              <div
-                v-if="column.filterable"
-                class="sg-header-filter-ui"
-                :class="{ 'is-empty': !(filterValues[column.key] ?? '') }"
-              >
-                <span class="sg-filter-search-icon" aria-hidden="true">
-                  <SearchIcon size="14" />
-                </span>
-                <input
-                  :type="column.inputType ?? 'text'"
-                  data-test-filter-input
-                  :aria-label="`Filter ${column.caption ?? column.field}`"
-                  :value="filterValues[column.key] || ''"
-                  @input="onFilterInput(column, $event)"
-                />
-                <button
-                  v-if="filterValues[column.key]"
-                  data-test-filter-clear
-                  aria-label="Clear filter"
-                  @click="
-                    (e) => {
-                      ;(e as Event).preventDefault()
-                      onFilterClear()
-                    }
-                  "
-                >
-                  <CloseIcon class="sg-icon-inline" size="14" />
-                </button>
-              </div>
-            </div>
-          </slot>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in rowsToRender || []" :key="getRowKey(row)">
-        <sg-column
-          v-for="column in columns"
-          :key="`${getRowKey(row)}-${column.key}`"
-          :data-row="row"
-          :data-field="column.field"
-          :caption="column.caption"
-          :width="column.width"
-          :align="column.align"
-        />
-      </tr>
-    </tbody>
-  </table>
+            </slot>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in rowsToRender || []" :key="getRowKey(row)">
+          <sg-column
+            v-for="column in columns"
+            :key="`${getRowKey(row)}-${column.key}`"
+            :data-row="row"
+            :data-field="column.field"
+            :caption="column.caption"
+            :width="column.width"
+            :align="column.align"
+          />
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center">
     <button data-test-prev-btn @click="onPrevPage">Prev</button>
     <span data-test-page-indicator>Page: {{ props.page ?? 1 }}</span>
@@ -596,6 +598,19 @@ const vTruncateTooltip = truncateTooltip
 </script>
 
 <style scoped>
+.sg-grid-shell {
+  width: 100%;
+  overflow-x: auto; /* horizontal scrolling when table is wider than container */
+  -webkit-overflow-scrolling: touch;
+}
+
+.sg-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* allow columns to size based on content unless widths are specified */
+  min-width: 100%; /* ensure table can be wider than container when many columns exist */
+}
+
 .sg-grid-caption {
   caption-side: top;
   text-align: left;
