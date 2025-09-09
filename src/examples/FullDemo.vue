@@ -276,7 +276,7 @@ h3 {
   font-size: 1.5rem; /* larger than h3 */
   font-weight: 700;
   margin: 0 0 12px 0;
-  color: #0f172a; /* dark slate */
+  color: var(--sg-heading-color);
 }
 
 /* tabs for notes/changelog */
@@ -287,16 +287,16 @@ h3 {
 }
 .tabs button {
   background: transparent;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--sg-border-color, #e5e7eb);
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  color: #0f172a;
+  color: var(--sg-body-color);
 }
 .tabs button.active {
-  background: #0f172a;
-  color: white;
-  border-color: #0f172a;
+  background: var(--sg-contrast-bg);
+  color: var(--sg-contrast-color);
+  border-color: var(--sg-contrast-bg);
 }
 .panel h3 {
   margin: 0 0 8px 0;

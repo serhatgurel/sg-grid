@@ -632,17 +632,17 @@ const vTruncateTooltip = truncateTooltip
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #9ca3af; /* neutral color */
+  color: var(--sg-icon-neutral);
 }
 .sg-indicator-neutral .sg-icon-inline svg {
   color: inherit;
   width: 16px;
   height: 16px;
   fill: currentColor;
-  opacity: 0.7; /* neutral look */
+  opacity: 0.9;
 }
 .sg-indicator-active {
-  color: #111827;
+  color: var(--sg-icon-active);
 }
 .sg-indicator-active .sg-icon-inline svg {
   color: inherit;
@@ -731,13 +731,14 @@ const vTruncateTooltip = truncateTooltip
   align-items: center;
   gap: 4px;
   border: none; /* hide border per design */
-  background: #fff; /* base white background when not empty */
+  background: var(--sg-input-bg);
   padding: 2px 4px;
   position: relative;
   transition: background-color 120ms ease-in-out;
+  color: var(--sg-input-color);
 }
 .sg-header-filter-ui.is-empty {
-  background: #f5f5f5; /* light gray when input is empty (lighter than header) */
+  background: var(--sg-input-empty-bg);
 }
 .sg-filter-search-icon {
   display: inline-flex;
@@ -745,7 +746,7 @@ const vTruncateTooltip = truncateTooltip
   justify-content: center;
   width: 16px;
   height: 16px;
-  color: #6b7280; /* neutral gray */
+  color: var(--sg-input-muted);
   flex: 0 0 auto;
 }
 /* Clear button should visually match the search icon */
@@ -755,7 +756,7 @@ const vTruncateTooltip = truncateTooltip
   justify-content: center;
   width: 16px;
   height: 16px;
-  color: #6b7280; /* neutral gray */
+  color: var(--sg-input-muted);
   background: transparent;
   border: none;
   padding: 0;
@@ -795,7 +796,7 @@ const vTruncateTooltip = truncateTooltip
 .sg-header-filter-ui:focus-within {
   border-color: transparent;
   outline: none;
-  background: #fff; /* on focus always white even if empty */
+  background: var(--sg-input-focus-bg); /* on focus */
 }
 .sg-icon-inline {
   display: inline-flex;

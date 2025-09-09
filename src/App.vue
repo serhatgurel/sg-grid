@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import FullDemo from './examples/FullDemo.vue'
 import MinimalExample from './examples/MinimalExample.vue'
 import FilterSortPlayground from './examples/FilterSortPlayground.vue'
@@ -11,6 +11,27 @@ const examples = [
 ]
 
 const selected = ref<string>(examples[0].id)
+
+// Theme: 'light' | 'dark'
+const THEME_KEY = 'sg-grid:theme'
+const theme = ref<'light' | 'dark'>(
+  (localStorage.getItem(THEME_KEY) as 'light' | 'dark') ?? 'light',
+)
+
+function applyTheme(t: 'light' | 'dark') {
+  const root = document.documentElement
+  if (t === 'dark') root.classList.add('theme-dark')
+  else root.classList.remove('theme-dark')
+}
+
+onMounted(() => {
+  applyTheme(theme.value)
+})
+
+watch(theme, (val) => {
+  localStorage.setItem(THEME_KEY, val)
+  applyTheme(val)
+})
 
 const currentComponent = computed(() => {
   const found = examples.find((e) => e.id === selected.value)
@@ -29,7 +50,19 @@ const currentComponent = computed(() => {
           <a href="#" @click.prevent="selected = 'playground'">Filter & Sort Playground</a>
         </nav>
       </div>
-      <!-- right-side selector removed per request -->
+      <div class="menubar-right">
+        <fieldset class="theme-toggle" aria-label="Theme">
+          <legend class="visually-hidden">Theme</legend>
+          <label>
+            <input type="radio" name="theme" value="light" v-model="theme" />
+            Light
+          </label>
+          <label>
+            <input type="radio" name="theme" value="dark" v-model="theme" />
+            Dark
+          </label>
+        </fieldset>
+      </div>
     </header>
 
     <main class="app-content">

@@ -5,6 +5,23 @@
 :root {
   --sg-cell-bg: #ffffff;
   --sg-cell-color: #111827; /* default body text */
+  --sg-body-bg: #ffffff;
+  --sg-body-color: #0f172a; /* page body text */
+  --sg-heading-color: #0f172a;
+  --sg-contrast-bg: #0f172a;
+  --sg-contrast-color: #ffffff;
+  /* icon and input defaults */
+  --sg-icon-neutral: #9ca3af;
+  --sg-icon-active: #111827;
+  --sg-input-bg: #ffffff;
+  --sg-input-empty-bg: #f5f5f5;
+  --sg-input-focus-bg: #ffffff;
+  --sg-input-color: var(--sg-body-color);
+  --sg-input-muted: #6b7280;
+  /* panel (notes/changelog) */
+  --sg-panel-bg: #ffffff;
+  --sg-panel-border: #e5e7eb;
+  --sg-panel-color: #374151;
   --sg-font-family:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   --sg-font-size: 14px;
@@ -24,6 +41,52 @@
   --sg-header-font-weight: 600;
   --sg-header-font-style: normal;
   --sg-header-padding: 8px;
+}
+
+/* Dark theme variables applied when the document root has .theme-dark */
+.theme-dark {
+  --sg-cell-bg: #0b1220; /* dark cell bg */
+  --sg-cell-color: #e6eef8; /* light text on dark */
+
+  --sg-border-color: rgba(255, 255, 255, 0.06);
+
+  --sg-header-bg: #071027;
+  --sg-header-color: #e6eef8;
+  --sg-body-bg: #020617;
+  --sg-body-color: #e6eef8;
+  --sg-heading-color: #e6eef8;
+  --sg-contrast-bg: #e6eef8;
+  --sg-contrast-color: #071027;
+  --sg-icon-neutral: rgba(230, 238, 248, 0.6);
+  --sg-icon-active: #e6eef8;
+  --sg-input-bg: #071026;
+  --sg-input-empty-bg: rgba(230, 238, 248, 0.04);
+  --sg-input-focus-bg: #071026;
+  --sg-input-color: var(--sg-body-color);
+  --sg-input-muted: rgba(230, 238, 248, 0.7);
+  --sg-panel-bg: #041025;
+  --sg-panel-border: rgba(230, 238, 248, 0.06);
+  --sg-panel-color: #cfe6ff;
+}
+
+/* Base document-level styles using the theme variables */
+body {
+  background: var(--sg-body-bg);
+  color: var(--sg-body-color);
+  font-family: var(--sg-font-family);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--sg-heading-color);
+}
+
+a {
+  color: var(--sg-contrast-bg);
 }
 
 .sg-grid-table {
