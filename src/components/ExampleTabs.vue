@@ -51,17 +51,24 @@ const ariaLabel = props.ariaLabel ?? 'Example views'
   margin-bottom: 8px;
 }
 .tabs button {
-  background: transparent;
-  border: 1px solid var(--sg-panel-border);
+  /* Deselected state uses a softer background that matches the primary color */
+  background: var(--sg-button-deselected-bg);
+  border: 1px solid var(--sg-button-border);
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  color: var(--sg-body-color);
+  color: var(--sg-button-deselected-color, var(--sg-button-color));
 }
 .tabs button.active {
-  background: var(--sg-contrast-bg);
-  color: var(--sg-contrast-color);
-  border-color: var(--sg-contrast-bg);
+  /* Selected state uses the primary menubar/button color */
+  background: var(--sg-button-bg);
+  color: var(--sg-button-color);
+  border-color: var(--sg-button-border);
+}
+.tabs button:hover {
+  /* Hover highlights toward primary */
+  background: var(--sg-button-hover-bg);
+  color: var(--sg-button-hover-color);
 }
 .panel h3 {
   margin: 0 0 8px 0;

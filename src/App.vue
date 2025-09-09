@@ -85,8 +85,8 @@ body,
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
-  background: #0f172a;
-  color: white;
+  background: var(--sg-menubar-bg);
+  color: var(--sg-menubar-color);
 }
 .menubar-left {
   display: flex;
@@ -99,7 +99,7 @@ body,
 }
 
 .nav a {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--sg-menubar-color);
   text-decoration: none;
   margin-right: 12px;
   font-size: 0.95rem;
@@ -111,14 +111,12 @@ body,
   display: inline-block;
 }
 .nav a:hover {
-  /* block-style highlight with slightly lighter text color */
-  /* made 20% lighter per request */
-  background: rgba(255, 255, 255, 0.22);
-  color: rgba(255, 255, 255, 0.98);
+  background: var(--sg-menubar-hover-bg);
+  color: var(--sg-menubar-color);
   text-decoration: none;
 }
 .nav a:active {
-  background: rgba(255, 255, 255, 0.24);
+  background: var(--sg-menubar-hover-bg);
 }
 
 .app-content {

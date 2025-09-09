@@ -22,6 +22,21 @@
   --sg-panel-bg: #ffffff;
   --sg-panel-border: #e5e7eb;
   --sg-panel-color: #374151;
+  /* menubar and button accents */
+  --sg-menubar-bg: #06b6d4; /* light teal - happier */
+  --sg-menubar-color: #ffffff;
+  /* hover: slightly darker teal to match menubar (was a flat gray) */
+  --sg-menubar-hover-bg: #0ea5b7; /* Tailwind teal-400-ish */
+
+  --sg-button-bg: var(--sg-menubar-bg);
+  --sg-button-color: #ffffff;
+  --sg-button-border: rgba(0, 0, 0, 0.08);
+  --sg-button-hover-bg: var(--sg-menubar-hover-bg);
+  /* deselected / secondary button state (light mode friendly) */
+  --sg-button-deselected-bg: rgba(6, 182, 212, 0.12);
+  --sg-button-deselected-color: #000000;
+  /* hovered button text color */
+  --sg-button-hover-color: #000000;
   --sg-font-family:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   --sg-font-size: 14px;
@@ -67,6 +82,52 @@
   --sg-panel-bg: #041025;
   --sg-panel-border: rgba(230, 238, 248, 0.06);
   --sg-panel-color: #cfe6ff;
+  --sg-menubar-bg: var(--sg-header-bg);
+  --sg-menubar-color: var(--sg-header-color);
+  --sg-menubar-hover-bg: rgba(230, 238, 248, 0.06);
+
+  --sg-button-bg: #0f172a;
+  /* lighten selected button so it stands out more in dark mode */
+  --sg-button-bg: #174a57;
+  --sg-button-color: #e6eef8;
+  --sg-button-border: rgba(230, 238, 248, 0.06);
+  /* make hover a bit lighter than selected so it's noticeable */
+  --sg-button-hover-bg: #162c3f;
+  /* dark-mode deselected should be visibly different from selected */
+  /* make deselected lighter (more subtle) but still noticeable on dark backgrounds */
+  --sg-button-deselected-bg: rgba(230, 238, 248, 0.06);
+  --sg-button-deselected-color: #cfe6ff;
+  /* hover text color in dark mode should remain light */
+  --sg-button-hover-color: var(--sg-button-color);
+}
+
+/* Simple button defaults that follow theme variables */
+button {
+  background: var(--sg-button-bg);
+  color: var(--sg-button-color);
+  border: 1px solid var(--sg-button-border);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background: var(--sg-button-hover-bg);
+  color: var(--sg-button-hover-color);
+}
+
+/* In dark mode: make Prev/Next use the deselected/secondary button appearance
+   so they visually match unselected controls and don't jump to primary on hover. */
+.theme-dark button[data-test-prev-btn],
+.theme-dark button[data-test-next-btn] {
+  background: var(--sg-button-deselected-bg);
+  color: var(--sg-button-deselected-color);
+  border-color: var(--sg-button-border);
+}
+.theme-dark button[data-test-prev-btn]:hover,
+.theme-dark button[data-test-next-btn]:hover {
+  /* match tabs hover: highlight toward primary on hover */
+  background: var(--sg-button-hover-bg);
+  color: var(--sg-button-hover-color);
 }
 
 /* Base document-level styles using the theme variables */
