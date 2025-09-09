@@ -86,6 +86,11 @@
   --sg-menubar-color: var(--sg-header-color);
   --sg-menubar-hover-bg: rgba(230, 238, 248, 0.06);
 
+  /* scrollbar colours for dark mode */
+  --sg-scrollbar-track: rgba(230, 238, 248, 0.03);
+  --sg-scrollbar-thumb: rgba(230, 238, 248, 0.12);
+  --sg-scrollbar-thumb-hover: rgba(230, 238, 248, 0.2);
+
   --sg-button-bg: #0f172a;
   /* lighten selected button so it stands out more in dark mode */
   --sg-button-bg: #174a57;
@@ -128,6 +133,33 @@ button:hover {
   /* match tabs hover: highlight toward primary on hover */
   background: var(--sg-button-hover-bg);
   color: var(--sg-button-hover-color);
+}
+
+/* Dark-mode scrollbar styling for modern browsers */
+.theme-dark .sg-grid-shell::-webkit-scrollbar {
+  /* increased size for better usability/visibility in dark mode */
+  height: 14px;
+  width: 14px;
+}
+.theme-dark .sg-grid-shell::-webkit-scrollbar-track {
+  background: var(--sg-scrollbar-track);
+  border-radius: 999px;
+}
+.theme-dark .sg-grid-shell::-webkit-scrollbar-thumb {
+  background: var(--sg-scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent; /* spacing */
+  background-clip: padding-box;
+}
+.theme-dark .sg-grid-shell::-webkit-scrollbar-thumb:hover {
+  background: var(--sg-scrollbar-thumb-hover);
+}
+
+/* Firefox scrollbar (works with scrollbar-width+color) */
+.theme-dark .sg-grid-shell {
+  /* use auto to prefer the platform's default wider scrollbar in Firefox */
+  scrollbar-width: auto;
+  scrollbar-color: var(--sg-scrollbar-thumb) var(--sg-scrollbar-track);
 }
 
 /* Base document-level styles using the theme variables */
